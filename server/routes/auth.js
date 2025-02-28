@@ -3,7 +3,7 @@ const router = express.Router();
 const admin = require('firebase-admin');
 const { getAuth } = require('firebase-admin/auth');
 const { validate, authRegisterSchema, authLoginSchema } = require('../utils/validation');
-const { getFirestore } = require('firebase-admin/firestore');
+const { getFirestore, Timestamp } = require('firebase-admin/firestore');
 const { authMiddleware } = require('../middleware/authMiddleware');
 
 
@@ -24,8 +24,8 @@ router.post('/register', validate(authRegisterSchema), async (req, res, next) =>
             email,
             displayName,
             phone,
-            role: 'user', // Default role
-            createdAt: new Date(),
+            role: 'user', // default role
+            createdAt: Timestamp.now(),
             disabled: false,
         });
 

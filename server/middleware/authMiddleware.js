@@ -18,6 +18,11 @@ const authMiddleware = async (req, res, next) => {
         if (!userDoc.exists) {
             return res.status(401).json({ error: { code: 'UNAUTHORIZED', message: 'User not found' } });
         }
+        // check if user is disabled
+        const userData = userDoc.data();
+        if (userData.disabled) {
+            return res.status(403).json({ error: { code: 'FORBIDDEN', message: 'User is disabled' } });
+        }
 
         req.user = { id: userId, ...userDoc.data() }; // add user to req
         next(); // next

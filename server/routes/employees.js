@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getAllEmployees, createEmployee } = require('../services/firestoreService');
+const { getAllEmployees, createEmployee, getUser } = require('../services/firestoreService'); // Import getUser
 const {
     authMiddleware,
   } = require('../middleware/authMiddleware');
@@ -17,6 +17,23 @@ router.get('/', authMiddleware, isAdmin, async(req, res, next) => {
     next(error)
   }
 })
+
+// GET /api/employees/:id - Get a specific employee
+router.get('/:id', authMiddleware, isAdmin, async (req, res, next) => { // Added route
+    try {
+        const { id } = req.params;
+        const employee = await getUser(id); // Reusing getUser from userService
+        if (!employee) {
+            return next({ status: 404, message: 'Employee not found', code: 'EMPLOYEE_NOT_FOUND' });
+        }
+        if(employee.role !== 'employee') {
+            return next({ status: 404, message: 'Employee not found', code: 'EMPLOYEE_NOT_FOUND' });
+        }
+        res.status(200).json(employee);
+    } catch (error) {
+        next(error);
+    }
+});
 
 // POST /api/employees
 router.post('/', authMiddleware, isAdmin, validate(employeeCreateSchema), async(req, res, next) => {
