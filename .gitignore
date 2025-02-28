@@ -1,5 +1,6 @@
 # Working env dev
 .env
+firebase-private-key.json
 
 # Logs
 logs
