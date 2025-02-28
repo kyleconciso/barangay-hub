@@ -20,7 +20,9 @@ const {
 } = require('../utils/validation');
 
 
-// GET /api/tickets - Get all tickets (paginated, filtered by role)
+
+
+// GET /api/tickets - get tickets paginated
 router.get('/', authMiddleware, async (req, res, next) => {
   try {
     const { page, limit } = req.query;
@@ -33,7 +35,7 @@ router.get('/', authMiddleware, async (req, res, next) => {
   }
 });
 
-// GET /api/tickets/:id -get specific ticket
+// GET /api/tickets/:id - get specific ticket
 router.get('/:id', authMiddleware, async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -42,7 +44,7 @@ router.get('/:id', authMiddleware, async (req, res, next) => {
       return next({ status: 404, message: 'Ticket not found', code: 'TICKET_NOT_FOUND' });
     }
 
-    // Authorization check: Only the creator, employee, or admin can view
+    // auth
     if (req.user.role !== 'employee' && req.user.role !== 'admin' && ticket.createdBy !== req.user.id) {
       return next({ status: 403, message: 'Forbidden', code: 'FORBIDDEN' });
     }
@@ -53,11 +55,11 @@ router.get('/:id', authMiddleware, async (req, res, next) => {
   }
 });
 
-// POST /api/tickets - Create a new ticket (User)
+// POST /api/tickets - create ticket (User)
 router.post('/', authMiddleware, validate(ticketCreateSchema), async (req, res, next) => {
   try {
     const ticketData = req.body;
-    const userId = req.user.id; // Get user ID from authMiddleware
+    const userId = req.user.id; // userId from authMiddleware
     const newTicket = await createTicket(ticketData, userId);
     res.status(201).json(newTicket);
   } catch (error) {
@@ -65,7 +67,7 @@ router.post('/', authMiddleware, validate(ticketCreateSchema), async (req, res, 
   }
 });
 
-// PUT /api/tickets/:id - Update a ticket (Employee/Admin)
+// PUT /api/tickets/:id - update ticket (Employee/Admin)
 router.put(
   '/:id',
   authMiddleware,
@@ -87,9 +89,9 @@ router.put(
 router.put('/:id/assign', authMiddleware, isEmployee, async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { assignedTo } = req.body; //  Can be null (unassign)
+    const { assignedTo } = req.body; //  nullable
 
-    //  basic validation
+    //  validate
     if (assignedTo === undefined) {
       return next({ status: 400, message: "assignedTo field is required", code: 'BAD_REQUEST' });
     }
@@ -119,7 +121,7 @@ router.put('/:id/status', authMiddleware, isEmployee, async(req, res, next) => {
     }
 })
 
-// POST /api/tickets/:id/messages - Add a message to a ticket (User/Employee/Admin)
+// POST /api/tickets/:id/messages - Add message to a ticket (User/Employee/Admin)
 router.post(
   '/:id/messages',
   authMiddleware,
@@ -127,10 +129,10 @@ router.post(
   async (req, res, next) => {
     try {
       const { id } = req.params;
-      const messageData = req.body;
+      const { content } = req.body; // only the message content
       const userId = req.user.id;
 
-        // Authorization check:  Only related users can add messages.
+        // Authorization check:  Only related users can add msg
         const ticket = await getTicket(id);
 
         if (!ticket) {
@@ -140,7 +142,7 @@ router.post(
           return next({status: 403, message: "Forbidden.", code: "FORBIDDEN"})
         }
 
-      await addMessageToTicket(id, messageData, userId);
+      await addMessageToTicket(id, content, userId); // Pass only the content
       res.status(201).json({ message: 'Message added successfully' });
     } catch (error) {
       next(error);

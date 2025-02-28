@@ -1,7 +1,6 @@
 const Joi = require('joi');
 
-// for model schema validation
-
+// for validating schema
 
 // --- Authentication ---
 const authRegisterSchema = Joi.object({
@@ -90,8 +89,7 @@ const employeeCreateSchema = Joi.object({
     phone: Joi.string().optional()
 })
 
-
-
+// --- Validate Function ---
 const validate = (schema) => {
     return (req, res, next) => {
         const { error } = schema.validate(req.body);
