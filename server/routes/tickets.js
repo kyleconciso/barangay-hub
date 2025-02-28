@@ -77,7 +77,7 @@ router.put(
     try {
       const { id } = req.params;
       const ticketData = req.body;
-      const updatedTicket = await updateTicket(id, ticketData);
+      const updatedTicket = await updateTicket(id, ticketData, req.user.id); // pass id for log
       res.status(200).json(updatedTicket);
     } catch (error) {
       next(error);
@@ -85,43 +85,7 @@ router.put(
   }
 );
 
-// PUT /api/tickets/:id/assign (Employee only)
-router.put('/:id/assign', authMiddleware, isEmployee, async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const { assignedTo } = req.body; //  nullable
-
-    //  validate
-    if (assignedTo === undefined) {
-      return next({ status: 400, message: "assignedTo field is required", code: 'BAD_REQUEST' });
-    }
-
-    //  update
-    await updateTicket(id, { assignedTo });
-    res.status(200).json({ message: 'Ticket assigned successfully' });
-
-  } catch (error) {
-    next(error);
-  }
-});
-
-// PUT /api/tickets/:id/status (Employee only)
-router.put('/:id/status', authMiddleware, isEmployee, async(req, res, next) => {
-    try{
-        const {id} = req.params;
-        const {status} = req.body;
-
-        if(!status) return next({ status: 400, message: "Status field is required.", code: "BAD_REQUEST"})
-
-        await updateTicket(id, {status});
-        res.status(200).json({message: "Ticket status updated successfully."})
-    }
-    catch(error){
-        next(error)
-    }
-})
-
-// POST /api/tickets/:id/messages - Add message to a ticket (User/Employee/Admin)
+// POST /api/tickets/:id/messages - add message to a ticket (User/Employee/Admin)
 router.post(
   '/:id/messages',
   authMiddleware,

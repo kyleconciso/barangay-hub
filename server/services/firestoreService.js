@@ -1,4 +1,4 @@
-const { getFirestore } = require('firebase-admin/firestore');
+const { getFirestore, FieldValue, Timestamp } = require('firebase-admin/firestore');
 const db = getFirestore();
 
 
@@ -26,8 +26,8 @@ async function createPage(pageData) {
     const pageRef = db.collection('pages').doc(slug);
     await pageRef.set({
         ...pageData,
-        createdAt: new Date(),
-        lastUpdated: new Date(),
+        createdAt: Timestamp.now(), // Use Timestamp
+        lastUpdated: Timestamp.now(),
     });
     return { slug, ...pageData };
 }
@@ -36,7 +36,7 @@ async function updatePage(slug, pageData) {
     const pageRef = db.collection('pages').doc(slug);
     await pageRef.update({
         ...pageData,
-        lastUpdated: new Date(),
+        lastUpdated: Timestamp.now(),
     });
      return { slug, ...pageData };
 }
@@ -83,9 +83,9 @@ async function createNews(newsData, authorId) {
     await newsRef.set({
         ...newsData,
         author: authorId,
-        date: new Date(),
-        createdAt: new Date(),
-        lastUpdated: new Date()
+        date: Timestamp.now(),  // Use Timestamp
+        createdAt: Timestamp.now(),
+        lastUpdated: Timestamp.now()
     });
 
     return { slug, ...newsData };
@@ -96,7 +96,7 @@ async function updateNews(slug, newsData) {
     const newsRef = db.collection('news').doc(slug);
     await newsRef.update({
         ...newsData,
-        lastUpdated: new Date(),
+        lastUpdated: Timestamp.now(),
     });
     return {slug, ...newsData}
 }
@@ -125,7 +125,7 @@ async function getRequest(id) {
 async function createRequest(requestData) {
     const docRef = await db.collection('requests').add({
         ...requestData,
-        createdAt: new Date(),
+        createdAt: Timestamp.now(),
     });
     return { id: docRef.id, ...requestData };
 }
@@ -184,8 +184,8 @@ async function createTicket(ticketData, userId) {
         ...ticketData,
         createdBy: userId,
         status: 'open',
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: Timestamp.now(),
+        updatedAt: Timestamp.now(),
         messages: JSON.stringify(initialMessages), // store json
     });
      return { id: docRef.id, ...ticketData, message: initialMessages };
@@ -193,17 +193,26 @@ async function createTicket(ticketData, userId) {
 
 
 
-async function updateTicket(id, ticketData) {
+async function updateTicket(id, ticketData, updaterUserId) {
     const ticketRef = db.collection('tickets').doc(id);
 
-    const updateData = { ...ticketData };
-    delete updateData.messages;  //  so no accidentally overwriting messages
+    // Use FieldValue.serverTimestamp() for accurate server-side timestamps
+    const updateData = {
+        ...ticketData,
+        updatedAt: FieldValue.serverTimestamp(),  // Use FieldValue
+    };
 
-    await ticketRef.update({
-        ...updateData,
-        updatedAt: new Date(),
-    });
-    return {id, ...updateData};
+    // Remove messages from updateData to prevent accidental overwriting
+    delete updateData.messages;
+
+    // Optional: Log who made the update (good for auditing)
+    if (updaterUserId) {
+        updateData.lastUpdatedBy = updaterUserId;
+    }
+
+
+    await ticketRef.update(updateData); //Perform the update.
+    return { id, ...updateData }; //Return updated data.
 }
 async function deleteTicket(id) {
   const ticketRef = db.collection('tickets').doc(id);
@@ -212,32 +221,32 @@ async function deleteTicket(id) {
 
 async function addMessageToTicket(ticketId, messageContent, userId) {
     const ticketRef = db.collection('tickets').doc(ticketId);
-    const doc = await ticketRef.get();
 
-    if (!doc.exists) {
-        throw new Error('Ticket not found'); 
-    }
+    // atomicity
+    await db.runTransaction(async (transaction) => {
+        const doc = await transaction.get(ticketRef);
+        if (!doc.exists) {
+            throw new Error('Ticket not found');
+        }
 
-    const ticketData = doc.data();
-     // parse existing messages
-    let messages = ticketData.messages ? JSON.parse(ticketData.messages) : [];
+        const ticketData = doc.data();
+        let messages = ticketData.messages ? JSON.parse(ticketData.messages) : [];
 
-    // iterate message key
-    const nextKey = messages.length > 0 ? Math.max(...messages.map(m => m.key)) + 1 : 0;
+        const nextKey = messages.length > 0 ? Math.max(...messages.map(m => m.key)) + 1 : 0;
 
-    const newMessage = {
-        key: nextKey,
-        userId: userId,
-        content: messageContent,
-        timestamp: new Date(),
-    };
+        const newMessage = {
+            key: nextKey,
+            userId: userId,
+            content: messageContent,
+            timestamp: Timestamp.now(), // Use Timestamp
+        };
 
-    messages.push(newMessage);
+        messages.push(newMessage);
 
-    // stringify
-    await ticketRef.update({
-        messages: JSON.stringify(messages),
-        updatedAt: new Date(),
+        transaction.update(ticketRef, {
+            messages: JSON.stringify(messages),
+            updatedAt: FieldValue.serverTimestamp(),
+        });
     });
 }
 
@@ -251,8 +260,7 @@ async function getAllUsers(page = 1, limit = 20) {
         .limit(parseInt(limit))
         .get();
     const users = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    const totalCount = (await db.collection('users').count().get()).data().count; //Warning: expensive
-    return {users, totalCount};
+    const totalCount = (await db.collection('users').count().get()).data().count; //todo: optimize
 }
 
 async function getUser(id) {
@@ -296,7 +304,7 @@ async function createEmployee(userData){
         email,
         password,
         displayName,
-        phoneNumber: phone
+        phone: phone
       });
 
   //add user to firestore
@@ -306,7 +314,7 @@ async function createEmployee(userData){
         displayName: displayName,
         phone: phone,
         role: "employee",
-        createdAt: new Date(),
+        createdAt: Timestamp.now(),
         disabled: false,
       });
 

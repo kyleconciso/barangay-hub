@@ -4,100 +4,48 @@ const admin = require('firebase-admin');
 const { getAuth } = require('firebase-admin/auth');
 const { validate, authRegisterSchema, authLoginSchema } = require('../utils/validation');
 const { getFirestore } = require('firebase-admin/firestore');
-const {
-    authMiddleware,
-  } = require('../middleware/authMiddleware');
-const { isEmployee, isAdmin } = require('../middleware/roleMiddleware');
+const { authMiddleware } = require('../middleware/authMiddleware');
 
 
-// register new user
 router.post('/register', validate(authRegisterSchema), async (req, res, next) => {
-  try {
-    const { email, password, displayName, phone } = req.body;
-
-    // create user in firebase Authentication
-    const userRecord = await getAuth().createUser({
-      email,
-      password,
-      displayName,
-    });
-
-    // store additional user data
-    const db = getFirestore();
-    await db.collection('users').doc(userRecord.uid).set({
-      email,
-      displayName,
-      phone,
-      role: 'user', // default role
-      createdAt: new Date(),
-      disabled: false,
-    });
-
-    // success
-    res.status(201).json({
-      id: userRecord.uid,
-      email,
-      displayName,
-      phone,
-      role: 'user',
-    });
-
-  } catch (error) {
-      console.error("POST /api/auth/register error:", error);
-    if (error.code === 'auth/email-already-exists') {
-      next({ status: 409, message: 'Email already in use', code: 'EMAIL_EXISTS' });
-    } else if (error.code === 'auth/weak-password') {
-      next({ status: 400, message: 'Password is too weak', code: 'WEAK_PASSWORD' });
-    }
-    else {
-      next(error);
-    }
-  }
-});
-
-
-
-// Login
-router.post('/login', validate(authLoginSchema), async (req, res, next) => {
     try {
-        const { email, password } = req.body;
+        const { email, password, displayName, phone } = req.body;
 
-        // only token needed, firebase auth will handle rest
-        const signIn = await getAuth().signInWithEmailAndPassword(email, password)
+        const userRecord = await getAuth().createUser({
+            email,
+            password,
+            displayName,
+            phone,
+        });
 
-        const idToken = await signIn.user.getIdToken();
 
-        // Fetch user data
         const db = getFirestore();
-        const userDoc = await db.collection('users').doc(signIn.user.uid).get();
+        await db.collection('users').doc(userRecord.uid).set({
+            email,
+            displayName,
+            phone,
+            role: 'user', // Default role
+            createdAt: new Date(),
+            disabled: false,
+        });
 
-        if (!userDoc.exists) {
-            // addutional check
-            return next({ status: 404, message: 'User data not found', code: 'USER_NOT_FOUND' });
-        }
 
-        const userData = userDoc.data();
-        if(userData.disabled) {
-           return next({ status: 403, message: 'User is disabled', code: 'USER_DISABLED' });
-        }
-
-        res.status(200).json({
-            token: idToken,
-            user: {
-                id: signIn.user.uid,
-                email: userData.email,
-                displayName: userData.displayName,
-                role: userData.role,
-            }
+        res.status(201).json({
+            id: userRecord.uid,
+            email,
+            displayName,
+            phone,
+            role: 'user',
         });
 
     } catch (error) {
-        console.error('Login error:', error);
-        // auth errors
-        if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
-            next({ status: 401, message: 'Invalid credentials', code: 'INVALID_CREDENTIALS' });
-        } else if (error.code === 'auth/user-disabled'){
-          next({status: 403, message: 'User is disabled', code: 'USER_DISABLED'})
+        console.error("POST /api/auth/register error:", error);
+        if (error.code === 'auth/email-already-exists') {
+            next({ status: 409, message: 'Email already in use', code: 'EMAIL_EXISTS' });
+        } else if (error.code === 'auth/weak-password') {
+            next({ status: 400, message: 'Password is too weak', code: 'WEAK_PASSWORD' });
+        } else if (error.code === 'auth/invalid-phone-number') {
+          next({status: 400, message: "Invalid phone number.", code: "INVALID_PHONE_NUMBER"})
         }
         else {
             next(error);
@@ -105,15 +53,65 @@ router.post('/login', validate(authLoginSchema), async (req, res, next) => {
     }
 });
 
-//get logged in user info
-router.get('/me', authMiddleware, (req, res) => {
-    // req.user populated by authMiddleware
-    res.status(200).json({ user: req.user });
+
+router.post('/login', async (req, res, next) => {
+    try {
+        const authHeader = req.headers.authorization;
+        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+            return next({ status: 401, message: 'Missing or invalid authorization header', code: 'UNAUTHORIZED' });
+        }
+        const idToken = authHeader.split('Bearer ')[1];
+
+        const decodedToken = await admin.auth().verifyIdToken(idToken);
+        const userId = decodedToken.uid;
+
+
+        const db = getFirestore();
+        const userDoc = await db.collection('users').doc(userId).get();
+
+        if (!userDoc.exists) {
+            return next({ status: 404, message: 'User data not found', code: 'USER_NOT_FOUND' });
+        }
+
+        const userData = userDoc.data();
+
+        if (userData.disabled) {
+            return next({ status: 403, message: 'User is disabled', code: 'USER_DISABLED' });
+        }
+
+        res.status(200).json({
+            user: {
+                id: userId,
+                email: userData.email,
+                displayName: userData.displayName,
+                role: userData.role,
+                phone: userData.phone
+            }
+        });
+
+    } catch (error) {
+        console.error('Login error:', error);
+
+        if (error.code === 'auth/id-token-expired') {
+            next({ status: 401, message: 'Token expired', code: 'TOKEN_EXPIRED' });
+        } else if (error.code === 'auth/id-token-revoked') {
+            next({ status: 401, message: 'Token revoked', code: 'TOKEN_REVOKED' });
+        } else if (error.code === 'auth/invalid-credential'){
+            next({status: 401, message: "Invalid credential.", code: "INVALID_CREDENTIAL"})
+        }
+        else {
+            next({ status: 401, message: 'Invalid token', code: 'INVALID_TOKEN' });
+        }
+    }
 });
 
-// logout
+router.get('/me', authMiddleware, (req, res) => {
+    const { id, email, displayName, role, phone } = req.user;
+    res.status(200).json({ user: { id, email, displayName, role, phone } });
+});
+
 router.post('/logout', (req, res) => {
-  res.status(204).send(); 
+  res.status(204).send(); // 204 No Content
 });
 
 module.exports = router;

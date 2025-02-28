@@ -31,7 +31,6 @@ router.get('/:id', authMiddleware, isEmployee, async (req, res, next) => {
 });
 
 // PUT /api/users/:id - Update a user (Employee/Admin)
-// Employees can update SOME user data, but NOT roles.  Admins can update roles.
 router.put('/:id', authMiddleware, isEmployee, validate(userUpdateSchema), async (req, res, next) => {
   try {
     const { id } = req.params;
