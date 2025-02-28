@@ -1,7 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const { getAllEmployees, createEmployee } = require('../services/firestoreService');
-const { authMiddleware, roleMiddleware: { isAdmin } } = require('../middleware/authMiddleware');
+const {
+    authMiddleware,
+  } = require('../middleware/authMiddleware');
+const { isEmployee, isAdmin } = require('../middleware/roleMiddleware');
 const { validate, employeeCreateSchema } = require('../utils/validation');
 // GET /api/employees
 router.get('/', authMiddleware, isAdmin, async(req, res, next) => {

@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "barangay-info-its120l",
+  "private_key_id": "bd8b1a3f12508a4796ff2bd8ed3ed588ed4f8fff",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCrQBdSdAr1mL78\nt7wS9CbaZQ61et6arA2GbUGd9kKj720uduWTF18CptIUUbYWLBajIaz+3hSwiF3m\nLptJ9dhMEI5kUOpdH07DLPapbuPVpmxds0TeovuPbkACuJEqK4SNDo9q+P4Hgoqx\nvoAksvmD5Nl7yOwe195I8JDoLKCGgRIZum5BFcBmm+nQo1pZPxUuIhtVXMve8O1i\n6QCtUGTr8idvTJn4ClUo66oa0zehH0bgMAMDD+aVRWfTrEF84PWxIQ8XqwPb6IMx\nmy84gC0XqFEyGiE1HVkJ4kevjq7eUcobaowuyiPxJlxxSoDrASXK9JKNLV/UUwAt\nZyBjppZ9AgMBAAECggEAJawOtVvDwW1drlh47i55kZejmbay25G30/ea9LXkyQ11\nlkAflrEQfJPYKRIknVILlM1mshaGtKL7DRT5olaLw4fs2xKVy/CEMhllFbbINgrL\nUf2Ky/NMpavaNv8FKCK0oRcv45dswpgsDJfctrYMf8BLO5jioJJaWu9Y4UpX8d58\ny6g+2/eO81r6IKMZslvu82arZdaZI2jlG4+8/8PDoCX+zNaqLk1tlBL1MeKWjdwO\nd7oexB/jzmoR2m9pavZgYm5kDcNspOj8fw9ms8oEdgUs0FdEHx8eohRQ0nhpcFuU\nyTGs2xzBygZv1K1hXnHTd9VXmW7+gdtzR7XS/R8XnQKBgQDU0N0Bc0d4Z1gK/3v8\nRa1K7CHnAQBqmGgjJymgLMDcNhMzICnEhKfn96Y/1AVSvwGnUfA5IU+o8kRMRidm\nnsjfHjuq3tLUgbG1RPc3XYKsgyVM8QZKldQxMFpxev2XBBN4SMLoi9PsCpd34vbD\nbCGlVsCOuXp85n2rYmy6pIRWVwKBgQDOAAaYCbpFUT/m68RnH899T8Th6UB3eK3S\nTfyOlwb6KQfU2NT4Rb0YTlRckjQcvP49vLngLhf17eefMV/IBVuqGdD69Pgs7njn\n4k7Pi0jtxB/P7vfzs3QGZHFt7GGT2jmuuwMoLV2C8d2BOOm/vG62R+c+myH97Apn\nZjBG52wtSwKBgBizsaN0dQxFupN0Ojj7AXVb2UeN9zVoQVYrOoqsByrIYAwkJJT5\n7N9hAHwSKRgEsbVxLlgDRNLQZBsSXYpszdYQFU7tFD20XCM1QRi9EujhRBgdNeS8\nZWfcO/NGGl9ICtaAY5dIe62/QPuabZgbWgBuBGXMo6oRuu6Euygi5nV7AoGAGNqR\n8RgDXEegQRki+hoxa3oLVAJTX9a0ihIUrZN1KQt4QWrjzwyC8wLIVN7i4LDAr+ws\nNOr6wxYwAtnvJ2/WDmDNAOo7Yxhmh/ua7JludBlciTbYvZNiJT9LHCsP3snOedFg\nYSGQDbNmuSeHtDVk2iM0uC35XOx0mOMQYg2b1J8CgYAn21AKoam5j6wD+/SlCThF\nFRVzm0HWrbmCvTgNJDT41uv/rzBTLafUCznoWEOTN46BycTReT0Q3YuAbXJi2joD\nOVt4s34DVXWoedGGveXNxmzsk0Ni7/sqZuoc4W1ArOuQyaoVayrLb6UMJIBhBnr9\n1eAdPWA6off6mshAQOZJ7g==\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-fbsvc@barangay-info-its120l.iam.gserviceaccount.com",
+  "client_id": "112626680124412514501",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fbsvc%40barangay-info-its120l.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

@@ -4,7 +4,11 @@ const admin = require('firebase-admin');
 const { getAuth } = require('firebase-admin/auth');
 const { validate, authRegisterSchema, authLoginSchema } = require('../utils/validation');
 const { getFirestore } = require('firebase-admin/firestore');
-const { authMiddleware } = require('../middleware/authMiddleware');
+const {
+    authMiddleware,
+  } = require('../middleware/authMiddleware');
+const { isEmployee, isAdmin } = require('../middleware/roleMiddleware');
+
 
 // register new user
 router.post('/register', validate(authRegisterSchema), async (req, res, next) => {

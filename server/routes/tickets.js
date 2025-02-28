@@ -9,9 +9,9 @@ const {
   deleteTicket
 } = require('../services/firestoreService');
 const {
-  authMiddleware,
-  roleMiddleware: { isEmployee, isAdmin },
-} = require('../middleware/authMiddleware');
+    authMiddleware,
+  } = require('../middleware/authMiddleware');
+const { isEmployee, isAdmin } = require('../middleware/roleMiddleware');
 const {
   validate,
   ticketCreateSchema,

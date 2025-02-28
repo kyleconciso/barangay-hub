@@ -5,7 +5,7 @@ const config = {
   firebaseConfig: {
     projectId: process.env.FIREBASE_PROJECT_ID,
     clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-    privateKey: process.env.FIREBASE_PRIVATE_KEY,
+    privateKeyFile: process.env.FIREBASE_PRIVATE_KEY_FILE,
   },
   jwtSecret: process.env.JWT_SECRET,
 };

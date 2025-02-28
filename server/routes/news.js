@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const { getAllNews, getNewsBySlug, createNews, updateNews, deleteNews } = require('../services/firestoreService');
-const { authMiddleware, roleMiddleware: { isEmployee, isAdmin } } = require('../middleware/authMiddleware');
+const { authMiddleware } = require('../middleware/authMiddleware');
+const { isEmployee, isAdmin } = require('../middleware/roleMiddleware');
 const { validate, newsCreateSchema, newsUpdateSchema } = require('../utils/validation');
 
 // GET /api/news - get all news

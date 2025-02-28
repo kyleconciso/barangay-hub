@@ -2,7 +2,21 @@ const express = require('express');
 const cors = require('cors');
 const admin = require('firebase-admin');
 const config = require('./config');
-const { errorHandler } = require('./utils/errorHandlers'); // Import
+const { errorHandler } = require('./utils/errorHandler');
+
+// Initialize firebase sdk
+try {
+    admin.initializeApp({
+        credential: admin.credential.cert(config.firebaseConfig.privateKeyFile), // Load from file
+    });
+    console.log('Firebase Admin SDK initialized successfully.');
+} catch (error) {
+    console.error('Error initializing Firebase Admin SDK:', error);
+    process.exit(1); // Exit the process if Firebase init fails
+}
+
+
+
 
 // import routes
 const authRoutes = require('./routes/auth');
@@ -15,27 +29,13 @@ const employeeRoutes = require('./routes/employees');
 const settingsRoutes = require('./routes/settings');
 const requestLogger = require('./middleware/requestLogger');
 
-// initialize Firebase Admin SDK
-try {
-    admin.initializeApp({
-        credential: admin.credential.cert({
-            projectId: config.firebaseConfig.projectId,
-            clientEmail: config.firebaseConfig.clientEmail,
-            privateKey: config.firebaseConfig.privateKey.replace(/\\n/g, '\n'),
-        }),
-    });
-    console.log('Firebase Admin SDK initialized successfully.');
-} catch (error) {
-    console.error('Error initializing Firebase Admin SDK:', error);
-    process.exit(1);// exit init if fail
-}
 
 const app = express();
 
 // middlewares
-app.use(cors()); // for dev
-app.use(express.json());// parse json reqs
-app.use(requestLogger); // log reqs dev
+app.use(cors()); // debug
+app.use(express.json()); // parse json reqs
+app.use(requestLogger); // log
 
 // mount routes
 app.use('/api/auth', authRoutes);

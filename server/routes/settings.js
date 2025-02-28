@@ -1,7 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const { getSiteSettings, updateSiteSettings } = require('../services/firestoreService');
-const { authMiddleware, roleMiddleware: { isAdmin } } = require('../middleware/authMiddleware');
+const {
+    authMiddleware,
+  } = require('../middleware/authMiddleware');
+const { isEmployee, isAdmin } = require('../middleware/roleMiddleware');
 const { validate, siteSettingsUpdateSchema } = require('../utils/validation');
 
 

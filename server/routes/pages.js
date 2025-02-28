@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const { getPage, createPage, updatePage, deletePage } = require('../services/firestoreService');
-const { authMiddleware, roleMiddleware: { isEmployee, isAdmin } } = require('../middleware/authMiddleware');
+const { authMiddleware } = require('../middleware/authMiddleware'); 
+const { isEmployee, isAdmin } = require('../middleware/roleMiddleware');
 const { validate, pageCreateSchema, pageUpdateSchema } = require('../utils/validation');
 
 // GET /api/pages/:slug - get specific page via slug

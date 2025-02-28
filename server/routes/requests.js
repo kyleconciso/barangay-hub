@@ -9,17 +9,15 @@ const {
 } = require('../services/firestoreService');
 const {
   authMiddleware,
-  roleMiddleware: { isEmployee, isAdmin },
 } = require('../middleware/authMiddleware');
+const { isEmployee, isAdmin } = require('../middleware/roleMiddleware');
 const {
   validate,
   requestCreateSchema,
   requestUpdateSchema,
 } = require('../utils/validation');
 
-
-
-// GET /api/requests - get all requests
+// GET /api/requests - get requests
 router.get('/', async (req, res, next) => {
   try {
     const requests = await getAllRequests();
@@ -61,7 +59,7 @@ router.post(
   }
 );
 
-// PUT /api/requests/:id - update request (Employee/Admin)
+// PUT /api/requests/:id -  update request (Employee/Admin)
 router.put(
   '/:id',
   authMiddleware,
@@ -78,6 +76,7 @@ router.put(
     }
   }
 );
+
 
 // DELETE /api/requests/:id - del request (Employee/Admin)
 router.delete('/:id', authMiddleware, isEmployee, async (req, res, next) => {
