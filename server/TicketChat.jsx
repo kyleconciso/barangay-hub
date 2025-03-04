@@ -1,4 +1,3 @@
-// TicketChat Component(pacheck if tama?)
 const { useState } = React;
 
 const TicketChat = () => {

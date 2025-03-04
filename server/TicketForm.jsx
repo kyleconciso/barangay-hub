@@ -1,4 +1,3 @@
-// TicketForm Component (pacheck if tama?)
 const { useState } = React;
 
 const TicketForm = () => {
