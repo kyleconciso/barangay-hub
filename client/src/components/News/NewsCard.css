@@ -1,0 +1,41 @@
+.newsCard {
+    margin-bottom: 20px;
+  }
+  
+  .title {
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-size: 1.2rem;
+  }
+  
+  .link {
+      color: inherit;
+      text-decoration: none;
+  }
+  
+  .link:hover {
+       text-decoration: underline;
+  }
+  
+  .date {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 0.5em;
+  }
+  
+  .excerpt {
+    margin-bottom: 1em;
+  }
+  
+  .readMore {
+    display: inline-block;
+    padding: 8px 12px;
+    background-color: #3498db;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+  .readMore:hover{
+      background-color: #267bb5;
+  }
