@@ -1,10 +1,10 @@
 
 import React, { useState, useEffect } from 'react';
-import { getAllNews } from '../../api/news';
-import NewsCard from '../../components/News/NewsCard';
-import Pagination from '../../components/common/Pagination';
+import { getAllNews } from '../../src/api/news';
+import NewsCard from '../../src/components/News/NewsCard';
+import Pagination from '../../src/components/common/Pagination';
 import { ITEMS_PER_PAGE } from '../../utils/constants';
-import Loader from '../../components/common/Loader';
+import Loader from '../../src/components/common/Loader';
 
 function NewsPage() {
   const [news, setNews] = useState([]);
