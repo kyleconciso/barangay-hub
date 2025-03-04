@@ -1,0 +1,37 @@
+
+.ticketsPage {
+    display: flex;
+    flex-direction: row;
+    gap: 20px; 
+    flex-wrap: wrap;
+}
+
+.ticketListContainer {
+    flex: 1; 
+    min-width: 300px; 
+    border: 1px solid #ccc;
+    border-radius: 8px;
+     padding: 1rem;
+}
+
+.ticketDetailsContainer {
+    flex: 2; 
+    min-width: 400px;
+     border: 1px solid #ccc;
+     border-radius: 8px;
+      padding: 1rem;
+}
+.ticketItem{
+    margin-bottom: .5rem;
+    list-style: none;
+}
+.ticketButton{
+    width: 100%;
+    text-align: left;
+}
+
+@media (max-width: 768px) {
+    .ticketsPage {
+        flex-direction: column;
+    }
+}
