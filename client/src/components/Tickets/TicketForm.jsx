@@ -1,5 +1,5 @@
 // for testing
-const { useState } = React;
+import React from 'react';
 
 const TicketForm = () => {
   const [category, setCategory] = useState("");

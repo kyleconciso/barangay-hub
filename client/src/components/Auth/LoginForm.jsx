@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import { useForm } from '../../hooks/useForm';
+import useForm from '../../hooks/useForm';
 import Input from '../common/Input';
 import Button from '../common/Button';
 import styles from './LoginForm.css';

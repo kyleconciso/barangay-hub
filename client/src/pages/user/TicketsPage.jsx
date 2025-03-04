@@ -1,6 +1,5 @@
-// src/pages/user/TicketsPage.jsx
 import React, { useState, useEffect } from 'react';
-import { getAllTickets, getTicket } from '../../src/api/tickets';
+import { getAllTickets, getTicket } from '../../api/tickets';
 import { ITEMS_PER_PAGE } from '../../utils/constants';
 import Pagination from '../../components/common/Pagination';
 import TicketChat from '../../components/Tickets/TicketChat';

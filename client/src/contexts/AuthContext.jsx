@@ -1,6 +1,6 @@
 
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import { login as apiLogin, register as apiRegister, getCurrentUser, logout as apiLogout } from '../src/api/auth';
+import { login as apiLogin, register as apiRegister, getCurrentUser, logout as apiLogout } from '../api/auth';
 import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext(null);

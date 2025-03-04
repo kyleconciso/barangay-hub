@@ -15,13 +15,13 @@
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
-    "firebase-admin": "latest",
     "firebase": "latest",
+    "firebase-admin": "latest",
     "joi": "^17.11.0"
   },
   "devDependencies": {
     "jest": "^29.7.0",
-    "nodemon": "^3.0.1",
+    "nodemon": "^3.1.9",
     "supertest": "^6.3.3"
   }
 }

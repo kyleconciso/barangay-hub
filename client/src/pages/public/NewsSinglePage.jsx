@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { getNewsBySlug } from '../../src/api/news';
+import { getNewsBySlug } from '../../api/news';
 import MarkdownRenderer from '../../components/common/MarkdownRenderer';
 import { formatDate } from '../../utils/date';
 import Loader from '../../components/common/Loader';

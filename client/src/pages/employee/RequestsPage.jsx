@@ -1,8 +1,7 @@
-
 import React, { useState, useEffect } from 'react';
-import { getAllRequests } from '../../src/api/requests';
-import RequestCard from '../../src/components/Requests/RequestCard';
-import Loader from '../../src/components/common/Loader';
+import { getAllRequests } from '../../api/requests';
+import RequestCard from '../../components/Requests/RequestCard';
+import Loader from '../../components/common/Loader';
 
 function RequestsPage() {
   const [requests, setRequests] = useState([]);
@@ -17,7 +16,7 @@ function RequestsPage() {
         const requestsData = await getAllRequests();
         setRequests(requestsData);
       } catch (err) {
-        setError(err.message || 'Failed to fetch requests');
+        setError(err.message || 'failed to fetch requests');
       } finally {
         setLoading(false);
       }
