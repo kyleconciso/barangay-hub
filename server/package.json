@@ -1,27 +1,39 @@
 {
-  "name": "barangay-hub-server",
+  "name": "barangay-server",
   "version": "1.0.0",
-  "description": "Backend server for barangay website",
-  "main": "index.js",
+  "description": "",
+  "main": "server.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
-    "test": "jest"
+    "start": "node server.js",
+    "test": "jest",
+    "dev": "nodemon server.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "express",
+    "firebase",
+    "firestore",
+    "authentication",
+    "crud",
+    "chatbot",
+    "gemini"
+  ],
+  "author": "Group",
+  "license": "MIT",
   "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^16.3.1",
-    "express": "^4.18.2",
-    "firebase": "latest",
-    "firebase-admin": "latest",
-    "joi": "^17.11.0"
+    "@google/generative-ai": "*",
+    "body-parser": "*",
+    "cors": "*",
+    "dotenv": "*",
+    "express": "*",
+    "express-validator": "*",
+    "firebase-admin": "*",
+    "winston": "*"
   },
   "devDependencies": {
-    "jest": "^29.7.0",
-    "nodemon": "^3.1.9",
-    "supertest": "^6.3.3"
+    "@types/jest": "*",
+    "firebase-functions-test": "*",
+    "jest": "*",
+    "nodemon": "*",
+    "supertest": "*"
   }
 }
