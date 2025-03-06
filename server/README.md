@@ -1,79 +1,99 @@
+# API Documentation
 
-**Auth**
+## Authentication (`/api/auth`)
 
-| Method | Endpoint             | Description          | Auth        | Roles | Body                                    |
-|--------|----------------------|----------------------|-------------|-------|-----------------------------------------|
-| POST   | `/api/auth/signup`   | Signup               |             |       | `email`, `password`, `firstName`, `lastName`, `phone`, `address` |
-| POST   | `/api/auth/signin`   | Signin               |             |       | `email`, `password`                     |
-| GET    | `/api/auth/profile`  | Profile              | Required    |       |                                         |
+| Method | Endpoint       | Auth     | Body Parameters                                                            | Response (Success)                                                         | Response (Error)                                                                       |
+| ------ | -------------- | -------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| `POST` | `/signup`      |          | `email`, `password`, `firstName`, `lastName`, `phone` (optional), `address` (optional) | `201 Created`: `{"success": true, "data": {"uid": "firebaseGeneratedUserId"}, "message": "User created successfully"}` | `400 Bad Request`: Missing fields.  `500 Internal Server Error`: Firebase/database error. |
+| `POST` | `/signin`      |          | `email`, `password`                                                        | `200 OK`: `{"success": true, "data": {"token": "firebaseCustomToken"}, "message": "Sign-in successful"}` | `400 Bad Request`: Missing fields.  `401/500`: Firebase auth error.                   |
+| `GET`  | `/profile`     | Required |                                                                            | `200 OK`: `{"success": true, "data": {"user": {...user data...}}, "message": "User profile retrieved successfully"}` | `401 Unauthorized`: Invalid token.  `404 Not Found`: User not found. `500`: Database error. |
 
-<br></br>
-**Chat**
+## Chat (`/api/chat`)
 
-| Method | Endpoint     | Description   | Auth     | Roles | Body      |
-|--------|--------------|---------------|----------|-------|-----------|
-| POST   | `/api/chat` | Chat Gemini   | Required |       | `message` |
+| Method | Endpoint | Auth     | Body Parameters | Response (Success)                                                         | Response (Error)                                                                            |
+| ------ | -------- | -------- | --------------- | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| `POST` | `/`       | Required | `message`       | `200 OK`: `{"success": true, "data": {"response": "Chatbot response..."}, "message": "Chat response generated successfully"}` | `400 Bad Request`: Missing `message`. `401`: Invalid token.  `500`: Gemini API/database error. |
 
-<br></br>
-**Forms**
+## Forms (`/api/forms`)
 
-| Method | Endpoint        | Description      | Auth        | Roles             | Body                                    |
-|--------|-----------------|------------------|-------------|-------------------|-----------------------------------------|
-| POST   | `/api/forms`    | Create form      | Required    | EMPLOYEE, ADMIN   | `title`, `description`, `link`, `logoURL` |
-| GET    | `/api/forms/:id` | Get form by ID   |             |                   |                                         |
-| GET    | `/api/forms`    | Get all forms    | Required    | EMPLOYEE, ADMIN   |                                         |
-| PUT    | `/api/forms/:id` | Update form      | Required    | EMPLOYEE, ADMIN   | `title`, `description`, `link`, `logoURL` (optional) |
-| DELETE | `/api/forms/:id`| Delete form      | Required    | EMPLOYEE, ADMIN   |                                         |
+| Method | Endpoint       | Auth     | Roles             | Body Parameters                                        | Response (Success)                                                                  | Response (Error)                                                                                     |
+| ------ | -------------- | -------- | ----------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------- |
+| `POST` | `/`            | Required | `EMPLOYEE`, `ADMIN` | `title`, `description`, `link`, `logoURL` (optional)    | `201 Created`: `{"success": true, "data": {"id": "firestoreDocumentId"}, "message": "Form created successfully"}` | `400 Bad Request`: Missing fields/invalid URL. `401`: Invalid token.  `403`: No permission. `500`: Database error. |
+| `GET`  | `/:id`         |          |                   |                                                        | `200 OK`: `{"success": true, "data": {"form": {...form data...}}, "message": "Form retrieved successfully"}` | `404 Not Found`: Form not found.  `500`: Database error.                                          |
+| `GET`  | `/`            |          |`EMPLOYEE`, `ADMIN`                   |                                     |  `200 OK`:  `{"success": true, "data":{"forms":[{},{}]}, "message":"Forms retrieved successfully"}`  |`401`: Invalid token.  `403`: No permission. `500`: Database error. |
+| `PUT`  | `/:id`         | Required | `EMPLOYEE`, `ADMIN` | `title` (optional), `description` (optional), `link` (optional), `logoURL` (optional) | `200 OK`: `{"success": true, "data": null, "message": "Form updated successfully"}`    | `400 Bad Request`: Invalid URL. `401`: Invalid token.  `403`: No permission.  `404`: Form not found. `500`: Database error. |
+| `DELETE` | `/:id`         | Required | `EMPLOYEE`, `ADMIN` |                                                        | `200 OK`: `{"success": true, "data": null, "message": "Form deleted successfully"}`    | `401`: Invalid token.  `403`: No permission.  `404`: Form not found. `500`: Database error.   |
 
-<br></br>
-**Messages**
+## Messages (`/api/messages`)
 
-| Method | Endpoint                     | Description              | Auth        | Roles | Body                  |
-|--------|------------------------------|--------------------------|-------------|-------|-----------------------|
-| POST   | `/api/messages`             | Create message           | Required    |       | `ticketId`, `content` |
-| GET    | `/api/messages/ticket/:ticketId` | Get messages by ticket     | Required    |       |                       |
-| GET    | `/api/messages/:id`          | Get message by ID        | Required    |       |                       |
-| PUT    | `/api/messages/:id`          | Update message           | Required    |       | `content`             |
-| DELETE | `/api/messages/:id`         | Delete message           | Required    |       |                       |
+| Method | Endpoint            | Auth     | Body Parameters       | Response (Success)                                                                   | Response (Error)                                                                                                      |
+| ------ | ------------------- | -------- | --------------------- | ------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `POST` | `/`                 | Required | `ticketId`, `content` | `201 Created`: `{"success": true, "data": {"id": "firestoreMessageId"}, "message": "Message created successfully"}` | `400 Bad Request`: Missing fields.  `401`: Invalid token. `403`: Unauthorized.  `404`: Ticket not found.  `500`: Database error. |
+| `GET`  | `/ticket/:ticketId` | Required |                       | `200 OK`: `{"success": true, "data": {"messages": [...messages...]}, "message": "Messages retrieved successfully"}` | `401`: Invalid token.  `403`: Unauthorized.  `404`: Ticket not found.  `500`: Database error.                         |
+| `GET`  | `/:id`              | Required |                       | `200 OK`: `{"success": true, "data": {"message": {...message data...}}, "message": "Message retrieved successfully"}` | `401`: Invalid token.  `403`: Unauthorized.  `404`: Message not found. `500`: Database error.                            |
+| `PUT`  | `/:id`              | Required | `content`             | `200 OK`: `{"success": true, "data": null, "message": "Message updated successfully"}`    | `400 Bad Request`: Missing `content`. `401`: Invalid token.  `403`: Unauthorized.  `404`: Message not found. `500`: Database error. |
+| `DELETE` | `/:id`              | Required |                       | `200 OK`: `{"success": true, "data": null, "message": "Message deleted successfully"}`    | `401`: Invalid token.  `403`: Unauthorized.  `404`: Message not found.  `500`: Database error.                        |
 
-<br></br>
-**Pages**
+## Pages (`/api/pages`)
 
-| Method | Endpoint          | Description      | Auth        | Roles             | Body                      |
-|--------|-------------------|------------------|-------------|-------------------|---------------------------|
-| POST   | `/api/pages`      | Create page      | Required    | EMPLOYEE, ADMIN   | `slug`, `title`, `content`|
-| GET    | `/api/pages/:slug` | Get page by slug |             |                   |                           |
-| GET    | `/api/pages`      | Get all pages    |             |                   |                           |
-| PUT    | `/api/pages/:slug` | Update page      | Required    | EMPLOYEE, ADMIN   | `title`, `content` (optional) |
-| DELETE | `/api/pages/:slug`| Delete page      | Required    | EMPLOYEE, ADMIN   |                           |
+| Method | Endpoint       | Auth     | Roles             | Body Parameters                               | Response (Success)                                                                  | Response (Error)                                                                          |
+| ------ | -------------- | -------- | ----------------- | --------------------------------------------- | ------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------- |
+| `POST` | `/`            | Required | `EMPLOYEE`, `ADMIN` | `slug`, `title`, `content`                    | `201 Created`: `{"success": true, "data": {"id": "firestorePageId"}, "message": "Page created successfully"}` | `400 Bad Request`: Missing fields. `401`: Invalid token.  `403`: No permission. `500`: Database error. |
+| `GET`  | `/:slug`       |          |                   |                                               | `200 OK`: `{"success": true, "data": {"page": {...page data...}}, "message": "Page retrieved successfully"}` | `404 Not Found`: Page not found. `500`: Database error.                                    |
+| `GET`  | `/`            |      |                       |                                          |      `200 OK`: `{"success": true, "data": {"pages": [...pages...]}, "message": "Page retrieved successfully"}`                                                                         |    `500`: Database error.                                         |
+| `PUT`  | `/:slug`       | Required | `EMPLOYEE`, `ADMIN` | `title` (optional), `content` (optional)      | `200 OK`: `{"success": true, "data": null, "message": "Page updated successfully"}`    | `400 Bad Request`: Invalid input.  `401`: Invalid token.  `403`: No permission. `404`: Page not found. `500`: Database error. |
+| `DELETE` | `/:slug`       | Required | `EMPLOYEE`, `ADMIN` |                                               | `200 OK`: `{"success": true, "data": null, "message": "Page deleted successfully"}`    | `401`: Invalid token. `403`: No permission.  `404`: Page not found.  `500`: Database error.     |
 
-<br></br>
-**Settings**
+## Settings (`/api/settings`)
 
-| Method | Endpoint        | Description      | Auth        | Roles   | Body                                                        |
-|--------|-----------------|------------------|-------------|---------|-------------------------------------------------------------|
-| GET    | `/api/settings` | Get settings     | Required    | ADMIN   |                                                             |
-| PUT    | `/api/settings` | Update settings  | Required    | ADMIN   | `googleGeminiKey`, `facebookPageId`, `facebookAccessToken` |
+| Method | Endpoint | Auth     | Roles   | Body Parameters                                                 | Response (Success)                                                                                                       | Response (Error)                                                                          |
+| ------ | -------- | -------- | ------- | --------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| `GET`  | `/`      | Required | `ADMIN` |                                                                 | `200 OK`: `{"success": true, "data": {"settings": {...settings data...}}, "message": "Settings retrieved successfully"}` | `401`: Invalid token. `403`: No permission.  `500`: Database error.                           |
+| `PUT`  | `/`      | Required | `ADMIN` | `googleGeminiKey`, `facebookPageId`, `facebookAccessToken` | `200 OK`: `{"success": true, "data": null, "message": "Settings updated successfully"}`                                   | `400 Bad Request`: Invalid key. `401`: Invalid token.  `403`: No permission.  `500`: Database error. |
 
-<br></br>
-**Tickets**
+## Tickets (`/api/tickets`)
 
-| Method | Endpoint             | Description          | Auth        | Roles             | Body                        |
-|--------|----------------------|----------------------|-------------|-------------------|-----------------------------|
-| POST   | `/api/tickets`      | Create ticket        | Required    |                   | `title`, `type`               |
-| GET    | `/api/tickets/:id`   | Get ticket by ID     | Required    |                   |                             |
-| GET    | `/api/tickets`      | Get all tickets      | Required    | EMPLOYEE, ADMIN   |                             |
-| GET    | `/api/tickets/my/all`| Get user tickets     | Required    |                   |                             |
-| PUT    | `/api/tickets/:id`   | Update ticket        | Required    |                   | `title`, `type`, `status`, `assignedTo` (optional) |
-| DELETE | `/api/tickets/:id`  | Delete ticket        | Required    |                   |                             |
+| Method | Endpoint       | Auth     | Roles            | Body Parameters                                               | Response (Success)                                                                  | Response (Error)                                                                                     |
+| ------ | -------------- | -------- | ---------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------- |
+| `POST` | `/`            | Required |                  | `title`, `type`                                                | `201 Created`: `{"success": true, "data": {"id": "firestoreTicketId"}, "message": "Ticket created successfully"}` | `400 Bad Request`: Missing fields.  `401`: Invalid token. `500`: Database error.                  |
+| `GET`  | `/:id`         | Required |                  |                                                               | `200 OK`: `{"success": true, "data": {"ticket": {...ticket data...}}, "message": "Ticket retrieved successfully"}` | `401`: Invalid token.  `403`: Unauthorized.  `404`: Ticket not found. `500`: Database error.    |
+| `GET`  | `/`            | Required | `EMPLOYEE`, `ADMIN` |                                                               | `200 OK`: `{"success": true, "data": {"tickets": [...tickets...]}, "message": "Tickets retrieved successfully"}` | `401`: Invalid token. `403`: No permission. `500`: Database error.                                  |
+| `GET`  | `/my/all`       | Required |                  |                                                               | `200 OK`: `{"success": true, "data": {"tickets": [...tickets...]}, "message": "Tickets retrieved successfully"}`          |`401`: Invalid token. `500`: Database error.        |
+| `PUT`  | `/:id`         | Required |                  | `title` (optional), `type` (optional), `status` (optional), `assignedTo` (optional) | `200 OK`: `{"success": true, "data": null, "message": "Ticket updated successfully"}`    | `400 Bad Request`: Invalid `status`. `401`: Invalid token. `403`: Unauthorized.  `404`: Ticket not found. `500`: Database error. |
+| `DELETE` | `/:id`         | Required |                  |                                                               | `200 OK`: `{"success": true, "data": null, "message": "Ticket deleted successfully"}`    | `401`: Invalid token. `403`: Unauthorized.  `404`: Ticket not found. `500`: Database error.     |
 
-<br></br>
-**Users**
+## Users (`/api/users`)
 
-| Method | Endpoint                 | Description      | Auth        | Roles             | Body                                                 |
-|--------|--------------------------|------------------|-------------|-------------------|------------------------------------------------------|
-| GET    | `/api/users/:id`         | Get user by ID   | Required    | EMPLOYEE, ADMIN   |                                                      |
-| GET    | `/api/users`            | Get all users    | Required    | ADMIN             |                                                      |
-| GET    | `/api/users/type/resident`| Get residents    | Required    | EMPLOYEE, ADMIN   |                                                      |
-| PUT    | `/api/users/:id`         | Update user      | Required    | ADMIN             | `firstName`, `lastName`, `phone`, `address`, `type` (optional) |
-| DELETE | `/api/users/:id`        | Delete user      | Required    | ADMIN             |                                                      |
+| Method | Endpoint            | Auth     | Roles             | Body Parameters                                                | Response (Success)                                                                    | Response (Error)                                                                                 |
+| ------ | ------------------- | -------- | ----------------- | -------------------------------------------------------------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| `GET`  | `/:id`              | Required | `EMPLOYEE`, `ADMIN` |                                                                | `200 OK`: `{"success": true, "data": {"user": {...user data...}}, "message": "User retrieved successfully"}` | `401`: Invalid token. `403`: No permission.  `404`: User not found. `500`: Database error.        |
+| `GET`  | `/`                 | Required | `ADMIN`           |                                                                | `200 OK`: `{"success": true, "data": {"users": [...users...]}, "message": "Users retrieved successfully"}` | `401`: Invalid token. `403`: No permission. `500`: Database error.                                 |
+| `GET` | `/type/resident` | Required | `EMPLOYEE, ADMIN`           |                                         | `200 OK`: `{"success": true, "data": {"residents": [...users...]}, "message": "Users retrieved successfully"}` | `401`: Invalid token. `403`: No permission. `500`: Database error.  |
+| `PUT`  | `/:id`              | Required | `ADMIN`           | `firstName` (optional), `lastName` (optional), `phone` (optional), `address` (optional), `type` (optional) | `200 OK`: `{"success": true, "data": null, "message": "User updated successfully"}`      | `400 Bad Request`: Invalid `type`.  `401`: Invalid token. `403`: No permission. `404`: User not found. `500`: Database error. |
+| `DELETE` | `/:id`              | Required | `ADMIN`           |                                                                | `200 OK`: `{"success": true, "data": null, "message": "User deleted successfully"}`      | `401`: Invalid token. `403`: No permission.  `404`: User not found. `500`: Database error.      |
+
+## Response Format
+
+| Field     | Description                                                                                                  |
+| --------- | ------------------------------------------------------------------------------------------------------------ |
+| `success` | `true` request, `false` error.                                                       |
+| `data`    |  data, specific.                                                                   |
+| `message` |   message, request.                                                          |
+
+## Error Codes
+
+| Code  | Description                                    |
+| ----- | ---------------------------------------------- |
+| `400` |  request / missing parameters.                   |
+| `401` |   / token invalid / expired.                |
+| `403` |   access.                              |
+| `404` | resource .                                  |
+| `500` |   server error.                                    |
+
+## Roles
+
+| Role       | Description                                    |
+| ---------- | ---------------------------------------------- |
+| `RESIDENT` | system.                                  |
+| `EMPLOYEE` |  privileges.                                       |
+| `ADMIN`    |  access  resources  settings.                      |

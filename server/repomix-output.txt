@@ -1,0 +1,3265 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+================================================================
+File Summary
+================================================================
+
+Purpose:
+--------
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+
+File Format:
+------------
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Multiple file entries, each consisting of:
+  a. A separator line (================)
+  b. The file path (File: path/to/file)
+  c. Another separator line
+  d. The full contents of the file
+  e. A blank line
+
+Usage Guidelines:
+-----------------
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+
+Notes:
+------
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+
+Additional Info:
+----------------
+
+================================================================
+Directory Structure
+================================================================
+app.js
+create.bat
+Documentation.md
+package.json
+README.md
+server.js
+src/config/app.config.js
+src/config/firebase.config.js
+src/controllers/auth.controller.js
+src/controllers/chat.controller.js
+src/controllers/forms.controller.js
+src/controllers/messages.controller.js
+src/controllers/pages.controller.js
+src/controllers/settings.controller.js
+src/controllers/tickets.controller.js
+src/controllers/users.controller.js
+src/middlewares/auth.middleware.js
+src/middlewares/error.middleware.js
+src/middlewares/requestLogger.middleware.js
+src/middlewares/role.middleware.js
+src/middlewares/validate.middleware.js
+src/models/form.model.js
+src/models/message.model.js
+src/models/page.model.js
+src/models/settings.model.js
+src/models/ticket.model.js
+src/models/user.model.js
+src/routes/auth.routes.js
+src/routes/chat.routes.js
+src/routes/forms.routes.js
+src/routes/messages.routes.js
+src/routes/pages.routes.js
+src/routes/settings.routes.js
+src/routes/tickets.routes.js
+src/routes/users.routes.js
+src/services/chat.service.js
+src/services/firebase.service.js
+src/utils/errorHandler.js
+src/utils/logger.js
+src/utils/responseFormatter.js
+
+================================================================
+Files
+================================================================
+
+================
+File: app.js
+================
+const express = require('express');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const { errorHandler } = require('./src/middlewares/error.middleware');
+
+const authRoutes = require('./src/routes/auth.routes');
+const pagesRoutes = require('./src/routes/pages.routes');
+const formsRoutes = require('./src/routes/forms.routes');
+const ticketsRoutes = require('./src/routes/tickets.routes');
+const messagesRoutes = require('./src/routes/messages.routes');
+const usersRoutes = require('./src/routes/users.routes');
+const settingsRoutes = require('./src/routes/settings.routes');
+const chatRoutes = require('./src/routes/chat.routes');
+const { authMiddleware } = require('./src/middlewares/auth.middleware');
+const { requestLoggerMiddleware } = require('./src/middlewares/requestLogger.middleware');
+
+const app = express();
+
+// Middleware
+app.use(requestLoggerMiddleware);
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+console.log("authMiddleware type:", typeof authMiddleware);
+console.log("pagesRoutes type:", typeof pagesRoutes);
+
+// Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/pages', pagesRoutes);
+app.use('/api/forms', formsRoutes);
+app.use('/api/tickets', authMiddleware, ticketsRoutes);
+app.use('/api/messages', authMiddleware, messagesRoutes);
+app.use('/api/users', authMiddleware, usersRoutes);
+app.use('/api/settings', authMiddleware, settingsRoutes);
+app.use('/api/chat', authMiddleware, chatRoutes);
+
+// Global error handler
+app.use(errorHandler);
+
+module.exports = app;
+
+================
+File: create.bat
+================
+@echo off
+REM ============================================
+REM Create Project Structure for my-express-server
+REM ============================================
+
+REM Create project root folder and navigate into it
+mkdir my-express-server
+cd my-express-server
+
+REM Create root-level files
+echo {} > package.json
+type nul > .env
+echo # Project Overview > README.md
+echo // Entry point: Bootstraps the app and starts the server > server.js
+echo // Configures global middleware, routes, and error handling > app.js
+
+REM Create src directory
+mkdir src
+cd src
+
+REM ------------------------------
+REM Create config directory and files
+REM ------------------------------
+mkdir config
+cd config
+echo // Application-wide settings (port, API rate limits, etc.) > app.config.js
+echo // Firebase Admin SDK and Firestore configuration > firebase.config.js
+cd ..
+
+REM ------------------------------
+REM Create controllers directory and files
+REM ------------------------------
+mkdir controllers
+cd controllers
+echo // Handles sign-up, login, and Firebase token verification > auth.controller.js
+echo // CRUD operations for pages > pages.controller.js
+echo // CRUD operations for forms > forms.controller.js
+echo // CRUD operations for tickets with ownership checks > tickets.controller.js
+echo // CRUD operations for messages linked to tickets > messages.controller.js
+echo // CRUD operations for users with role-based access control > users.controller.js
+echo // CRUD operations for settings > settings.controller.js
+echo // Chat endpoint: integrates with Gemini and compiles the system prompt from news > chat.controller.js
+cd ..
+
+REM ------------------------------
+REM Create routes directory and files
+REM ------------------------------
+mkdir routes
+cd routes
+echo // Routes for authentication (email-password sign-up/sign-in) > auth.routes.js
+echo // Routes for pages CRUD > pages.routes.js
+echo // Routes for forms CRUD > forms.routes.js
+echo // Routes for tickets CRUD > tickets.routes.js
+echo // Routes for messages CRUD > messages.routes.js
+echo // Routes for user CRUD > users.routes.js
+echo // Routes for settings CRUD > settings.routes.js
+echo // Route for the Gemini chatbot chat endpoint > chat.routes.js
+cd ..
+
+REM ------------------------------
+REM Create middlewares directory and files
+REM ------------------------------
+mkdir middlewares
+cd middlewares
+echo // Validates Firebase ID tokens on protected routes > auth.middleware.js
+echo // Checks user roles (RESIDENT, EMPLOYEE, ADMIN) for authorization > role.middleware.js
+echo // Validates incoming request data (using express-validator or Joi) > validate.middleware.js
+echo // Global error handling middleware > error.middleware.js
+cd ..
+
+REM ------------------------------
+REM Create models directory and files
+REM ------------------------------
+mkdir models
+cd models
+echo // Firestore operations for pages > page.model.js
+echo // Firestore operations for forms > form.model.js
+echo // Firestore operations for tickets > ticket.model.js
+echo // Firestore operations for messages > message.model.js
+echo // Firestore operations for users > user.model.js
+echo // Firestore operations for settings > settings.model.js
+cd ..
+
+REM ------------------------------
+REM Create services directory and files
+REM ------------------------------
+mkdir services
+cd services
+echo // Initializes Firebase Admin SDK and exposes Firestore and Auth utilities > firebase.service.js
+echo // Integrates with the Gemini chatbot API > chat.service.js
+echo // Retrieves (and optionally caches) the last 10 news articles for chat prompt > news.service.js
+cd ..
+
+REM ------------------------------
+REM Create utils directory and files
+REM ------------------------------
+mkdir utils
+cd utils
+echo // Custom logging functionality (using Winston or similar) > logger.js
+echo // Standardizes API responses across endpoints > responseFormatter.js
+echo // Centralized error handling logic and custom error classes > errorHandler.js
+cd ..
+
+REM ------------------------------
+REM Create tests directory with unit and integration subdirectories
+REM ------------------------------
+mkdir tests
+cd tests
+mkdir unit
+mkdir integration
+cd ..
+
+REM Go back to the root folder
+cd ..
+cd ..
+
+echo Project structure created successfully.
+pause
+
+================
+File: Documentation.md
+================
+# Barangay Management System API Documentation
+
+
+## Table of Contents
+
+1.  [Introduction](#introduction)
+2.  [Authentication](#authentication)
+    *   [Signup](#signup)
+    *   [Signin](#signin)
+    *   [Get User Profile](#get-user-profile)
+3.  [Chat](#chat)
+    *   [Chat with Gemini](#chat-with-gemini)
+4.  [Forms](#forms)
+    *   [Create Form](#create-form)
+    *   [Get Form by ID](#get-form-by-id)
+    *   [Get All Forms](#get-all-forms)
+    *   [Update Form](#update-form)
+    *   [Delete Form](#delete-form)
+5.  [Messages](#messages)
+    *   [Create Message](#create-message)
+    *   [Get Messages by Ticket ID](#get-messages-by-ticket-id)
+    *   [Get Message by ID](#get-message-by-id)
+    *   [Update Message](#update-message)
+    *   [Delete Message](#delete-message)
+6.  [Pages](#pages)
+    *   [Create Page](#create-page)
+    *   [Get Page by Slug](#get-page-by-slug)
+    *   [Get All Pages](#get-all-pages)
+    *   [Update Page](#update-page)
+    *   [Delete Page](#delete-page)
+7.  [Settings](#settings)
+    *   [Get Settings](#get-settings)
+    *   [Update Settings](#update-settings)
+8.  [Tickets](#tickets)
+    *   [Create Ticket](#create-ticket)
+    *   [Get Ticket by ID](#get-ticket-by-id)
+    *   [Get All Tickets](#get-all-tickets)
+    *   [Get User Tickets](#get-user-tickets)
+    *   [Update Ticket](#update-ticket)
+    *   [Delete Ticket](#delete-ticket)
+9.  [Users](#users)
+    *   [Get User by ID](#get-user-by-id)
+    *   [Get All Users](#get-all-users)
+    *   [Get Residents](#get-residents)
+    *   [Update User](#update-user)
+    *   [Delete User](#delete-user)
+10. [Error Handling](#error-handling)
+11. [Roles](#roles)
+12. [Response Format](#response-format)
+
+## 1. Introduction
+
+This API provides endpoints for managing users, forms, tickets, messages, pages, and settings within the Barangay Management System.  It utilizes Firebase Authentication for user management and Firestore as the database.
+
+## 2. Authentication
+
+Authentication is handled using Firebase Authentication.  Most endpoints require a valid Firebase ID token to be included in the `Authorization` header as a Bearer token.
+
+**Authorization Header Format:**
+
+```
+Authorization: Bearer <Firebase ID Token>
+```
+
+### Signup
+
+*   **Endpoint:** `POST /api/auth/signup`
+*   **Description:** Creates a new user account in Firebase Authentication and Firestore.
+*   **Auth:** None
+*   **Roles:** None
+*   **Body:**
+    ```json
+    {
+      "email": "user@example.com",
+      "password": "securePassword",
+      "firstName": "John",
+      "lastName": "Doe",
+      "phone": "123-456-7890",
+      "address": "123 Main St"
+    }
+    ```
+    *   `email` (string, required): User's email address.
+    *   `password` (string, required): User's password (minimum 6 characters, enforced by Firebase).
+    *   `firstName` (string, required): User's first name.
+    *   `lastName` (string, required): User's last name.
+    *   `phone` (string, optional): User's phone number.
+    *   `address` (string, optional): User's address.
+
+*   **Response (Success - 201 Created):**
+    ```json
+    {
+      "success": true,
+      "data": {
+        "uid": "firebaseGeneratedUserId"
+      },
+      "message": "User created successfully"
+    }
+    ```
+    *   `uid`: The Firebase User ID of the newly created user.
+
+*   **Response (Error - 400 Bad Request):** Missing required fields.
+*   **Response (Error - 500 Internal Server Error):** Firebase error or database error.
+
+### Signin
+
+*   **Endpoint:** `POST /api/auth/signin`
+*   **Description:** Authenticates an existing user using their email and password.  Returns a custom Firebase token that can be exchanged for an ID token on the client-side.
+*   **Auth:** None
+*   **Roles:** None
+*   **Body:**
+    ```json
+    {
+      "email": "user@example.com",
+      "password": "securePassword"
+    }
+    ```
+    *   `email` (string, required): User's email address.
+    *   `password` (string, required): User's password.
+
+*   **Response (Success - 200 OK):**
+    ```json
+    {
+      "success": true,
+      "data": {
+        "token": "firebaseCustomToken"
+      },
+      "message": "Sign-in successful"
+    }
+    ```
+    * `token`: A Firebase custom token.  This token should be used by the client to obtain a Firebase ID token.
+
+*   **Response (Error - 400 Bad Request):** Missing email or password.
+*   **Response (Error - 401 Unauthorized/500 Internal Server Error):** Firebase authentication error.
+
+### Get User Profile
+
+*   **Endpoint:** `GET /api/auth/profile`
+*   **Description:** Retrieves the profile of the currently authenticated user.
+*   **Auth:** Required
+*   **Roles:** None
+*   **Body:** None
+
+*   **Response (Success - 200 OK):**
+    ```json
+    {
+      "success": true,
+      "data": {
+        "user": {
+          "id": "firebaseUserId",
+          "firstName": "John",
+          "lastName": "Doe",
+          "email": "user@example.com",
+          "phone": "123-456-7890",
+          "address": "123 Main St",
+          "type": "RESIDENT",
+          "createdAt": "2023-11-20T12:00:00.000Z",
+          "createdBy": "anotherFirebaseUserId",
+          "updatedAt": "2023-11-20T13:00:00.000Z",
+          "updatedBy": "anotherFirebaseUserId"
+        }
+      },
+      "message": "User profile retrieved successfully"
+    }
+    ```
+
+*   **Response (Error - 401 Unauthorized):**  Missing or invalid token.
+*   **Response (Error - 404 Not Found):** User not found.
+*   **Response (Error - 500 Internal Server Error):**  Database error.
+
+## 3. Chat
+
+### Chat with Gemini
+
+*   **Endpoint:** `POST /api/chat`
+*   **Description:** Sends a message to the Gemini chatbot and returns the response. The chatbot's context is based on the last 10 news articles stored as pages.
+*   **Auth:** Required
+*   **Roles:** None
+*   **Body:**
+    ```json
+    {
+      "message": "What is the latest news?"
+    }
+    ```
+    *   `message` (string, required): The user's message to the chatbot.
+
+*   **Response (Success - 200 OK):**
+    ```json
+    {
+      "success": true,
+      "data": {
+        "response": "The latest news is..."
+      },
+      "message": "Chat response generated successfully"
+    }
+    ```
+    *   `response`: The Gemini chatbot's response.
+
+*   **Response (Error - 400 Bad Request):**  Missing `message`.
+*   **Response (Error - 401 Unauthorized):**  Missing or invalid token.
+*   **Response (Error - 500 Internal Server Error):**  Error communicating with Gemini API, missing Gemini API key, or database error.
+
+## 4. Forms
+
+### Create Form
+
+*   **Endpoint:** `POST /api/forms`
+*   **Description:** Creates a new form.
+*   **Auth:** Required
+*   **Roles:** `EMPLOYEE`, `ADMIN`
+*   **Body:**
+    ```json
+    {
+      "title": "Community Survey",
+      "description": "Please fill out this survey...",
+      "link": "https://example.com/survey",
+      "logoURL": "https://example.com/logo.png"
+    }
+    ```
+    *   `title` (string, required): The title of the form.
+    *   `description` (string, required): A description of the form.
+    *   `link` (string, required, URL):  A link to the form (e.g., a Google Form link).
+    *   `logoURL` (string, optional, URL): A URL to an image for the form's logo.
+
+*   **Response (Success - 201 Created):**
+    ```json
+    {
+      "success": true,
+      "data": {
+        "id": "firestoreDocumentId"
+      },
+      "message": "Form created successfully"
+    }
+    ```
+    *   `id`: The Firestore document ID of the newly created form.
+
+*   **Response (Error - 400 Bad Request):**  Missing required fields, invalid URL.
+*   **Response (Error - 401 Unauthorized):** Missing or invalid token.
+*   **Response (Error - 403 Forbidden):**  User does not have the required role.
+*   **Response (Error - 500 Internal Server Error):**  Database error.
+
+### Get Form by ID
+
+*   **Endpoint:** `GET /api/forms/:id`
+*   **Description:** Retrieves a form by its ID.
+*   **Auth:** None
+*   **Roles:** None
+*   **Params:**
+    *   `id` (string, required): The Firestore document ID of the form.
+
+*   **Response (Success - 200 OK):**
+    ```json
+    {
+      "success": true,
+      "data": {
+        "form": {
+          "id": "firestoreDocumentId",
+          "title": "Community Survey",
+          "description": "Please fill out this survey...",
+          "link": "https://example.com/survey",
+          "logoURL": "https://example.com/logo.png",
+          "createdAt": "2023-11-20T14:00:00.000Z",
+          "createdBy": "firebaseUserId",
+          "updatedAt": "2023-11-20T14:00:00.000Z",
+          "updatedBy": "firebaseUserId"
+        }
+      },
+      "message": "Form retrieved successfully"
+    }
+    ```
+
+*   **Response (Error - 404 Not Found):** Form not found.
+*   **Response (Error - 500 Internal Server Error):** Database error.
+
+### Get All Forms
+
+*   **Endpoint:** `GET /api/forms`
+*   **Description:** Retrieves all forms.
+*   **Auth:** Required
+*   **Roles:** `EMPLOYEE`, `ADMIN`
+*   **Body:** None
+
+*   **Response (Success - 200 OK):**
+    ```json
+    {
+      "success": true,
+      "data": {
+        "forms": [
+          {
+            "id": "firestoreDocumentId1",
+            "title": "Form 1",
+            "description": "...",
+            "link": "...",
+            "logoURL": "...",
+            "createdAt": "...",
+            "createdBy": "...",
+            "updatedAt": "...",
+            "updatedBy": "..."
+          },
+          {
+            "id": "firestoreDocumentId2",
+            "title": "Form 2",
+            "description": "...",
+            "link": "...",
+            "logoURL": "...",
+            "createdAt": "...",
+            "createdBy": "...",
+            "updatedAt": "...",
+            "updatedBy": "..."
+          }
+        ]
+      },
+      "message": "Forms retrieved successfully"
+    }
+    ```
+
+*   **Response (Error - 401 Unauthorized):** Missing or invalid token.
+*   **Response (Error - 403 Forbidden):** User does not have required role.
+*   **Response (Error - 500 Internal Server Error):** Database error.
+
+### Update Form
+
+*   **Endpoint:** `PUT /api/forms/:id`
+*   **Description:** Updates an existing form.
+*   **Auth:** Required
+*   **Roles:** `EMPLOYEE`, `ADMIN`
+*   **Params:**
+    *   `id` (string, required): The Firestore document ID of the form.
+*   **Body:**
+    ```json
+    {
+      "title": "Updated Form Title",
+      "description": "Updated description...",
+      "link": "https://example.com/updated-survey",
+      "logoURL": "https://example.com/updated-logo.png"
+    }
+    ```
+    *   All fields are optional.  Only provide the fields you want to update.
+
+*   **Response (Success - 200 OK):**
+    ```json
+    {
+      "success": true,
+      "data": null,
+      "message": "Form updated successfully"
+    }
+    ```
+
+*   **Response (Error - 400 Bad Request):** Invalid URL.
+*   **Response (Error - 401 Unauthorized):** Missing or invalid token.
+*   **Response (Error - 403 Forbidden):** User does not have required role.
+*   **Response (Error - 404 Not Found):** Form not found.
+*   **Response (Error - 500 Internal Server Error):** Database error.
+
+### Delete Form
+
+*   **Endpoint:** `DELETE /api/forms/:id`
+*   **Description:** Deletes a form.
+*   **Auth:** Required
+*   **Roles:** `EMPLOYEE`, `ADMIN`
+*   **Params:**
+    *   `id` (string, required): The Firestore document ID of the form.
+
+*   **Response (Success - 200 OK):**
+    ```json
+    {
+      "success": true,
+      "data": null,
+      "message": "Form deleted successfully"
+    }
+    ```
+
+*   **Response (Error - 401 Unauthorized):** Missing or invalid token.
+*   **Response (Error - 403 Forbidden):** User does not have required role.
+*   **Response (Error - 404 Not Found):** Form not found.
+*   **Response (Error - 500 Internal Server Error):** Database error.
+
+## 5. Messages
+
+### Create Message
+
+*   **Endpoint:** `POST /api/messages`
+*   **Description:** Creates a new message associated with a ticket.
+*   **Auth:** Required
+*   **Roles:** None
+*   **Body:**
+    ```json
+    {
+      "ticketId": "firestoreTicketId",
+      "content": "This is a new message."
+    }
+    ```
+    *   `ticketId` (string, required): The Firestore document ID of the ticket the message belongs to.
+    *   `content` (string, required): The content of the message.
+
+*   **Response (Success - 201 Created):**
+    ```json
+    {
+      "success": true,
+      "data": {
+        "id": "firestoreMessageId"
+      },
+      "message": "Message created successfully"
+    }
+    ```
+    *   `id`: The Firestore document ID of the newly created message.
+
+*   **Response (Error - 400 Bad Request):** Missing required fields.
+*   **Response (Error - 401 Unauthorized):** Missing or invalid token.
+*   **Response (Error - 403 Forbidden):** User is not the creator of the ticket and is not an `EMPLOYEE` or `ADMIN`.
+*   **Response (Error - 404 Not Found):** Ticket not found.
+*   **Response (Error - 500 Internal Server Error):** Database error.
+
+### Get Messages by Ticket ID
+
+*   **Endpoint:** `GET /api/messages/ticket/:ticketId`
+*   **Description:** Retrieves all messages associated with a specific ticket.
+*   **Auth:** Required
+*   **Roles:** None
+*   **Params:**
+    *   `ticketId` (string, required): The Firestore document ID of the ticket.
+
+*   **Response (Success - 200 OK):**
+    ```json
+    {
+      "success": true,
+      "data": {
+        "messages": [
+          {
+            "id": "firestoreMessageId1",
+            "ticket": "firestoreTicketId",
+            "content": "Message 1",
+            "createdBy": "firebaseUserId1",
+            "createdAt": "2023-11-20T15:00:00.000Z"
+          },
+          {
+            "id": "firestoreMessageId2",
+            "ticket": "firestoreTicketId",
+            "content": "Message 2",
+            "createdBy": "firebaseUserId2",
+            "createdAt": "2023-11-20T15:05:00.000Z"
+          }
+        ]
+      },
+      "message": "Messages retrieved successfully"
+    }
+    ```
+*   Messages are ordered by `createdAt` (ascending).
+
+*   **Response (Error - 401 Unauthorized):** Missing or invalid token.
+*   **Response (Error - 403 Forbidden):**  User is not the creator of the ticket and is not an `EMPLOYEE` or `ADMIN`.
+*   **Response (Error - 404 Not Found):**  Ticket not found.
+*   **Response (Error - 500 Internal Server Error):** Database error.
+
+### Get Message by ID
+
+*   **Endpoint:** `GET /api/messages/:id`
+*   **Description:** Retrieves a specific message by its ID.
+*   **Auth:** Required
+*   **Roles:** None
+*   **Params:**
+    *   `id` (string, required): The Firestore document ID of the message.
+
+*   **Response (Success - 200 OK):**
+    ```json
+    {
+      "success": true,
+      "data": {
+        "message": {
+          "id": "firestoreMessageId",
+          "ticket": "firestoreTicketId",
+          "content": "The message content",
+          "createdBy": "firebaseUserId",
+          "createdAt": "2023-11-20T15:00:00.000Z"
+        }
+      },
+      "message": "Message retrieved successfully"
+    }
+    ```
+
+*   **Response (Error - 401 Unauthorized):** Missing or invalid token.
+    *   **Response (Error - 403 Forbidden):**  User is not the creator of the ticket associated to this message, and is not an `EMPLOYEE` or `ADMIN`.
+*   **Response (Error - 404 Not Found):** Message not found.
+*   **Response (Error - 500 Internal Server Error):** Database error.
+
+### Update Message
+
+*   **Endpoint:** `PUT /api/messages/:id`
+*   **Description:** Updates a specific message.
+*   **Auth:** Required
+*   **Roles:** None
+*   **Params:**
+    *   `id` (string, required): The Firestore document ID of the message.
+*   **Body:**
+    ```json
+    {
+      "content": "Updated message content."
+    }
+    ```
+    *   `content` (string, required): The updated content of the message.
+
+*   **Response (Success - 200 OK):**
+    ```json
+    {
+      "success": true,
+      "data": null,
+      "message": "Message updated successfully"
+    }
+    ```
+
+*   **Response (Error - 400 Bad Request):**  Missing `content`.
+*   **Response (Error - 401 Unauthorized):** Missing or invalid token.
+*   **Response (Error - 403 Forbidden):**  User is not the creator of the ticket associated to this message, and is not an `EMPLOYEE` or `ADMIN`.
+*   **Response (Error - 404 Not Found):** Message not found.
+*   **Response (Error - 500 Internal Server Error):** Database error.
+
+### Delete Message
+
+*   **Endpoint:** `DELETE /api/messages/:id`
+*   **Description:** Deletes a specific message.
+*   **Auth:** Required
+*   **Roles:** None
+*   **Params:**
+    *   `id` (string, required): The Firestore document ID of the message.
+
+*   **Response (Success - 200 OK):**
+    ```json
+    {
+      "success": true,
+      "data": null,
+      "message": "Message deleted successfully"
+    }
+    ```
+
+*   **Response (Error - 401 Unauthorized):** Missing or invalid token.
+*   **Response (Error - 403 Forbidden):**  User is not the creator of the ticket associated with the message and is not an `ADMIN`.
+*   **Response (Error - 404 Not Found):** Message not found.
+*   **Response (Error - 500 Internal Server Error):** Database error.
+
+## 6. Pages
+
+### Create Page
+
+*   **Endpoint:** `POST /api/pages`
+*   **Description:** Creates a new page.
+*   **Auth:** Required
+*   **Roles:** `EMPLOYEE`, `ADMIN`
+*   **Body:**
+    ```json
+    {
+      "slug": "about-us",
+      "title": "About Us",
+      "content": "This is the about us page content."
+    }
+    ```
+    *   `slug` (string, required):  A unique URL slug for the page (e.g., "about-us").
+    *   `title` (string, required): The title of the page.
+    *   `content` (string, required): The content of the page (can be HTML or plain text).
+
+*   **Response (Success - 201 Created):**
+    ```json
+    {
+      "success": true,
+      "data": {
+        "id": "firestorePageId"
+      },
+      "message": "Page created successfully"
+    }
+    ```
+    *    `id`: The Firestore document ID of the newly created page.
+
+*   **Response (Error - 400 Bad Request):** Missing required fields.
+*   **Response (Error - 401 Unauthorized):** Missing or invalid token.
+*   **Response (Error - 403 Forbidden):** User does not have required role.
+*   **Response (Error - 500 Internal Server Error):** Database error.
+
+### Get Page by Slug
+
+*   **Endpoint:** `GET /api/pages/:slug`
+*   **Description:** Retrieves a page by its slug.
+*   **Auth:** None
+*   **Roles:** None
+*   **Params:**
+    *   `slug` (string, required): The slug of the page.
+
+*   **Response (Success - 200 OK):**
+    ```json
+    {
+      "success": true,
+      "data": {
+        "page": {
+          "id": "firestorePageId",
+          "slug": "about-us",
+          "title": "About Us",
+          "content": "This is the about us page content.",
+          "createdAt": "2023-11-20T16:00:00.000Z",
+          "createdBy": "firebaseUserId",
+          "updatedAt": "2023-11-20T16:00:00.000Z",
+          "updatedBy": "firebaseUserId"
+        }
+      },
+      "message": "Page retrieved successfully"
+    }
+    ```
+
+*   **Response (Error - 404 Not Found):** Page not found.
+*   **Response (Error - 500 Internal Server Error):** Database error.
+
+### Get All Pages
+
+*   **Endpoint:** `GET /api/pages`
+*   **Description:** Retrieves all pages.
+*   **Auth:** None
+*   **Roles:** None
+*   **Body:** None
+
+*   **Response (Success - 200 OK):**
+    ```json
+    {
+      "success": true,
+      "data": {
+        "pages": [
+          {
+            "id": "firestorePageId1",
+            "slug": "page-1",
+            "title": "Page 1",
+            "content": "...",
+            "createdAt": "...",
+            "createdBy": "...",
+            "updatedAt": "...",
+            "updatedBy": "..."
+          },
+          {
+            "id": "firestorePageId2",
+            "slug": "page-2",
+            "title": "Page 2",
+            "content": "...",
+            "createdAt": "...",
+            "createdBy": "...",
+            "updatedAt": "...",
+            "updatedBy": "..."
+          }
+        ]
+      },
+      "message": "Pages retrieved successfully"
+    }
+    ```
+
+*   **Response (Error - 500 Internal Server Error):** Database error.
+
+### Update Page
+
+*   **Endpoint:** `PUT /api/pages/:slug`
+*   **Description:** Updates an existing page.
+*   **Auth:** Required
+*   **Roles:** `EMPLOYEE`, `ADMIN`
+*   **Params:**
+    *   `slug` (string, required): The slug of the page.
+*   **Body:**
+    ```json
+    {
+      "title": "Updated Page Title",
+      "content": "Updated page content."
+    }
+    ```
+    *   `title` (string, optional): The updated title of the page.
+    *   `content` (string, optional): The updated content of the page.
+
+*   **Response (Success - 200 OK):**
+    ```json
+    {
+      "success": true,
+      "data": null,
+      "message": "Page updated successfully"
+    }
+    ```
+
+*   **Response (Error - 400 Bad Request):**  Invalid input.
+*   **Response (Error - 401 Unauthorized):** Missing or invalid token.
+*   **Response (Error - 403 Forbidden):**  User does not have required role.
+*   **Response (Error - 404 Not Found):** Page not found.
+*   **Response (Error - 500 Internal Server Error):** Database error.
+
+### Delete Page
+
+*   **Endpoint:** `DELETE /api/pages/:slug`
+*   **Description:** Deletes a page.
+*   **Auth:** Required
+*   **Roles:** `EMPLOYEE`, `ADMIN`
+*   **Params:**
+    *   `slug` (string, required): The slug of the page.
+
+*   **Response (Success - 200 OK):**
+    ```json
+    {
+      "success": true,
+      "data": null,
+      "message": "Page deleted successfully"
+    }
+    ```
+*   **Response (Error - 401 Unauthorized):** Missing or invalid token.
+*   **Response (Error - 403 Forbidden):** User does not have required role.
+*   **Response (Error - 404 Not Found):** Page not found.
+*   **Response (Error - 500 Internal Server Error):** Database error.
+
+## 7. Settings
+
+### Get Settings
+
+*   **Endpoint:** `GET /api/settings`
+*   **Description:** Retrieves the application settings.
+*   **Auth:** Required
+*   **Roles:** `ADMIN`
+*   **Body:** None
+
+*   **Response (Success - 200 OK):**
+    ```json
+    {
+      "success": true,
+      "data": {
+        "settings": {
+          "googleGeminiKey": "your-gemini-api-key",
+          "facebookPageId": "your-facebook-page-id",
+          "facebookAccessToken": "your-facebook-access-token"
+        }
+      },
+      "message": "Settings retrieved successfully"
+    }
+    ```
+*   If no settings exist, an empty object `{}` is returned for `"settings"`.
+
+*   **Response (Error - 401 Unauthorized):**  Missing or invalid token.
+*   **Response (Error - 403 Forbidden):**  User does not have required role.
+*   **Response (Error - 500 Internal Server Error):** Database error.
+
+### Update Settings
+
+*   **Endpoint:** `PUT /api/settings`
+*   **Description:** Updates the application settings.
+*   **Auth:** Required
+*   **Roles:** `ADMIN`
+*   **Body:**
+    ```json
+    {
+      "googleGeminiKey": "new-gemini-api-key",
+      "facebookPageId": "new-facebook-page-id",
+      "facebookAccessToken": "new-facebook-access-token"
+    }
+    ```
+*   **Only** the `googleGeminiKey`, `facebookPageId`, and `facebookAccessToken` fields can be updated.  Any other fields in the request body will result in a 400 Bad Request error.  You should send all three values even if you are only updating one.
+*   The entire settings object is replaced.
+
+*   **Response (Success - 200 OK):**
+    ```json
+    {
+      "success": true,
+      "data": null,
+      "message": "Settings updated successfully"
+    }
+    ```
+
+*   **Response (Error - 400 Bad Request):** Invalid setting key provided.
+*   **Response (Error - 401 Unauthorized):** Missing or invalid token.
+*   **Response (Error - 403 Forbidden):** User does not have required role.
+*   **Response (Error - 500 Internal Server Error):** Database error.
+
+## 8. Tickets
+
+### Create Ticket
+
+*   **Endpoint:** `POST /api/tickets`
+*   **Description:** Creates a new ticket.
+*   **Auth:** Required
+*   **Roles:** None
+*   **Body:**
+    ```json
+    {
+      "title": "My Issue",
+      "type": "Complaint"
+    }
+    ```
+    *   `title` (string, required): The title of the ticket.
+    *   `type` (string, required): The type of the ticket (e.g., "Complaint", "Request", "Inquiry").
+
+*   **Response (Success - 201 Created):**
+    ```json
+    {
+      "success": true,
+      "data": {
+        "id": "firestoreTicketId"
+      },
+      "message": "Ticket created successfully"
+    }
+    ```
+    *    `id`: The Firestore document ID of the newly created ticket.
+
+*   **Response (Error - 400 Bad Request):** Missing required fields.
+*   **Response (Error - 401 Unauthorized):** Missing or invalid token.
+*   **Response (Error - 500 Internal Server Error):** Database error.
+
+### Get Ticket by ID
+
+*   **Endpoint:** `GET /api/tickets/:id`
+*   **Description:** Retrieves a ticket by its ID.
+*   **Auth:** Required
+*   **Roles:** None
+*   **Params:**
+    *   `id` (string, required): The Firestore document ID of the ticket.
+
+*   **Response (Success - 200 OK):**
+    ```json
+    {
+      "success": true,
+      "data": {
+        "ticket": {
+          "id": "firestoreTicketId",
+          "title": "My Issue",
+          "type": "Complaint",
+          "status": "OPEN",
+          "assignedTo": null,
+          "createdAt": "2023-11-20T17:00:00.000Z",
+          "createdBy": "firebaseUserId",
+          "updatedAt": "2023-11-20T17:00:00.000Z",
+          "updatedBy": "firebaseUserId"
+        }
+      },
+      "message": "Ticket retrieved successfully"
+    }
+    ```
+
+*   **Response (Error - 401 Unauthorized):** Missing or invalid token.
+*   **Response (Error - 403 Forbidden):** User is not the ticket creator, and is not an `EMPLOYEE` or `ADMIN`.
+*   **Response (Error - 404 Not Found):** Ticket not found.
+*   **Response (Error - 500 Internal Server Error):** Database error.
+
+### Get All Tickets
+
+*   **Endpoint:** `GET /api/tickets`
+*   **Description:** Retrieves all tickets.
+*   **Auth:** Required
+*   **Roles:** `EMPLOYEE`, `ADMIN`
+*   **Body:** None
+
+*   **Response (Success - 200 OK):**
+    ```json
+    {
+      "success": true,
+      "data": {
+        "tickets": [
+          {
+            "id": "firestoreTicketId1",
+            "title": "Ticket 1",
+            "type": "...",
+            "status": "...",
+            "assignedTo": "...",
+            "createdAt": "...",
+            "createdBy": "...",
+            "updatedAt": "...",
+            "updatedBy": "..."
+          },
+          {
+            "id": "firestoreTicketId2",
+            "title": "Ticket 2",
+            "type": "...",
+            "status": "...",
+            "assignedTo": "...",
+            "createdAt": "...",
+            "createdBy": "...",
+            "updatedAt": "...",
+            "updatedBy": "..."
+          }
+        ]
+      },
+      "message": "Tickets retrieved successfully"
+    }
+    ```
+
+*   **Response (Error - 401 Unauthorized):** Missing or invalid token.
+*   **Response (Error - 403 Forbidden):** User does not have required role.
+*   **Response (Error - 500 Internal Server Error):** Database error.
+
+### Get User Tickets
+
+*   **Endpoint:** `GET /api/tickets/my/all`
+*   **Description:** Retrieves all tickets created by the currently authenticated user.
+*   **Auth:** Required
+*   **Roles:** None
+*   **Body:** None
+
+*   *   **Response (Success - 200 OK):**
+    ```json
+    {
+      "success": true,
+      "data": {
+        "tickets": [
+          {
+            "id": "firestoreTicketId1",
+            "title": "Ticket 1",
+            "type": "...",
+            "status": "...",
+            "assignedTo": "...",
+            "createdAt": "...",
+            "createdBy": "currentUserFirebaseId",
+            "updatedAt": "...",
+            "updatedBy": "..."
+          },
+          {
+            "id": "firestoreTicketId2",
+            "title": "Ticket 2",
+            "type": "...",
+            "status": "...",
+            "assignedTo": "...",
+            "createdAt": "...",
+            "createdBy": "currentUserFirebaseId",
+            "updatedAt": "...",
+            "updatedBy": "..."
+          }
+        ]
+      },
+      "message": "Tickets retrieved successfully"
+    }
+    ```
+* The `createdBy` field will always match the currently authenticated user's Firebase ID.
+
+*   **Response (Error - 401 Unauthorized):** Missing or invalid token.
+*   **Response (Error - 500 Internal Server Error):** Database error.
+
+### Update Ticket
+
+*   **Endpoint:** `PUT /api/tickets/:id`
+*   **Description:** Updates an existing ticket.
+*   **Auth:** Required
+*   **Roles:** None
+*   **Params:**
+    *   `id` (string, required): The Firestore document ID of the ticket.
+*   **Body:**
+    ```json
+    {
+      "title": "Updated Ticket Title",
+      "type": "Request",
+      "status": "IN_PROGRESS",
+      "assignedTo": "anotherFirebaseUserId"
+    }
+    ```
+    *   `title` (string, optional): The updated title of the ticket.
+    *   `type` (string, optional): The updated type of the ticket.
+    *   `status` (string, optional): The updated status of the ticket.  Must be one of: `"OPEN"`, `"IN_PROGRESS"`, `"CLOSED"`.
+    *   `assignedTo` (string, optional): The Firebase User ID of the user the ticket is assigned to.
+
+*   **Response (Success - 200 OK):**
+    ```json
+    {
+      "success": true,
+      "data": null,
+      "message": "Ticket updated successfully"
+    }
+    ```
+
+*   **Response (Error - 400 Bad Request):** Invalid `status` value.
+*   **Response (Error - 401 Unauthorized):** Missing or invalid token.
+*   **Response (Error - 403 Forbidden):** User is not the ticket creator and is not an `EMPLOYEE` or `ADMIN`.
+*   **Response (Error - 404 Not Found):** Ticket not found.
+*   **Response (Error - 500 Internal Server Error):** Database error.
+
+### Delete Ticket
+
+*   **Endpoint:** `DELETE /api/tickets/:id`
+*   **Description:** Deletes a ticket.
+*   **Auth:** Required
+*   **Roles:** None
+*   **Params:**
+    *   `id` (string, required): The Firestore document ID of the ticket.
+
+*   **Response (Success - 200 OK):**
+    ```json
+    {
+      "success": true,
+      "data": null,
+      "message": "Ticket deleted successfully"
+    }
+    ```
+
+*   **Response (Error - 401 Unauthorized):** Missing or invalid token.
+*   **Response (Error - 403 Forbidden):** User is not the ticket creator and is not an `ADMIN`.
+*   **Response (Error - 404 Not Found):** Ticket not found.
+*   **Response (Error - 500 Internal Server Error):** Database error.
+
+## 9. Users
+
+### Get User by ID
+
+*   **Endpoint:** `GET /api/users/:id`
+*   **Description:** Retrieves a user by their ID.
+*   **Auth:** Required
+*   **Roles:** `EMPLOYEE`, `ADMIN`
+*   **Params:**
+    *   `id` (string, required): The Firebase User ID of the user.
+
+*   **Response (Success - 200 OK):**
+    ```json
+    {
+      "success": true,
+      "data": {
+        "user": {
+          "id": "firebaseUserId",
+          "firstName": "John",
+          "lastName": "Doe",
+          "email": "user@example.com",
+          "phone": "123-456-7890",
+          "address": "123 Main St",
+          "type": "RESIDENT",
+          "createdAt": "2023-11-20T12:00:00.000Z",
+          "createdBy": "anotherFirebaseUserId",
+          "updatedAt": "2023-11-20T13:00:00.000Z",
+          "updatedBy": "anotherFirebaseUserId"
+        }
+      },
+      "message": "User retrieved successfully"
+    }
+    ```
+
+*   **Response (Error - 401 Unauthorized):** Missing or invalid token.
+*   **Response (Error - 403 Forbidden):** User does not have required role.
+*   **Response (Error - 404 Not Found):** User not found.
+*   **Response (Error - 500 Internal Server Error):** Database error.
+
+### Get All Users
+
+*   **Endpoint:** `GET /api/users`
+*   **Description:** Retrieves all users.
+*   **Auth:** Required
+*   **Roles:** `ADMIN`
+*   **Body:** None
+
+*   **Response (Success - 200 OK):**
+    ```json
+    {
+      "success": true,
+      "data": {
+        "users": [
+          {
+            "id": "firebaseUserId1",
+            "firstName": "...",
+            "lastName": "...",
+            "email": "...",
+            "phone": "...",
+            "address": "...",
+            "type": "...",
+            "createdAt": "...",
+            "createdBy": "...",
+            "updatedAt": "...",
+            "updatedBy": "..."
+          },
+          {
+            "id": "firebaseUserId2",
+            "firstName": "...",
+            "lastName": "...",
+            "email": "...",
+            "phone": "...",
+            "address": "...",
+            "type": "...",
+            "createdAt": "...",
+            "createdBy": "...",
+            "updatedAt": "...",
+            "updatedBy": "..."
+          }
+        ]
+      },
+      "message": "Users retrieved successfully"
+    }
+    ```
+*   **Response (Error - 401 Unauthorized):** Missing or invalid token.
+*   **Response (Error - 403 Forbidden):** User does not have required role.
+*   **Response (Error - 500 Internal Server Error):** Database error.
+
+### Get Residents
+
+*   **Endpoint:** `GET /api/users/type/resident`
+*   **Description:** Retrieves all users with the type "RESIDENT".
+*   **Auth:** Required
+*   **Roles:** `EMPLOYEE`, `ADMIN`
+*   **Body:** None
+
+*   **Response (Success - 200 OK):**
+    ```json
+    {
+      "success": true,
+      "data": {
+        "residents": [
+          {
+             "id": "firebaseUserId1",
+            "firstName": "...",
+            "lastName": "...",
+            "email": "...",
+            "phone": "...",
+            "address": "...",
+            "type": "RESIDENT",
+            "createdAt": "...",
+            "createdBy": "...",
+            "updatedAt": "...",
+            "updatedBy": "..."
+          },
+           {
+            "id": "firebaseUserId2",
+            "firstName": "...",
+            "lastName": "...",
+            "email": "...",
+            "phone": "...",
+            "address": "...",
+            "type": "RESIDENT",
+            "createdAt": "...",
+            "createdBy": "...",
+            "updatedAt": "...",
+            "updatedBy": "..."
+          }
+        ]
+      },
+      "message": "Residents retrieved successfully"
+    }
+    ```
+
+*   **Response (Error - 401 Unauthorized):** Missing or invalid token.
+*   **Response (Error - 403 Forbidden):** User does not have required role.
+*   **Response (Error - 500 Internal Server Error):** Database error.
+
+### Update User
+
+*   **Endpoint:** `PUT /api/users/:id`
+*   **Description:** Updates an existing user.  Only admins can update users.
+*   **Auth:** Required
+*   **Roles:** `ADMIN`
+*   **Params:**
+    *   `id` (string, required): The Firebase User ID of the user to update.
+*   **Body:**
+    ```json
+    {
+      "firstName": "UpdatedFirstName",
+      "lastName": "UpdatedLastName",
+      "phone": "987-654-3210",
+      "address": "456 New St",
+      "type": "EMPLOYEE"
+    }
+    ```
+    *   `firstName` (string, optional): The updated first name.
+    *   `lastName` (string, optional): The updated last name.
+    *   `phone` (string, optional): The updated phone number.
+    *   `address` (string, optional): The updated address.
+    *   `type` (string, optional): The updated user type. Must be one of: `"RESIDENT"`, `"EMPLOYEE"`, `"ADMIN"`.
+
+*   **Response (Success - 200 OK):**
+    ```json
+    {
+      "success": true,
+      "data": null,
+      "message": "User updated successfully"
+    }
+    ```
+
+*   **Response (Error - 400 Bad Request):** Invalid `type` value.
+*   **Response (Error - 401 Unauthorized):** Missing or invalid token.
+*   **Response (Error - 403 Forbidden):** User does not have required role.
+*   **Response (Error - 404 Not Found):** User not found.
+*   **Response (Error - 500 Internal Server Error):** Database error.
+
+### Delete User
+
+*   **Endpoint:** `DELETE /api/users/:id`
+*   **Description:** Deletes a user.  Only admins can delete users. Deletes both the Firebase Authentication user and the Firestore document.
+*   **Auth:** Required
+*   **Roles:** `ADMIN`
+*   **Params:**
+    *   `id` (string, required): The Firebase User ID of the user to delete.
+
+*   **Response (Success - 200 OK):**
+    ```json
+    {
+      "success": true,
+      "data": null,
+      "message": "User deleted successfully"
+    }
+    ```
+
+*   **Response (Error - 401 Unauthorized):** Missing or invalid token.
+*   **Response (Error - 403 Forbidden):** User does not have required role.
+*   **Response (Error - 404 Not Found):** User not found in Firebase Authentication or Firestore.
+*   **Response (Error - 500 Internal Server Error):** Database error or Firebase Authentication error.
+
+## 10. Error Handling
+
+The API uses a consistent error handling approach.  Errors are returned in the following format:
+
+```json
+{
+  "success": false,
+  "data": null,
+  "message": "Error message describing the problem"
+}
+```
+
+The `message` field provides a human-readable description of the error. The HTTP status code indicates the type of error:
+
+*   **400 Bad Request:**  The request was malformed or missing required parameters.
+*   **401 Unauthorized:**  The request was not authenticated, or the provided token was invalid or expired.
+*   **403 Forbidden:**  The authenticated user does not have permission to access the requested resource.
+*   **404 Not Found:**  The requested resource was not found.
+*   **500 Internal Server Error:**  An unexpected error occurred on the server.
+
+## 11. Roles
+
+The API uses role-based access control.  The following roles are defined:
+
+*   **RESIDENT:**  A regular user of the system.
+*   **EMPLOYEE:**  A barangay employee with elevated privileges.
+*   **ADMIN:**  An administrator with full access to all resources and settings.
+
+User roles are stored in the `type` field of the user document in Firestore.
+
+## 12. Response Format
+
+All API responses are in JSON format. Successful responses have the following structure:
+
+```json
+{
+  "success": true,
+  "data": { ... }, // Data relevant to the request
+  "message": "Success message" // Optional message
+}
+```
+
+The `success` field indicates whether the request was successful. The `data` field contains the requested data, if any.  The `message` field provides an optional, human-readable message.
+
+================
+File: package.json
+================
+{
+  "name": "barangay-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "jest",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [
+    "express",
+    "firebase",
+    "firestore",
+    "authentication",
+    "crud",
+    "chatbot",
+    "gemini"
+  ],
+  "author": "Group",
+  "license": "MIT",
+  "dependencies": {
+    "@google/generative-ai": "*",
+    "body-parser": "*",
+    "cors": "*",
+    "dotenv": "*",
+    "express": "*",
+    "express-validator": "*",
+    "firebase-admin": "*",
+    "winston": "*"
+  },
+  "devDependencies": {
+    "@types/jest": "*",
+    "firebase-functions-test": "*",
+    "jest": "*",
+    "nodemon": "*",
+    "supertest": "*"
+  }
+}
+
+================
+File: README.md
+================
+# API Documentation
+
+## Authentication (`/api/auth`)
+
+| Method | Endpoint       | Auth     | Body Parameters                                                            | Response (Success)                                                         | Response (Error)                                                                       |
+| ------ | -------------- | -------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| `POST` | `/signup`      |          | `email`, `password`, `firstName`, `lastName`, `phone` (optional), `address` (optional) | `201 Created`: `{"success": true, "data": {"uid": "firebaseGeneratedUserId"}, "message": "User created successfully"}` | `400 Bad Request`: Missing fields.  `500 Internal Server Error`: Firebase/database error. |
+| `POST` | `/signin`      |          | `email`, `password`                                                        | `200 OK`: `{"success": true, "data": {"token": "firebaseCustomToken"}, "message": "Sign-in successful"}` | `400 Bad Request`: Missing fields.  `401/500`: Firebase auth error.                   |
+| `GET`  | `/profile`     | Required |                                                                            | `200 OK`: `{"success": true, "data": {"user": {...user data...}}, "message": "User profile retrieved successfully"}` | `401 Unauthorized`: Invalid token.  `404 Not Found`: User not found. `500`: Database error. |
+
+## Chat (`/api/chat`)
+
+| Method | Endpoint | Auth     | Body Parameters | Response (Success)                                                         | Response (Error)                                                                            |
+| ------ | -------- | -------- | --------------- | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| `POST` | `/`       | Required | `message`       | `200 OK`: `{"success": true, "data": {"response": "Chatbot response..."}, "message": "Chat response generated successfully"}` | `400 Bad Request`: Missing `message`. `401`: Invalid token.  `500`: Gemini API/database error. |
+
+## Forms (`/api/forms`)
+
+| Method | Endpoint       | Auth     | Roles             | Body Parameters                                        | Response (Success)                                                                  | Response (Error)                                                                                     |
+| ------ | -------------- | -------- | ----------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------- |
+| `POST` | `/`            | Required | `EMPLOYEE`, `ADMIN` | `title`, `description`, `link`, `logoURL` (optional)    | `201 Created`: `{"success": true, "data": {"id": "firestoreDocumentId"}, "message": "Form created successfully"}` | `400 Bad Request`: Missing fields/invalid URL. `401`: Invalid token.  `403`: No permission. `500`: Database error. |
+| `GET`  | `/:id`         |          |                   |                                                        | `200 OK`: `{"success": true, "data": {"form": {...form data...}}, "message": "Form retrieved successfully"}` | `404 Not Found`: Form not found.  `500`: Database error.                                          |
+| `GET`  | `/`            |          |`EMPLOYEE`, `ADMIN`                   |                                     |  `200 OK`:  `{"success": true, "data":{"forms":[{},{}]}, "message":"Forms retrieved successfully"}`  |`401`: Invalid token.  `403`: No permission. `500`: Database error. |
+| `PUT`  | `/:id`         | Required | `EMPLOYEE`, `ADMIN` | `title` (optional), `description` (optional), `link` (optional), `logoURL` (optional) | `200 OK`: `{"success": true, "data": null, "message": "Form updated successfully"}`    | `400 Bad Request`: Invalid URL. `401`: Invalid token.  `403`: No permission.  `404`: Form not found. `500`: Database error. |
+| `DELETE` | `/:id`         | Required | `EMPLOYEE`, `ADMIN` |                                                        | `200 OK`: `{"success": true, "data": null, "message": "Form deleted successfully"}`    | `401`: Invalid token.  `403`: No permission.  `404`: Form not found. `500`: Database error.   |
+
+## Messages (`/api/messages`)
+
+| Method | Endpoint            | Auth     | Body Parameters       | Response (Success)                                                                   | Response (Error)                                                                                                      |
+| ------ | ------------------- | -------- | --------------------- | ------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `POST` | `/`                 | Required | `ticketId`, `content` | `201 Created`: `{"success": true, "data": {"id": "firestoreMessageId"}, "message": "Message created successfully"}` | `400 Bad Request`: Missing fields.  `401`: Invalid token. `403`: Unauthorized.  `404`: Ticket not found.  `500`: Database error. |
+| `GET`  | `/ticket/:ticketId` | Required |                       | `200 OK`: `{"success": true, "data": {"messages": [...messages...]}, "message": "Messages retrieved successfully"}` | `401`: Invalid token.  `403`: Unauthorized.  `404`: Ticket not found.  `500`: Database error.                         |
+| `GET`  | `/:id`              | Required |                       | `200 OK`: `{"success": true, "data": {"message": {...message data...}}, "message": "Message retrieved successfully"}` | `401`: Invalid token.  `403`: Unauthorized.  `404`: Message not found. `500`: Database error.                            |
+| `PUT`  | `/:id`              | Required | `content`             | `200 OK`: `{"success": true, "data": null, "message": "Message updated successfully"}`    | `400 Bad Request`: Missing `content`. `401`: Invalid token.  `403`: Unauthorized.  `404`: Message not found. `500`: Database error. |
+| `DELETE` | `/:id`              | Required |                       | `200 OK`: `{"success": true, "data": null, "message": "Message deleted successfully"}`    | `401`: Invalid token.  `403`: Unauthorized.  `404`: Message not found.  `500`: Database error.                        |
+
+## Pages (`/api/pages`)
+
+| Method | Endpoint       | Auth     | Roles             | Body Parameters                               | Response (Success)                                                                  | Response (Error)                                                                          |
+| ------ | -------------- | -------- | ----------------- | --------------------------------------------- | ------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------- |
+| `POST` | `/`            | Required | `EMPLOYEE`, `ADMIN` | `slug`, `title`, `content`                    | `201 Created`: `{"success": true, "data": {"id": "firestorePageId"}, "message": "Page created successfully"}` | `400 Bad Request`: Missing fields. `401`: Invalid token.  `403`: No permission. `500`: Database error. |
+| `GET`  | `/:slug`       |          |                   |                                               | `200 OK`: `{"success": true, "data": {"page": {...page data...}}, "message": "Page retrieved successfully"}` | `404 Not Found`: Page not found. `500`: Database error.                                    |
+| `GET`  | `/`            |      |                       |                                          |      `200 OK`: `{"success": true, "data": {"pages": [...pages...]}, "message": "Page retrieved successfully"}`                                                                         |    `500`: Database error.                                         |
+| `PUT`  | `/:slug`       | Required | `EMPLOYEE`, `ADMIN` | `title` (optional), `content` (optional)      | `200 OK`: `{"success": true, "data": null, "message": "Page updated successfully"}`    | `400 Bad Request`: Invalid input.  `401`: Invalid token.  `403`: No permission. `404`: Page not found. `500`: Database error. |
+| `DELETE` | `/:slug`       | Required | `EMPLOYEE`, `ADMIN` |                                               | `200 OK`: `{"success": true, "data": null, "message": "Page deleted successfully"}`    | `401`: Invalid token. `403`: No permission.  `404`: Page not found.  `500`: Database error.     |
+
+## Settings (`/api/settings`)
+
+| Method | Endpoint | Auth     | Roles   | Body Parameters                                                 | Response (Success)                                                                                                       | Response (Error)                                                                          |
+| ------ | -------- | -------- | ------- | --------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| `GET`  | `/`      | Required | `ADMIN` |                                                                 | `200 OK`: `{"success": true, "data": {"settings": {...settings data...}}, "message": "Settings retrieved successfully"}` | `401`: Invalid token. `403`: No permission.  `500`: Database error.                           |
+| `PUT`  | `/`      | Required | `ADMIN` | `googleGeminiKey`, `facebookPageId`, `facebookAccessToken` | `200 OK`: `{"success": true, "data": null, "message": "Settings updated successfully"}`                                   | `400 Bad Request`: Invalid key. `401`: Invalid token.  `403`: No permission.  `500`: Database error. |
+
+## Tickets (`/api/tickets`)
+
+| Method | Endpoint       | Auth     | Roles            | Body Parameters                                               | Response (Success)                                                                  | Response (Error)                                                                                     |
+| ------ | -------------- | -------- | ---------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------- |
+| `POST` | `/`            | Required |                  | `title`, `type`                                                | `201 Created`: `{"success": true, "data": {"id": "firestoreTicketId"}, "message": "Ticket created successfully"}` | `400 Bad Request`: Missing fields.  `401`: Invalid token. `500`: Database error.                  |
+| `GET`  | `/:id`         | Required |                  |                                                               | `200 OK`: `{"success": true, "data": {"ticket": {...ticket data...}}, "message": "Ticket retrieved successfully"}` | `401`: Invalid token.  `403`: Unauthorized.  `404`: Ticket not found. `500`: Database error.    |
+| `GET`  | `/`            | Required | `EMPLOYEE`, `ADMIN` |                                                               | `200 OK`: `{"success": true, "data": {"tickets": [...tickets...]}, "message": "Tickets retrieved successfully"}` | `401`: Invalid token. `403`: No permission. `500`: Database error.                                  |
+| `GET`  | `/my/all`       | Required |                  |                                                               | `200 OK`: `{"success": true, "data": {"tickets": [...tickets...]}, "message": "Tickets retrieved successfully"}`          |`401`: Invalid token. `500`: Database error.        |
+| `PUT`  | `/:id`         | Required |                  | `title` (optional), `type` (optional), `status` (optional), `assignedTo` (optional) | `200 OK`: `{"success": true, "data": null, "message": "Ticket updated successfully"}`    | `400 Bad Request`: Invalid `status`. `401`: Invalid token. `403`: Unauthorized.  `404`: Ticket not found. `500`: Database error. |
+| `DELETE` | `/:id`         | Required |                  |                                                               | `200 OK`: `{"success": true, "data": null, "message": "Ticket deleted successfully"}`    | `401`: Invalid token. `403`: Unauthorized.  `404`: Ticket not found. `500`: Database error.     |
+
+## Users (`/api/users`)
+
+| Method | Endpoint            | Auth     | Roles             | Body Parameters                                                | Response (Success)                                                                    | Response (Error)                                                                                 |
+| ------ | ------------------- | -------- | ----------------- | -------------------------------------------------------------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| `GET`  | `/:id`              | Required | `EMPLOYEE`, `ADMIN` |                                                                | `200 OK`: `{"success": true, "data": {"user": {...user data...}}, "message": "User retrieved successfully"}` | `401`: Invalid token. `403`: No permission.  `404`: User not found. `500`: Database error.        |
+| `GET`  | `/`                 | Required | `ADMIN`           |                                                                | `200 OK`: `{"success": true, "data": {"users": [...users...]}, "message": "Users retrieved successfully"}` | `401`: Invalid token. `403`: No permission. `500`: Database error.                                 |
+| `GET` | `/type/resident` | Required | `EMPLOYEE, ADMIN`           |                                         | `200 OK`: `{"success": true, "data": {"residents": [...users...]}, "message": "Users retrieved successfully"}` | `401`: Invalid token. `403`: No permission. `500`: Database error.  |
+| `PUT`  | `/:id`              | Required | `ADMIN`           | `firstName` (optional), `lastName` (optional), `phone` (optional), `address` (optional), `type` (optional) | `200 OK`: `{"success": true, "data": null, "message": "User updated successfully"}`      | `400 Bad Request`: Invalid `type`.  `401`: Invalid token. `403`: No permission. `404`: User not found. `500`: Database error. |
+| `DELETE` | `/:id`              | Required | `ADMIN`           |                                                                | `200 OK`: `{"success": true, "data": null, "message": "User deleted successfully"}`      | `401`: Invalid token. `403`: No permission.  `404`: User not found. `500`: Database error.      |
+
+## Response Format
+
+| Field     | Description                                                                                                  |
+| --------- | ------------------------------------------------------------------------------------------------------------ |
+| `success` | `true` request, `false` error.                                                       |
+| `data`    |  data, specific.                                                                   |
+| `message` |   message, request.                                                          |
+
+## Error Codes
+
+| Code  | Description                                    |
+| ----- | ---------------------------------------------- |
+| `400` |  request / missing parameters.                   |
+| `401` |   / token invalid / expired.                |
+| `403` |   access.                              |
+| `404` | resource .                                  |
+| `500` |   server error.                                    |
+
+## Roles
+
+| Role       | Description                                    |
+| ---------- | ---------------------------------------------- |
+| `RESIDENT` | system.                                  |
+| `EMPLOYEE` |  privileges.                                       |
+| `ADMIN`    |  access  resources  settings.                      |
+
+================
+File: server.js
+================
+require('dotenv').config();
+const app = require('./app');
+const { logger } = require('./src/utils/logger');
+const { appConfig } = require('./src/config/app.config');
+
+const port = appConfig.port;
+
+app.listen(port, () => {
+  logger.info(`Server is running on port ${port}`);
+});
+
+================
+File: src/config/app.config.js
+================
+exports.appConfig = {
+    port: process.env.PORT || 3000,
+};
+
+================
+File: src/config/firebase.config.js
+================
+const admin = require('firebase-admin');
+
+admin.initializeApp({
+  credential: admin.credential.cert("./serviceAccountKey.json"),
+});
+
+const db = admin.firestore();
+const auth = admin.auth();
+
+module.exports = { db, auth };
+
+================
+File: src/controllers/auth.controller.js
+================
+// src/controllers/auth.controller.js
+const { auth } = require('../services/firebase.service');
+const { createUser, getUserById } = require('../models/user.model');
+const { formatResponse } = require('../utils/responseFormatter');
+const { AppError } = require('../utils/errorHandler');
+
+exports.signUp = async (req, res, next) => {
+    try {
+        const { email, password, firstName, lastName, phone, address } = req.body;
+
+        if (!email || !password || !firstName || !lastName) {
+            throw new AppError('Missing required fields', 400);
+        }
+
+        const userRecord = await auth.createUser({
+            email,
+            password,
+            displayName: `${firstName} ${lastName}`,
+        });
+
+        const newUser = {
+            firstName,
+            lastName,
+            email,
+            phone,
+            address,
+            type: 'RESIDENT',
+            createdAt: new Date(),
+            createdBy: userRecord.uid,
+            updatedAt: new Date(),
+            updatedBy: userRecord.uid
+        };
+
+        await createUser(userRecord.uid, newUser);
+        return formatResponse(res, 201, { uid: userRecord.uid }, 'User created successfully');
+
+    } catch (error) {
+        if (error.code === 'auth/email-already-exists') {
+            next(new AppError('The email address is already in use.', 409)); // 409 Conflict
+        } else if (error.code === 'auth/invalid-email' || error.code === 'auth/weak-password') {
+            next(new AppError('Invalid email or password format.', 400));
+        }
+        else {
+            next(error);
+        }
+
+    }
+};
+
+exports.signIn = async (req, res, next) => {
+    try {
+        const { email, password } = req.body;
+
+        if (!email || !password) {
+            throw new AppError('Email and password are required', 400);
+        }
+
+        const userRecord = await auth.getUserByEmail(email); 
+        const token = await auth.createCustomToken(userRecord.uid);
+
+        return formatResponse(res, 200, { token }, 'Sign-in successful');
+    } catch (error) {
+        if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+          next(new AppError('Invalid email or password.', 401)); // 401 Unauthorized
+        } else {
+            next(error); 
+        }
+
+    }
+};
+
+exports.getUserProfile = async (req, res, next) => {
+    try {
+        const userId = req.user.uid;
+        const user = await getUserById(userId);
+
+        if (!user) {
+            throw new AppError("User not found", 404);
+        }
+
+        return formatResponse(res, 200, { user }, 'User profile retrieved successfully');
+    } catch (error) {
+        next(error);
+    }
+};
+
+================
+File: src/controllers/chat.controller.js
+================
+const { getAllPages } = require('../models/page.model');
+const { formatResponse } = require('../utils/responseFormatter');
+const { AppError } = require('../utils/errorHandler');
+const { generateContent } = require('../services/chat.service');
+
+exports.chat = async (req, res, next) => {
+    try {
+        const { message } = req.body;
+        if (!message) {
+            throw new AppError("Message is required.", 400);
+        }
+
+        // Get last 10 articles
+        const pages = await getAllPages();
+        const articles = pages
+            .filter(page => page.type === 'ARTICLE')
+            .sort((a, b) => b.createdAt - a.createdAt)
+            .slice(0, 10);
+            
+        const systemPrompt = articles.map(page => page.content).join('\n\n');
+
+        const response = await generateContent(systemPrompt, message);
+        return formatResponse(res, 200, { response }, 'Chat response generated successfully');
+    } catch (error) {
+        next(error);
+    }
+};
+
+================
+File: src/controllers/forms.controller.js
+================
+const { createForm, getFormById, getAllForms, updateForm, deleteForm } = require('../models/form.model');
+const { formatResponse } = require('../utils/responseFormatter');
+const { AppError } = require('../utils/errorHandler');
+const { roleCheck } = require('../middlewares/role.middleware');
+
+exports.createForm = [
+    roleCheck(['EMPLOYEE', 'ADMIN']),
+    async (req, res, next) => {
+        try {
+            const { title, description, link, logoURL } = req.body;
+            const createdBy = req.user.uid;
+
+            if (!title || !description || !link) {
+                throw new AppError('Missing required fields', 400);
+            }
+
+            const newForm = {
+                title,
+                description,
+                link,
+                logoURL,
+                createdAt: new Date(),
+                createdBy,
+                updatedAt: new Date(),
+                updatedBy: createdBy,
+            };
+            const formId = await createForm(newForm);
+            return formatResponse(res, 201, { id: formId }, 'Form created successfully');
+        } catch (error) {
+            next(error);
+        }
+    }
+];
+
+
+exports.getForm = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const form = await getFormById(id);
+        if (!form) {
+            throw new AppError('Form not found', 404);
+        }
+        return formatResponse(res, 200, { form }, 'Form retrieved successfully');
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.getAllForms = [
+    async (req, res, next) => {
+        try {
+            const forms = await getAllForms();
+            return formatResponse(res, 200, { forms }, 'Forms retrieved successfully');
+        } catch (error) {
+            next(error);
+        }
+    }
+];
+
+exports.updateForm = [
+    roleCheck(['EMPLOYEE', 'ADMIN']),
+    async (req, res, next) => {
+        try {
+            const { id } = req.params;
+            const { title, description, link, logoURL } = req.body;
+            const updatedBy = req.user.uid;
+
+             // Check if form exists
+            const existingForm = await getFormById(id);
+            if (!existingForm) {
+                throw new AppError('Form not found', 404);
+            }
+
+
+            const updatedForm = {
+                title,
+                description,
+                link,
+                logoURL,
+                updatedAt: new Date(),
+                updatedBy,
+            };
+
+            await updateForm(existingForm.id, updatedForm);
+            return formatResponse(res, 200, null, 'Form updated successfully');
+        } catch (error) {
+            next(error);
+        }
+    }
+];
+
+exports.deleteForm = [
+    roleCheck(['EMPLOYEE', 'ADMIN']),
+    async (req, res, next) => {
+        try {
+            const { id } = req.params;
+
+            // Check if form exists
+            const existingForm = await getFormById(id);
+
+            if (!existingForm) {
+                throw new AppError('Form not found', 404);
+            }
+
+            await deleteForm(existingForm.id);
+            return formatResponse(res, 200, null, 'Form deleted successfully');
+        } catch (error) {
+            next(error);
+        }
+    }
+];
+
+================
+File: src/controllers/messages.controller.js
+================
+const {
+    createMessage,
+    getMessageById,
+    getMessagesByTicket,
+    updateMessage,
+    deleteMessage,
+} = require('../models/message.model');
+const { getTicketById } = require('../models/ticket.model');
+const { getUserByEmail } = require('../models/user.model');
+const { formatResponse } = require('../utils/responseFormatter');
+const { AppError } = require('../utils/errorHandler');
+const { roleCheck } = require('../middlewares/role.middleware');
+
+
+exports.createMessage = async (req, res, next) => {
+    try {
+        const { ticketId, content } = req.body;
+        const createdBy = req.user.uid;
+
+        if (!ticketId || !content) {
+            throw new AppError('Missing required fields', 400);
+        }
+
+        // Check if the ticket exists and if the user has permission
+        const ticket = await getTicketById(ticketId);
+
+        if (!ticket) {
+            throw new AppError('Ticket not found', 404);
+        }
+
+        const user = await getUserByEmail(req.user.email);
+
+        if (ticket.createdBy !== createdBy && user.type !== 'EMPLOYEE' && user.type !== 'ADMIN') {
+            throw new AppError('Unauthorized to create a message for this ticket', 403);
+        }
+
+        const newMessage = {
+            ticket: ticketId,
+            content,
+            createdBy,
+            createdAt: new Date(),
+        };
+
+        const messageId = await createMessage(newMessage);
+        return formatResponse(res, 201, { id: messageId }, 'Message created successfully');
+
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+exports.getMessagesForTicket = async (req, res, next) => {
+    try {
+        const { ticketId } = req.params;
+
+        // Check ticket existence and user permission
+        const ticket = await getTicketById(ticketId);
+        if (!ticket) {
+          throw new AppError("Ticket not found", 404);
+        }
+        const user = await getUserByEmail(req.user.email);
+
+        if (ticket.createdBy !== req.user.uid && user.type !== 'EMPLOYEE' && user.type !== 'ADMIN') {
+          throw new AppError("Unauthorized to view messages for this ticket", 403);
+        }
+
+
+        const messages = await getMessagesByTicket(ticketId);
+        return formatResponse(res, 200, { messages }, 'Messages retrieved successfully');
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+
+exports.getMessage = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const message = await getMessageById(id);
+
+        if (!message) {
+            throw new AppError('Message not found', 404);
+        }
+
+        // Check ticket existence and user permission (through the message's ticket)
+        const ticket = await getTicketById(message.ticket);
+        const user = await getUserByEmail(req.user.email);
+
+        if (ticket.createdBy !== req.user.uid && user.type !== 'EMPLOYEE' && user.type !== 'ADMIN') {
+          throw new AppError("Unauthorized to view this message", 403);
+        }
+
+
+        return formatResponse(res, 200, { message }, 'Message retrieved successfully');
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+exports.updateMessage = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const { content } = req.body;
+
+        const message = await getMessageById(id);
+        if (!message) {
+            throw new AppError('Message not found', 404);
+        }
+                // Check ticket existence and user permission (through the message's ticket)
+        const ticket = await getTicketById(message.ticket);
+        const user = await getUserByEmail(req.user.email);
+
+        if (ticket.createdBy !== req.user.uid && user.type !== 'EMPLOYEE' && user.type !== 'ADMIN') {
+          throw new AppError("Unauthorized to update this message", 403);
+        }
+
+
+        const updatedMessage = {
+            content,
+        };
+
+        await updateMessage(id, updatedMessage);
+        return formatResponse(res, 200, null, 'Message updated successfully');
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.deleteMessage = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const message = await getMessageById(id);
+        
+        if (!message) {
+            throw new AppError('Message not found', 404);
+        }
+
+        const ticket = await getTicketById(message.ticket);
+        const user = await getUserByEmail(req.user.email);
+        
+        if (ticket.createdBy !== req.user.uid && user.type !== 'EMPLOYEE' && user.type !== 'ADMIN') {
+            throw new AppError('Unauthorized to delete this message', 403);
+        }
+
+        await deleteMessage(id);
+        return formatResponse(res, 200, null, 'Message deleted successfully');
+    } catch (error) {
+        next(error);
+    }
+};
+
+================
+File: src/controllers/pages.controller.js
+================
+const { createPage, getPageBySlug, getAllPages, updatePage, deletePage } = require('../models/page.model');
+const { formatResponse } = require('../utils/responseFormatter');
+const { AppError } = require('../utils/errorHandler');
+const { roleCheck } = require('../middlewares/role.middleware');
+
+exports.createPage = [
+    roleCheck(['EMPLOYEE', 'ADMIN']),
+    async (req, res, next) => {
+        try {
+            const { slug, title, content } = req.body;
+            const createdBy = req.user.uid;
+
+            if (!slug || !title || !content) {
+                throw new AppError('Missing required fields', 400);
+            }
+
+            const newPage = {
+                slug,
+                title,
+                content,
+                createdAt: new Date(),
+                createdBy,
+                updatedAt: new Date(),
+                updatedBy: createdBy,
+            };
+            const pageId = await createPage(newPage);
+            return formatResponse(res, 201, { id: pageId }, 'Page created successfully');
+        } catch (error) {
+            next(error);
+        }
+    }
+];
+
+exports.getAllPages = [ // no roleCheck here anymore
+    async (req, res, next) => {
+        try {
+            const pages = await getAllPages();
+            return formatResponse(res, 200, { pages }, 'Pages retrieved successfully');
+        } catch (error) {
+            next(error);
+        }
+    }];
+
+exports.getPage = [
+    async (req, res, next) => {
+        try {
+            const { slug } = req.params;
+            const page = await getPageBySlug(slug);
+            if (!page) {
+                throw new AppError('Page not found', 404);
+            }
+            return formatResponse(res, 200, { page }, 'Page retrieved successfully');
+        } catch (error) {
+            next(error);
+        }
+    }
+];
+
+
+exports.updatePage = [
+    roleCheck(['EMPLOYEE', 'ADMIN']),
+    async (req, res, next) => {
+        try {
+            const { slug } = req.params;
+            const { title, content } = req.body;
+            const updatedBy = req.user.uid;
+
+            // Check if page exists
+            const existingPage = await getPageBySlug(slug);
+            if (!existingPage) {
+                throw new AppError('Page not found', 404);
+            }
+
+
+            const updatedPage = {
+                title,
+                content,
+                updatedAt: new Date(),
+                updatedBy,
+            };
+
+            await updatePage(existingPage.id, updatedPage);
+            return formatResponse(res, 200, null, 'Page updated successfully');
+        } catch (error) {
+            next(error);
+        }
+    }
+];
+
+exports.deletePage = [
+    roleCheck(['EMPLOYEE', 'ADMIN']),
+    async (req, res, next) => {
+        try {
+            const { slug } = req.params;
+
+            // Check if page exists
+            const existingPage = await getPageBySlug(slug);
+            if (!existingPage) {
+                throw new AppError('Page not found', 404);
+            }
+
+            await deletePage(existingPage.id);
+            return formatResponse(res, 200, null, 'Page deleted successfully');
+        } catch (error) {
+            next(error);
+        }
+    }
+];
+
+================
+File: src/controllers/settings.controller.js
+================
+const {
+    getSettings,
+    updateSettings,
+} = require('../models/settings.model');
+const { formatResponse } = require('../utils/responseFormatter');
+const { AppError } = require('../utils/errorHandler');
+const { roleCheck } = require('../middlewares/role.middleware');
+
+exports.getSettings = [
+    roleCheck(['ADMIN']),
+    async (req, res, next) => {
+        try {
+            const settings = await getSettings();
+            return formatResponse(res, 200, { settings }, 'Settings retrieved successfully');
+        } catch (error) {
+            next(error);
+        }
+    }
+];
+
+exports.updateSettings = [
+    roleCheck(['ADMIN']),
+    async (req, res, next) => {
+        try {
+            const updatedSettings = req.body;  // Expect the entire settings object
+             // Validate that updatedSettings contains only allowed keys
+            const allowedKeys = ['googleGeminiKey', 'facebookPageId', 'facebookAccessToken'];
+            for (const key in updatedSettings) {
+                if (!allowedKeys.includes(key)) {
+                    throw new AppError(`Invalid setting key: ${key}`, 400);
+                }
+            }
+            await updateSettings(updatedSettings);
+            return formatResponse(res, 200, null, 'Settings updated successfully');
+        } catch (error) {
+            next(error);
+        }
+    }
+];
+
+================
+File: src/controllers/tickets.controller.js
+================
+const {
+    createTicket,
+    getTicketById,
+    getAllTickets,
+    updateTicket,
+    deleteTicket,
+    getTicketsByCreator
+} = require('../models/ticket.model');
+const { formatResponse } = require('../utils/responseFormatter');
+const { AppError } = require('../utils/errorHandler');
+const { roleCheck } = require('../middlewares/role.middleware');
+const { getUserByEmail } = require('../models/user.model');
+
+exports.createTicket = async (req, res, next) => {
+    try {
+        const { title, type } = req.body;
+        const createdBy = req.user.uid;
+
+        if (!title || !type) {
+            throw new AppError('Missing required fields', 400);
+        }
+
+        const newTicket = {
+            title,
+            type,
+            status: 'OPEN', // Default to OPEN
+            assignedTo: null, // Initially unassigned
+            createdAt: new Date(),
+            createdBy,
+            updatedAt: new Date(),
+            updatedBy: createdBy,
+        };
+
+        const ticketId = await createTicket(newTicket);
+        return formatResponse(res, 201, { id: ticketId }, 'Ticket created successfully');
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+exports.getTicket = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const ticket = await getTicketById(id);
+        if (!ticket) {
+            throw new AppError('Ticket not found', 404);
+        }
+
+      const user = await getUserByEmail(req.user.email);
+        // Ownership check:  User can only access their own tickets, or if they are EMPLOYEE/ADMIN
+      if (ticket.createdBy !== req.user.uid && user.type !== 'EMPLOYEE' && user.type !== 'ADMIN') {
+            throw new AppError('Unauthorized', 403);
+        }
+
+        return formatResponse(res, 200, { ticket }, 'Ticket retrieved successfully');
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+
+exports.getAllTickets = [
+    roleCheck(['EMPLOYEE', 'ADMIN']), // Only employees and admins can get all tickets
+    async (req, res, next) => {
+        try {
+            const tickets = await getAllTickets();
+            return formatResponse(res, 200, { tickets }, 'Tickets retrieved successfully');
+        } catch (error) {
+            next(error);
+        }
+    }
+];
+
+exports.getUserTickets = async (req, res, next) => {
+    try {
+        const tickets = await getTicketsByCreator(req.user.uid);
+        return formatResponse(res, 200, { tickets }, 'Tickets retrieved successfully');
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+
+exports.updateTicket = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const { title, type, status, assignedTo } = req.body;
+        const updatedBy = req.user.uid;
+
+        const ticket = await getTicketById(id);
+        if (!ticket) {
+            throw new AppError('Ticket not found', 404);
+        }
+        const user = await getUserByEmail(req.user.email);
+
+        // Ownership check
+        if (ticket.createdBy !== req.user.uid && user.type !== 'EMPLOYEE' && user.type !== 'ADMIN') {
+            throw new AppError('Unauthorized', 403);
+        }
+
+        const updatedTicket = {
+            title,
+            type,
+            status,
+            assignedTo, // Allow updating assignedTo
+            updatedAt: new Date(),
+            updatedBy,
+        };
+
+        await updateTicket(id, updatedTicket);
+        return formatResponse(res, 200, null, 'Ticket updated successfully');
+
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+
+exports.deleteTicket = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const ticket = await getTicketById(id);
+        if (!ticket) {
+          throw new AppError("Ticket not found", 404);
+        }
+        const user = await getUserByEmail(req.user.email);
+
+        // Ownership check
+        if (ticket.createdBy !== req.user.uid && user.type !== 'ADMIN') {
+            throw new AppError('Unauthorized', 403);
+        }
+
+        await deleteTicket(id);
+        return formatResponse(res, 200, null, 'Ticket deleted successfully');
+    } catch (error) {
+        next(error);
+    }
+};
+
+================
+File: src/controllers/users.controller.js
+================
+const {
+    createUser,
+    getUserById,
+    getAllUsers,
+    updateUser,
+    deleteUser,
+    getUserByEmail
+} = require('../models/user.model');
+const { formatResponse } = require('../utils/responseFormatter');
+const { AppError } = require('../utils/errorHandler');
+const { roleCheck } = require('../middlewares/role.middleware');
+const { auth } = require('../services/firebase.service');
+
+// Create user is handled by authController.signUp
+
+
+exports.getUser = [
+    roleCheck(['EMPLOYEE', 'ADMIN']), // Employees and Admins can get user details
+    async (req, res, next) => {
+        try {
+            const { id } = req.params;
+            const user = await getUserById(id);
+
+            if (!user) {
+                throw new AppError('User not found', 404);
+            }
+            return formatResponse(res, 200, { user }, 'User retrieved successfully');
+        } catch (error) {
+            next(error);
+        }
+    }
+];
+
+exports.getAllUsers = [
+    roleCheck(['ADMIN']), // Only Admins can list all users
+    async (req, res, next) => {
+        try {
+            const users = await getAllUsers();
+            return formatResponse(res, 200, { users }, 'Users retrieved successfully');
+        } catch (error) {
+            next(error);
+        }
+    }
+];
+
+
+exports.getResidents = [
+    roleCheck(['EMPLOYEE', 'ADMIN']), // Employees and admins can get all RESIDENT type
+    async (req, res, next) => {
+        try {
+            const users = await getAllUsers();
+            const residents = users.filter(user => user.type === 'RESIDENT');
+            return formatResponse(res, 200, { residents }, 'Residents retrieved successfully');
+        } catch (error) {
+            next(error);
+        }
+    }
+]
+
+exports.updateUser = [
+    roleCheck(['ADMIN']),  // Only admins can update user
+    async (req, res, next) => {
+        try {
+            const { id } = req.params;
+            const { firstName, lastName, phone, address, type } = req.body;
+            const updatedBy = req.user.uid;
+
+             // Check if user exists
+            const existingUser = await getUserById(id);
+            if (!existingUser) {
+                throw new AppError('User not found', 404);
+            }
+
+
+            const updatedUser = {
+                firstName,
+                lastName,
+                phone,
+                address,
+                type, // Allow admins to change user type
+                updatedAt: new Date(),
+                updatedBy,
+            };
+
+            await updateUser(existingUser.id, updatedUser);
+            return formatResponse(res, 200, null, 'User updated successfully');
+
+        } catch (error) {
+            next(error);
+        }
+    }
+];
+
+
+
+exports.deleteUser = [
+    roleCheck(['ADMIN']), // Only Admins can delete users
+    async (req, res, next) => {
+        try {
+            const { id } = req.params;
+             // Check if user exists
+            const existingUser = await getUserById(id);
+            if (!existingUser) {
+                throw new AppError('User not found', 404);
+            }
+
+
+            // Delete user from Firebase Authentication
+            await auth.deleteUser(id);
+            // Delete user document from Firestore
+            await deleteUser(id);
+
+            return formatResponse(res, 200, null, 'User deleted successfully');
+        } catch (error) {
+             if (error.code === 'auth/user-not-found') {
+                 next(new AppError('User not found in Firebase Authentication', 404));
+            }
+            next(error);
+        }
+    }
+];
+
+================
+File: src/middlewares/auth.middleware.js
+================
+const { auth } = require('../services/firebase.service');
+const { formatResponse } = require('../utils/responseFormatter');
+const { AppError } = require('../utils/errorHandler');
+const { getUserByEmail } = require('../models/user.model');
+
+exports.authMiddleware = async (req, res, next) => {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return next(new AppError('Unauthorized: No token provided', 401));
+  }
+
+  const idToken = authHeader.split(' ')[1];
+
+  try {
+    const decodedToken = await auth.verifyIdToken(idToken);
+    req.user = decodedToken; // Attach the decoded token to the request
+    next();
+  } catch (error) {
+     if (error.code === 'auth/argument-error' || error.code === 'auth/id-token-expired') {
+        next(new AppError('Unauthorized: Invalid or expired token', 401));
+    }
+    next(error);
+  }
+};
+
+================
+File: src/middlewares/error.middleware.js
+================
+const { logger } = require('../utils/logger');
+const { AppError } = require('../utils/errorHandler');
+const { formatResponse } = require('../utils/responseFormatter');
+
+exports.errorHandler = (err, req, res, next) => {
+    const errorLogData = {
+        timestamp: new Date().toISOString(), // Add timestamp explicitly
+        method: req.method,
+        url: req.originalUrl,
+        errorName: err.name,
+        errorMessage: err.message,
+        stackTrace: err.stack, // Include stack trace
+        user: req.user ? req.user.email : 'anonymous',
+    };
+
+    logger.error('Error during request:', errorLogData);
+
+    if (err instanceof AppError) {
+        return formatResponse(res, err.statusCode, null, err.message);
+    }
+
+    return formatResponse(res, 500, null, 'Internal Server Error');
+};
+
+================
+File: src/middlewares/requestLogger.middleware.js
+================
+const { logger } = require('../utils/logger');
+
+exports.requestLoggerMiddleware = (req, res, next) => {
+    const startTime = Date.now();
+
+    res.on('finish', () => {
+        const endTime = Date.now();
+        const duration = endTime - startTime;
+
+        const logData = {
+            method: req.method,
+            url: req.originalUrl,
+            status: res.statusCode,
+            duration_ms: duration,
+            ip: req.ip,
+            user: req.user ? req.user.email : 'anonymous',
+        };
+
+        logger.info('Incoming Request:', logData);
+    });
+
+    next();
+};
+
+================
+File: src/middlewares/role.middleware.js
+================
+const { AppError } = require('../utils/errorHandler');
+const { getUserByEmail } = require('../models/user.model');
+
+exports.roleCheck = (allowedRoles) => {
+    return async (req, res, next) => {
+        try {
+            const user = await getUserByEmail(req.user.email);
+
+            if (!user) {
+                throw new AppError('User not found', 404);
+            }
+
+            if (!allowedRoles.includes(user.type)) {
+                throw new AppError('Forbidden: Insufficient permissions', 403);
+            }
+
+            next();
+        } catch (error) {
+            next(error);
+        }
+    };
+};
+
+================
+File: src/middlewares/validate.middleware.js
+================
+const { validationResult } = require('express-validator');
+const { AppError } = require('../utils/errorHandler');
+
+exports.validateRequest = (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const errorMessages = errors.array().map(error => error.msg);
+    return next(new AppError(errorMessages.join(', '), 400)); // Combine all error messages
+  }
+  next();
+};
+
+================
+File: src/models/form.model.js
+================
+const { db } = require('../services/firebase.service');
+const { AppError } = require('../utils/errorHandler');
+const formsCollection = db.collection('forms');
+
+exports.createForm = async (formData) => {
+    try {
+        const docRef = await formsCollection.add(formData);
+        return docRef.id;
+    } catch (error) {
+        throw new AppError('Failed to create Form', 500, error);
+    }
+};
+
+exports.getFormById = async (id) => {
+    try {
+        const doc = await formsCollection.doc(id).get();
+        if (!doc.exists) {
+            return null;
+        }
+        return { id: doc.id, ...doc.data() };
+    } catch (error) {
+        throw new AppError('Failed to get Form', 500, error);
+    }
+};
+
+exports.getAllForms = async () => {
+    try {
+        const snapshot = await formsCollection.get();
+        return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    } catch (error) {
+        throw new AppError('Failed to get all Forms', 500, error);
+    }
+};
+
+
+exports.updateForm = async (id, updatedData) => {
+  try {
+    await formsCollection.doc(id).update(updatedData);
+  } catch (error) {
+    throw new AppError("Failed to update Form", 500, error);
+  }
+};
+
+exports.deleteForm = async (id) => {
+  try {
+    await formsCollection.doc(id).delete();
+  } catch (error) {
+    throw new AppError("Failed to delete Form", 500, error);
+  }
+};
+
+================
+File: src/models/message.model.js
+================
+const { db } = require('../services/firebase.service');
+const { AppError } = require('../utils/errorHandler');
+
+const messagesCollection = db.collection('messages');
+
+exports.createMessage = async (messageData) => {
+  try {
+    const docRef = await messagesCollection.add(messageData);
+    return docRef.id;
+  } catch (error) {
+      throw new AppError("Failed to create Message", 500, error);
+  }
+};
+
+exports.getMessageById = async (id) => {
+  try {
+    const doc = await messagesCollection.doc(id).get();
+    if (!doc.exists) {
+      return null;
+    }
+    return { id: doc.id, ...doc.data() };
+  } catch (error) {
+      throw new AppError("Failed to get Message", 500, error);
+  }
+};
+
+exports.getMessagesByTicket = async (ticketId) => {
+  try {
+    const snapshot = await messagesCollection.where('ticket', '==', ticketId).orderBy('createdAt', 'asc').get(); // 'ticket' field name is correct.
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  } catch (error) {
+      throw new AppError("Failed to get Message by Ticket", 500, error); // Correct error message.
+  }
+};
+
+exports.updateMessage = async (id, updatedData) => {
+  try {
+    await messagesCollection.doc(id).update(updatedData);
+  } catch (error) {
+      throw new AppError("Failed to update Message", 500, error);
+  }
+};
+
+exports.deleteMessage = async (id) => {
+  try {
+    await messagesCollection.doc(id).delete();
+  } catch (error) {
+      throw new AppError("Failed to delete Message", 500, error);
+  }
+};
+
+================
+File: src/models/page.model.js
+================
+const { db } = require('../services/firebase.service');
+const { AppError } = require('../utils/errorHandler');
+
+const pagesCollection = db.collection('pages');
+
+exports.createPage = async (pageData) => {
+    try {
+      const docRef = await pagesCollection.add(pageData);
+      return docRef.id;
+    } catch(error) {
+        throw new AppError("Failed to create Page", 500, error);
+    }
+
+};
+
+exports.getPageBySlug = async (slug) => {
+    try {
+      const snapshot = await pagesCollection.where('slug', '==', slug).limit(1).get();
+      if (snapshot.empty) {
+        return null; // Or throw a 404 error
+      }
+      const doc = snapshot.docs[0];
+      return { id: doc.id, ...doc.data() };
+    } catch (error) {
+        throw new AppError("Failed to get Page", 500, error)
+    }
+};
+
+exports.getAllPages = async () => {
+    try {
+        const snapshot = await pagesCollection.get();
+        return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    } catch (error) {
+        throw new AppError("Failed to get all Pages", 500, error)
+    }
+};
+
+exports.updatePage = async (id, updatedData) => {
+    try {
+      await pagesCollection.doc(id).update(updatedData);
+    } catch (error) {
+        throw new AppError("Failed to update Page", 500, error)
+    }
+};
+
+exports.deletePage = async (id) => {
+    try {
+        await pagesCollection.doc(id).delete();
+    } catch (error) {
+        throw new AppError("Failed to delete Page", 500, error)
+    }
+
+};
+
+================
+File: src/models/settings.model.js
+================
+const { db } = require('../services/firebase.service');
+const { AppError } = require('../utils/errorHandler');
+
+const settingsCollection = db.collection('settings');
+
+exports.getSettings = async () => {
+  try {
+    const doc = await settingsCollection.doc('server').get(); // Assuming a single document named 'server'
+    if (!doc.exists) {
+      return {}; // Return an empty object if no settings exist yet.
+    }
+    return doc.data();
+  } catch (error) {
+      throw new AppError("Failed to get Settings", 500, error);
+  }
+};
+
+exports.updateSettings = async (updatedSettings) => {
+  try {
+    await settingsCollection.doc('server').set(updatedSettings, { merge: true }); // Use set with merge to update specific fields
+  } catch (error) {
+      throw new AppError("Failed to update Settings", 500, error);
+  }
+};
+
+================
+File: src/models/ticket.model.js
+================
+const { db } = require('../services/firebase.service');
+const { AppError } = require('../utils/errorHandler');
+
+const ticketsCollection = db.collection('tickets');
+
+exports.createTicket = async (ticketData) => {
+  try {
+    const docRef = await ticketsCollection.add(ticketData);
+    return docRef.id;
+  } catch (error) {
+    throw new AppError("Failed to create Ticket", 500, error);
+  }
+};
+
+exports.getTicketById = async (id) => {
+  try {
+    const doc = await ticketsCollection.doc(id).get();
+    if (!doc.exists) {
+      return null;
+    }
+    return { id: doc.id, ...doc.data() };
+  } catch (error) {
+    throw new AppError("Failed to get Ticket", 500, error);
+  }
+};
+
+exports.getAllTickets = async () => {
+  try {
+    const snapshot = await ticketsCollection.get();
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  } catch (error) {
+      throw new AppError("Failed to get all Tickets", 500, error);
+  }
+};
+
+exports.getTicketsByCreator = async (creatorId) => {
+    try {
+        const snapshot = await ticketsCollection.where('createdBy', '==', creatorId).get();
+        return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    } catch (error) {
+        throw new AppError("Failed to get Tickets by Creator", 500, error)
+    }
+};
+
+exports.updateTicket = async (id, updatedData) => {
+  try {
+    await ticketsCollection.doc(id).update(updatedData);
+  } catch (error) {
+      throw new AppError("Failed to update Ticket", 500, error);
+  }
+};
+
+exports.deleteTicket = async (id) => {
+  try {
+    await ticketsCollection.doc(id).delete();
+  } catch (error) {
+      throw new AppError("Failed to delete Ticket", 500, error);
+  }
+};
+
+================
+File: src/models/user.model.js
+================
+const { db } = require('../services/firebase.service');
+const { AppError } = require('../utils/errorHandler');
+
+const usersCollection = db.collection('users');
+
+exports.createUser = async (uid, userData) => {
+  try {
+    await usersCollection.doc(uid).set(userData); // Use UID as document ID
+    return uid;
+  } catch (error) {
+      throw new AppError("Failed to create User", 500, error);
+  }
+};
+
+exports.getUserById = async (id) => {
+  try {
+    const doc = await usersCollection.doc(id).get();
+    if (!doc.exists) {
+      return null;
+    }
+    return { id: doc.id, ...doc.data() };
+  } catch (error) {
+      throw new AppError("Failed to get User", 500, error);
+  }
+};
+
+exports.getUserByEmail = async (email) => {
+    try {
+        const snapshot = await usersCollection.where('email', '==', email).limit(1).get();
+        if (snapshot.empty) {
+            return null;
+        }
+        const doc = snapshot.docs[0];
+        return { id: doc.id, ...doc.data() };
+    } catch (error) {
+        throw new AppError('Failed to get User by Email', 500, error);
+    }
+};
+
+exports.getAllUsers = async () => {
+  try {
+    const snapshot = await usersCollection.get();
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  } catch (error) {
+      throw new AppError("Failed to get all Users", 500, error);
+  }
+};
+
+exports.updateUser = async (id, updatedData) => {
+  try {
+    await usersCollection.doc(id).update(updatedData);
+  } catch (error) {
+      throw new AppError("Failed to update User", 500, error);
+  }
+};
+
+exports.deleteUser = async (id) => {
+  try {
+    await usersCollection.doc(id).delete();
+  } catch (error) {
+      throw new AppError("Failed to delete User", 500, error);
+  }
+};
+
+================
+File: src/routes/auth.routes.js
+================
+const express = require('express');
+const router = express.Router();
+const authController = require('../controllers/auth.controller');
+const { authMiddleware } = require('../middlewares/auth.middleware');
+
+router.post('/signup', authController.signUp);
+router.post('/signin', authController.signIn);
+router.get('/profile', authMiddleware, authController.getUserProfile);
+
+module.exports = router;
+
+================
+File: src/routes/chat.routes.js
+================
+const express = require('express');
+const router = express.Router();
+const chatController = require('../controllers/chat.controller');
+console.log("chatController:", chatController);
+const { body } = require('express-validator');
+const { validateRequest } = require('../middlewares/validate.middleware');
+
+router.post('/',
+    [
+        body('message').notEmpty().isString(),
+        validateRequest
+    ],
+    chatController.chat);
+
+module.exports = router;
+
+================
+File: src/routes/forms.routes.js
+================
+const express = require('express');
+const router = express.Router();
+const formsController = require('../controllers/forms.controller');
+const { body } = require('express-validator');
+const { validateRequest } = require('../middlewares/validate.middleware');
+
+router.post('/',
+    [
+        body('title').notEmpty().isString(),
+        body('description').notEmpty().isString(),
+        body('link').notEmpty().isURL(),
+        body('logoURL').optional().isURL(),
+        validateRequest
+    ],
+    ...formsController.createForm
+);
+
+router.get('/:id', formsController.getForm);
+router.get('/', ...formsController.getAllForms);
+
+router.put('/:id',
+    [
+        body('title').optional().isString(),
+        body('description').optional().isString(),
+        body('link').optional().isURL(),
+        body('logoURL').optional().isURL(),
+        validateRequest
+    ],
+    ...formsController.updateForm
+);
+
+router.delete('/:id', ...formsController.deleteForm);
+
+module.exports = router;
+
+================
+File: src/routes/messages.routes.js
+================
+const express = require('express');
+const router = express.Router();
+const messagesController = require('../controllers/messages.controller');
+const { body, param } = require('express-validator');
+const { validateRequest } = require('../middlewares/validate.middleware');
+
+router.post('/',
+  [
+    body('ticketId').notEmpty().isString(),
+    body('content').notEmpty().isString(),
+    validateRequest
+  ],
+  messagesController.createMessage
+);
+
+router.get('/ticket/:ticketId', messagesController.getMessagesForTicket);
+router.get('/:id', messagesController.getMessage);
+
+router.put('/:id',
+    [
+        body('content').notEmpty().isString(),
+        validateRequest
+    ],
+    messagesController.updateMessage
+);
+router.delete('/:id', messagesController.deleteMessage);
+
+module.exports = router;
+
+================
+File: src/routes/pages.routes.js
+================
+// src/routes/pages.routes.js
+const express = require('express');
+const router = express.Router();
+const pagesController = require('../controllers/pages.controller');
+const { validateRequest } = require('../middlewares/validate.middleware');
+const { body, param } = require('express-validator');
+
+router.post('/',
+    [
+        body('slug').notEmpty().isString(),
+        body('title').notEmpty().isString(),
+        body('content').notEmpty().isString(),
+        validateRequest
+    ],
+    pagesController.createPage[1] 
+);
+
+router.get('/:slug', pagesController.getPage);
+
+router.get('/', pagesController.getAllPages[0]);
+
+router.put('/:slug',
+    [
+        body('title').optional().isString(),
+        body('content').optional().isString(),
+        validateRequest
+    ],
+    pagesController.updatePage[1]
+);
+
+router.delete('/:slug', pagesController.deletePage[1]);
+
+module.exports = router;
+
+================
+File: src/routes/settings.routes.js
+================
+const express = require('express');
+const router = express.Router();
+const settingsController = require('../controllers/settings.controller');
+
+router.get('/', settingsController.getSettings[0]);
+router.put('/', settingsController.updateSettings[0]);
+
+module.exports = router;
+
+================
+File: src/routes/tickets.routes.js
+================
+const express = require('express');
+const router = express.Router();
+const ticketsController = require('../controllers/tickets.controller');
+const { body, param } = require('express-validator');
+const { validateRequest } = require('../middlewares/validate.middleware');
+
+router.post('/',
+    [
+        body('title').notEmpty().isString(),
+        body('type').notEmpty().isString(),
+        validateRequest
+    ],
+    ticketsController.createTicket);
+router.get('/:id', ticketsController.getTicket);
+router.get('/', ticketsController.getAllTickets[0]);
+router.get('/my/all', ticketsController.getUserTickets); // Route to get tickets for the logged-in user
+router.put('/:id',
+    [
+        body('title').optional().isString(),
+        body('type').optional().isString(),
+        body('status').optional().isIn(['OPEN', 'IN_PROGRESS', 'CLOSED']),
+        body('assignedTo').optional().isString(), // Assuming assignedTo is a user ID
+        validateRequest
+    ],
+    ticketsController.updateTicket);
+
+router.delete('/:id', ticketsController.deleteTicket);
+
+module.exports = router;
+
+================
+File: src/routes/users.routes.js
+================
+const express = require('express');
+const router = express.Router();
+const usersController = require('../controllers/users.controller');
+const { body, param } = require('express-validator');
+const { validateRequest } = require('../middlewares/validate.middleware');
+
+router.get('/:id', usersController.getUser[0]);
+router.get('/', usersController.getAllUsers[0]);
+router.get('/type/resident', usersController.getResidents[0]);
+router.put('/:id',
+    [
+        body('firstName').optional().isString(),
+        body('lastName').optional().isString(),
+        body('phone').optional().isString(),
+        body('address').optional().isString(),
+        body('type').optional().isIn(['RESIDENT', 'EMPLOYEE', 'ADMIN']),
+        validateRequest
+    ]
+    , usersController.updateUser[0]);
+router.delete('/:id', usersController.deleteUser[0]);
+
+module.exports = router;
+
+================
+File: src/services/chat.service.js
+================
+const {
+    GoogleGenerativeAI,
+    HarmCategory,
+    HarmBlockThreshold,
+} = require("@google/generative-ai");
+const { AppError } = require('../utils/errorHandler');
+const { getSettings } = require('../models/settings.model');
+
+let genAI;
+
+const initializeGemini = async () => {
+    const settings = await getSettings();
+    if (!settings.googleGeminiKey) {
+        throw new AppError('Gemini API key not configured', 500);
+    }
+    genAI = new GoogleGenerativeAI(settings.googleGeminiKey);
+};
+
+const modelConfig = {
+    model: "gemini-2.0-flash-lite",
+    generationConfig: {
+        temperature: 1,
+        topP: 0.95,
+        topK: 40,
+        maxOutputTokens: 8192,
+        responseMimeType: "text/plain",
+    },
+};
+
+exports.generateContent = async (systemPrompt, userMessage) => {
+    try {
+        if (!genAI) await initializeGemini();
+        
+        const model = genAI.getGenerativeModel(modelConfig);
+        const chatSession = model.startChat({
+            history: [],
+        });
+
+        const prompt = `${systemPrompt}\n\n${userMessage}`;
+        const result = await chatSession.sendMessage(prompt);
+        return result.response.text();
+    } catch (error) {
+        throw new AppError("Error during Gemini content generation", 500, error);
+    }
+};
+
+================
+File: src/services/firebase.service.js
+================
+// to avoid circular dependenies and allow mock testing
+const { db, auth } = require('../config/firebase.config');
+
+module.exports = { db, auth };
+
+================
+File: src/utils/errorHandler.js
+================
+class AppError extends Error {
+    constructor(message, statusCode, originalError = null) {
+        super(message);
+        this.statusCode = statusCode;
+        this.originalError = originalError;
+        Error.captureStackTrace(this, this.constructor);
+    }
+}
+module.exports = { AppError };
+
+================
+File: src/utils/logger.js
+================
+const winston = require('winston');
+
+const logFormat = winston.format.combine(
+    winston.format.timestamp({
+        format: 'YYYY-MM-DD HH:mm:ss' 
+    }),
+    winston.format.errors({ stack: true }), 
+    winston.format.splat(), 
+    winston.format.json()
+);
+
+const logger = winston.createLogger({
+    level: 'info', 
+    format: logFormat,
+    transports: [
+        new winston.transports.Console({
+            format: winston.format.combine(
+                winston.format.colorize(), // Colorize
+                winston.format.simple()
+            )
+        }),
+    ],
+});
+
+module.exports = { logger };
+
+================
+File: src/utils/responseFormatter.js
+================
+exports.formatResponse = (res, statusCode, data = null, message = null) => {
+    const response = {
+        success: statusCode >= 200 && statusCode < 300,
+        data,
+        message,
+    };
+    return res.status(statusCode).json(response);
+};
+
+
+
+================================================================
+End of Codebase
+================================================================

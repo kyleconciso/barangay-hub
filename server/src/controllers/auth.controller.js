@@ -1,5 +1,6 @@
+// src/controllers/auth.controller.js
 const { auth } = require('../services/firebase.service');
-const { createUser, getUserByEmail } = require('../models/user.model');
+const { createUser, getUserById } = require('../models/user.model');
 const { formatResponse } = require('../utils/responseFormatter');
 const { AppError } = require('../utils/errorHandler');
 
@@ -34,38 +35,47 @@ exports.signUp = async (req, res, next) => {
         return formatResponse(res, 201, { uid: userRecord.uid }, 'User created successfully');
 
     } catch (error) {
-        next(error);
+        if (error.code === 'auth/email-already-exists') {
+            next(new AppError('The email address is already in use.', 409)); // 409 Conflict
+        } else if (error.code === 'auth/invalid-email' || error.code === 'auth/weak-password') {
+            next(new AppError('Invalid email or password format.', 400));
+        }
+        else {
+            next(error);
+        }
+
     }
 };
 
 exports.signIn = async (req, res, next) => {
     try {
         const { email, password } = req.body;
-        
+
         if (!email || !password) {
             throw new AppError('Email and password are required', 400);
         }
 
-        const userRecord = await auth.getUserByEmail(email);
+        const userRecord = await auth.getUserByEmail(email); 
         const token = await auth.createCustomToken(userRecord.uid);
-        
+
         return formatResponse(res, 200, { token }, 'Sign-in successful');
     } catch (error) {
-        next(error);
+        if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+          next(new AppError('Invalid email or password.', 401)); // 401 Unauthorized
+        } else {
+            next(error); 
+        }
+
     }
 };
 
 exports.getUserProfile = async (req, res, next) => {
     try {
         const userId = req.user.uid;
-        const user = await getUserByEmail(req.user.email);
+        const user = await getUserById(userId);
 
         if (!user) {
             throw new AppError("User not found", 404);
-        }
-
-        if (user.id !== userId) {
-            throw new AppError('Unauthorized', 403);
         }
 
         return formatResponse(res, 200, { user }, 'User profile retrieved successfully');

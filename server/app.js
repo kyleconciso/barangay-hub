@@ -28,7 +28,7 @@ console.log("pagesRoutes type:", typeof pagesRoutes);
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/pages', pagesRoutes);
-app.use('/api/forms', authMiddleware, formsRoutes); // authMiddleware for forms and others
+app.use('/api/forms', formsRoutes);
 app.use('/api/tickets', authMiddleware, ticketsRoutes);
 app.use('/api/messages', authMiddleware, messagesRoutes);
 app.use('/api/users', authMiddleware, usersRoutes);

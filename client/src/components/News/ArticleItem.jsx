@@ -7,30 +7,31 @@ import Loader from '../UI/Loader';
 import ErrorMessage from '../UI/ErrorMessage';
 import gfm from 'remark-gfm';
 
-function PageDisplay() {
+
+function ArticleItem() {
   const { slug } = useParams();
-  const [page, setPage] = useState(null);
+  const [article, setArticle] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
   useEffect(() => {
-    const fetchPage = async () => {
+    const fetchArticle = async () => {
       try {
-        const fetchedPage = await getPageBySlug(slug);
-        if (fetchedPage) {
-          setPage(fetchedPage);
+        const fetchedArticle = await getPageBySlug(slug);
+        if (fetchedArticle) {
+          setArticle(fetchedArticle);
         } else {
-          setError('Page not found.');
+          setError('Article not found.');
         }
       } catch (err) {
-        setError('Failed to load page.');
+        setError('Failed to load article.');
         console.error(err);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchPage();
+    fetchArticle();
   }, [slug]);
 
   if (loading) {
@@ -41,20 +42,23 @@ function PageDisplay() {
     return <ErrorMessage message={error} />;
   }
 
-  if (!page) {
-    return <Typography>Page not found.</Typography>;
+  if (!article) {
+    return <Typography>Article not found.</Typography>;
   }
 
   return (
     <Container component="main" maxWidth="md">
       <Paper elevation={3} sx={{ padding: 3, marginTop: 2 }}>
         <Typography variant="h3" gutterBottom>
-          {page.title}
+          {article.title}
         </Typography>
-        <ReactMarkdown remarkPlugins={[gfm]}>{page.content}</ReactMarkdown>
+        {article.createdAt && (<Typography variant="subtitle2" color="textSecondary" gutterBottom>
+            Published on: {new Date(article.createdAt).toLocaleDateString()}
+        </Typography>)}
+        <ReactMarkdown remarkPlugins={[gfm]}>{article.content}</ReactMarkdown>
       </Paper>
     </Container>
   );
 }
 
-export default PageDisplay;
+export default ArticleItem;

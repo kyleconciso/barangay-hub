@@ -26,10 +26,10 @@ exports.getMessageById = async (id) => {
 
 exports.getMessagesByTicket = async (ticketId) => {
   try {
-    const snapshot = await messagesCollection.where('ticket', '==', ticketId).orderBy('createdAt', 'asc').get(); // Order by creation date
+    const snapshot = await messagesCollection.where('ticket', '==', ticketId).orderBy('createdAt', 'asc').get(); // 'ticket' field name is correct.
     return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
   } catch (error) {
-      throw new AppError("Failed to get Message by Ticket", 500, error);
+      throw new AppError("Failed to get Message by Ticket", 500, error); // Correct error message.
   }
 };
 

@@ -47,7 +47,6 @@ exports.getForm = async (req, res, next) => {
 };
 
 exports.getAllForms = [
-    roleCheck(['EMPLOYEE', 'ADMIN']),
     async (req, res, next) => {
         try {
             const forms = await getAllForms();
