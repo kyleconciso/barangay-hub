@@ -1,167 +1,144 @@
 @echo off
-REM ==================================================
-REM Create React Client Project Structure - my-barangay-app
-REM ==================================================
+REM ============================================
+REM Create Project Structure for barangay-client
+REM ============================================
 
-REM Create project root folder
-mkdir my-barangay-app
-cd my-barangay-app
+REM Create project root folder and navigate into it
+mkdir barangay-client
+cd barangay-client
 
-REM Create public directory and files
-mkdir public
-cd public
-type nul > index.html
-type nul > favicon.ico
-type nul > manifest.json
-cd ..
+REM Create root-level files
+echo {} > package.json
+type nul > .env
+echo # Barangay Client > README.md
+type nul > .gitignore
 
 REM Create src directory
 mkdir src
 cd src
 
 REM ------------------------------
-REM Create components directory and subdirectories/files
+REM Create components directory and subdirectories
 REM ------------------------------
 mkdir components
 cd components
 
-  mkdir Auth
-  cd Auth
-  type nul > LoginForm.jsx
-  type nul > RegisterForm.jsx
-  cd ..
+mkdir Forms
+cd Forms
+echo // Fetches and displays a list of forms. "Add Form" button. > FormList.jsx
+echo // Renders a single form. Edit/Delete callbacks. > FormItem.jsx
+echo // MUI Dialog: create/edit forms. Manages form state. > FormDialog.jsx
+echo // Reusable form fields (controlled components). > FormFields.jsx
+cd ..
 
-  mkdir Chat
-  cd Chat
-  type nul > ChatWindow.jsx
-  cd ..
+mkdir Tickets
+cd Tickets
+echo // Displays list of tickets. "Add Ticket" button. > TicketList.jsx
+echo // Renders a single ticket. Edit/Delete, view messages. > TicketItem.jsx
+echo // MUI Dialog: create/edit tickets. Includes initial message field. > TicketDialog.jsx
+echo // Reusable ticket fields, *including initial message field*. > TicketFields.jsx
+cd ..
 
-  mkdir Forms
-  cd Forms
-  type nul > FormList.jsx
-  type nul > FormItem.jsx
-  type nul > FormManagement.jsx
-  type nul > FormDisplay.jsx
-  cd ..
+mkdir Users
+cd Users
+echo // Displays users. "Add User" (Admin). Edit/Delete (Admin/Employee on Residents). > UserList.jsx
+echo // Renders a single user. Edit/Delete (conditional). > UserItem.jsx
+echo // MUI Dialog: create/edit users (Admin/Employee). > UserDialog.jsx
+echo // Reusable user fields (controlled components). > UserFields.jsx
+cd ..
 
-  mkdir Layout
-  cd Layout
-  type nul > Navbar.jsx
-  type nul > Footer.jsx
-  cd ..
+mkdir Pages
+cd Pages
+echo // Displays list of pages. > PageList.jsx
+echo // Renders a *single* page. Sanitizes/displays rich text. > PageItem.jsx
+echo // MUI Dialog: create/edit pages. Rich text editor. > PageDialog.jsx
+echo // Reusable fields, *including React Quill*. > PageFields.jsx
+cd ..
 
-  mkdir News
-  cd News
-  type nul > ArticleList.jsx
-  type nul > ArticleItem.jsx
-  type nul > ArticlePageManagement.jsx
-  cd ..
+mkdir Auth
+cd Auth
+echo // Login form. > Login.jsx
+echo // Signup form. > Signup.jsx
+echo // Reusable form structure (Login/Signup). > AuthForm.jsx
+cd ..
 
-  mkdir Pages
-  cd Pages
-  type nul > PageDisplay.jsx
-  type nul > GeneralPageManagement.jsx
-  type nul > MarkdownEditor.jsx
-  cd ..
+mkdir Layout
+cd Layout
+echo // Top navigation. Role-based links. Includes ChatbotWidget. > Navbar.jsx
+echo // Protects routes (authentication + role). > PrivateRoute.jsx
+cd ..
 
-  mkdir Settings
-  cd Settings
-  type nul > SettingsForm.jsx
-  cd ..
+mkdir UI
+cd UI
+echo // Loading indicator. > LoadingSpinner.jsx
+echo // Error message display. > ErrorMessage.jsx
+echo // Confirmation dialog (delete actions). > ConfirmDialog.jsx
+echo // AI chatbot widget. > ChatbotWidget.jsx
+cd ..
 
-  mkdir Tickets
-  cd Tickets
-  type nul > TicketList.jsx
-  type nul > TicketItem.jsx
-  type nul > TicketForm.jsx
-  type nul > TicketDetails.jsx
-  type nul > TicketManagement.jsx
-  cd ..
+mkdir Dashboard
+cd Dashboard
+echo // Resident: account, tickets. > ResidentDashboard.jsx
+echo // Employee: manage residents, pages, forms. > EmployeeDashboard.jsx
+echo // Admin: manage all users, pages, forms, settings. > AdminDashboard.jsx
+cd ..
 
-  mkdir Users
-  cd Users
-  type nul > UserList.jsx
-  type nul > UserItem.jsx
-  type nul > UserDetails.jsx
-  type nul > UserManagement.jsx
-  cd ..
-
-  mkdir UI
-  cd UI
-  type nul > Loader.jsx
-  type nul > Modal.jsx
-  type nul > ErrorMessage.jsx
-  type nul > PrivateRoute.jsx
-  cd ..
+echo // Public landing: news excerpts (truncated), links. > Home.jsx
 
 cd ..
 
 REM ------------------------------
-REM Create pages directory and files
-REM ------------------------------
-mkdir pages
-cd pages
-type nul > Home.jsx
-type nul > Officials.jsx
-type nul > NewsPage.jsx
-type nul > FormsPage.jsx
-type nul > SubmitTicket.jsx
-type nul > SignIn.jsx
-type nul > Register.jsx
-type nul > AccountManagement.jsx
-type nul > TicketManagementPage.jsx
-type nul > UserManagementPage.jsx
-type nul > ArticlePageManagementPage.jsx
-type nul > GeneralPageManagementPage.jsx
-type nul > FormsManagementPage.jsx
-type nul > SiteSettingsManagement.jsx
-cd ..
-
-REM ------------------------------
-REM Create services directory and files
+REM Create services directory
 REM ------------------------------
 mkdir services
 cd services
-type nul > auth.service.js
-type nul > chat.service.js
-type nul > forms.service.js
-type nul > messages.service.js
-type nul > pages.service.js
-type nul > settings.service.js
-type nul > tickets.service.js
-type nul > users.service.js
+echo // Axios configuration, auth interceptor. > api.js
+echo // API: /api/auth (login, signup, profile). > authService.js
+echo // API: /api/forms. > formService.js
+echo // API: /api/tickets (*handles initial message*). > ticketService.js
+echo // API: /api/users. > userService.js
+echo // API: /api/pages. > pageService.js
+echo // API: /api/chat. > chatService.js
 cd ..
 
 REM ------------------------------
-REM Create context directory and files
+REM Create contexts directory
 REM ------------------------------
-mkdir context
-cd context
-type nul > AuthContext.jsx
+mkdir contexts
+cd contexts
+echo // Authentication state (user, token, role, isLoggedIn). > AuthContext.jsx
 cd ..
 
 REM ------------------------------
-REM Create styles directory and files
+REM Create routes directory
 REM ------------------------------
-mkdir styles
-cd styles
-type nul > global.css
-type nul > theme.js
-type nul > variables.css
+mkdir routes
+cd routes
+    echo // Centralized file for route management. > index.js
 cd ..
 
-
-type nul > App.jsx
-type nul > index.jsx
-type nul > firebase.js
-type nul > utils.js
-type nul > .env
-type nul > .gitignore
-type nul > package.json
-type nul > package-lock.json
-type nul > README.md
-
+REM ------------------------------
+REM Create utils directory
+REM ------------------------------
+mkdir utils
+cd utils
+    echo // localStorage/sessionStorage utilities. > storage.js
 cd ..
 
-echo Project structure created successfully in my-barangay-app folder.
+REM ------------------------------
+REM Create root-level files within src
+REM ------------------------------
+echo // Main app component. Uses routes from src/routes/index.js. > App.jsx
+echo // Entry point. Renders App. > index.js
+echo // Constants (API_BASE_URL). > config.js
+echo // Global styles (minimal). > styles.css
+
+
+
+
+REM Go back to the root folder
+cd ..
+cd ..
+
+echo Project structure created successfully.
 pause

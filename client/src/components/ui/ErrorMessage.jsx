@@ -1,10 +1,16 @@
 import React from 'react';
-import Alert from '@mui/material/Alert';
+import { Alert } from '@mui/material';
 
-function ErrorMessage({ message }) {
-    return (
-        message ? <Alert severity="error">{message}</Alert> : null
-    );
-}
+const ErrorMessage = ({ message }) => {
+  if (!message) {
+    return null;
+  }
+
+  return (
+    <Alert severity="error">
+      {message}
+    </Alert>
+  );
+};
 
 export default ErrorMessage;

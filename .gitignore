@@ -1,6 +1,8 @@
 # Working env dev
 .env
 firebase-private-key.json
+.gitignore
+repomix-output.txt
 
 # Logs
 logs

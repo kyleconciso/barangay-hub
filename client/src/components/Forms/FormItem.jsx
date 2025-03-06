@@ -1,29 +1,71 @@
-import React from 'react';
-import { ListItem, ListItemAvatar, Avatar, ListItemText, Typography } from '@mui/material'; // Removed Link
-import DescriptionIcon from '@mui/icons-material/Description';
+import React, {useState} from 'react';
+import { ListItem, ListItemText, ListItemSecondaryAction, IconButton, Link } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import FormDialog from './FormDialog'; 
+import { formService } from '../../services/formService';
+import ConfirmDialog from '../UI/ConfirmDialog';
+import { useContext } from 'react';
+import { AuthContext } from '../../contexts/AuthContext';
 
-function FormItem({ form }) {
-  return (
-    <ListItem>
-      <ListItemAvatar>
-        <Avatar>
-          {form.logoURL ? <img src={form.logoURL} alt={form.title} style={{ width: '100%', height: '100%' }} /> : <DescriptionIcon />}
-        </Avatar>
-      </ListItemAvatar>
-      <ListItemText
-        primary={<a href={form.link} target="_blank" rel="noopener noreferrer" style={{textDecoration: 'none', color: 'inherit'}}>{form.title}</a>}
-        secondary={
-          <Typography
-            component="span"
-            variant="body2"
-            color="text.secondary"
-          >
-            {form.description}
-          </Typography>
+
+const FormItem = ({ form, onUpdate, onDelete }) => {
+    const [openEditDialog, setOpenEditDialog] = useState(false);
+    const [openDeleteConfirm, setOpenDeleteConfirm] = useState(false);
+
+      const { user } = useContext(AuthContext);
+
+    const handleEdit = () => {
+        setOpenEditDialog(true);
+    };
+
+     const handleDelete = async () => {
+        try{
+            await formService.deleteForm(form.id)
+            onDelete(form.id)
+        } catch(error) {
+            console.error("Error on delete", error)
+        } finally {
+            setOpenDeleteConfirm(false);
         }
+
+    }
+
+    const isEditable = user && (user.type === 'ADMIN' || user.type === 'EMPLOYEE')
+
+  return (
+    <>
+    <ListItem>
+      <ListItemText
+        primary={<Link href={form.link} target="_blank" rel="noopener noreferrer">{form.title}</Link>}
+        secondary={form.description}
       />
+       {isEditable && (
+      <ListItemSecondaryAction>
+        <IconButton edge="end" aria-label="edit" onClick={handleEdit}>
+          <EditIcon />
+        </IconButton>
+        <IconButton edge="end" aria-label="delete" onClick={() => setOpenDeleteConfirm(true)}>
+          <DeleteIcon />
+        </IconButton>
+      </ListItemSecondaryAction>
+      )}
     </ListItem>
+     <FormDialog
+        open={openEditDialog}
+        onClose={() => setOpenEditDialog(false)}
+        form={form}
+        onUpdate={onUpdate}
+      />
+       <ConfirmDialog
+        open={openDeleteConfirm}
+        onClose={() => setOpenDeleteConfirm(false)}
+        onConfirm={handleDelete}
+        title="Confirm Delete"
+        content={`Are you sure you want to delete the form "${form.title}"?`}
+        />
+    </>
   );
-}
+};
 
 export default FormItem;
