@@ -1,6 +1,7 @@
 # Working env dev
 .env
 firebase-private-key.json
+serviceAccountKey.json
 .gitignore
 repomix-output.txt
 
