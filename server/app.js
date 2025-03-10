@@ -4,6 +4,10 @@ const cors = require('cors');
 const admin = require('firebase-admin');
 const serviceAccount = require('./config/serviceAccountKey.json');
 const { body, validationResult } = require('express-validator');
+const path = require('path')
+
+
+
 
 // initialize firebase admin
 admin.initializeApp({
@@ -17,6 +21,13 @@ const port = process.env.PORT || 8080;
 // middleware
 app.use(cors());
 app.use(express.json());
+
+// host static files
+app.use(express.static(path.join(__dirname, "public")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
 
 // authentication middleware
 const authenticate = async (req, res, next) => {
