@@ -1,10 +1,8 @@
 # Working env dev
 .env
-clientConfig.js
-firebase-private-key.json
-serviceAccountKey.json
 .gitignore
-repomix-output.txt
+**/serviceAccountKey.json
+**/repomix-output.txt
 
 # Logs
 logs
