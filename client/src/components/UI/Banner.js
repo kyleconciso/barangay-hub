@@ -2,7 +2,6 @@ import React from 'react';
 import { Box, Typography, useTheme } from '@mui/material';
 
 const Banner = ({ imageUrl, title }) => {
-  const theme = useTheme();
   return (
     <Box
       sx={{

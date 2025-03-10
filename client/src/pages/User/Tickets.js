@@ -4,7 +4,6 @@ import ManagementPage from '../../components/Management/ManagementPage';
 import * as ticketsApi from '../../api/tickets';
 import { useAuth } from '../../hooks/useAuth';
 import { Link } from 'react-router-dom';
-import { Button } from '@mui/material';
 
 const UserTickets = () => {
     const { user } = useAuth();

@@ -7,7 +7,6 @@ import {
   CardContent,
   CardMedia,
   Container,
-  Box,
   Skeleton,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
