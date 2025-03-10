@@ -15,13 +15,13 @@ const AdminNav = () => {
 
   return (
     <NavBar>
-      <NavButton to="/admin/pages" icon={<DescriptionIcon />} >Pages</NavButton>
-      <NavButton to="/admin/articles" icon={<ArticleIcon />} >Articles</NavButton>
-      <NavButton to="/admin/forms" icon={<DynamicFormIcon />} >Forms</NavButton>
-      <NavButton to="/admin/tickets" icon={<ConfirmationNumberIcon />} >Tickets</NavButton>
-      <NavButton to="/admin/users" icon={<PeopleIcon />} >Users</NavButton>
+      <NavButton to="/admin/pages" icon={<DescriptionIcon />} >PAGES</NavButton>
+      <NavButton to="/admin/articles" icon={<ArticleIcon />} >ARTICLES</NavButton>
+      <NavButton to="/admin/forms" icon={<DynamicFormIcon />} >FORMS</NavButton>
+      <NavButton to="/admin/tickets" icon={<ConfirmationNumberIcon />} >TICKETS</NavButton>
+      <NavButton to="/admin/users" icon={<PeopleIcon />} >USERS</NavButton>
       {userType === 'ADMIN' && (
-        <NavButton to="/admin/settings" icon={<SettingsIcon />} >Settings</NavButton>
+        <NavButton to="/admin/settings" icon={<SettingsIcon />} >SETTINGS</NavButton>
       )}
     </NavBar>
   );
