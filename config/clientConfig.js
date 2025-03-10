@@ -1,4 +1,4 @@
-export const baseURL = "https://sanantonio-candoncity-728827279710.asia-east1.run.app/";
+export const baseURL = "https://sanantonio-candoncity-728827279710.asia-east1.run.app/api/v1/";
 
 export const firebaseConfig = {
     apiKey: "AIzaSyCc4Zzr1q4-mKp1IFltTO1hJFS_fpHZxxk",

@@ -1,5 +1,6 @@
 # Working env dev
 .env
+clientConfig.js
 firebase-private-key.json
 serviceAccountKey.json
 .gitignore
