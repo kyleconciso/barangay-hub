@@ -13,7 +13,7 @@ const AdminForms = () => {
     { name: 'title', label: 'Title', type: 'text' },
     { name: 'description', label: 'Description', type: 'textarea' },
     { name: 'link', label: 'Link', type: 'uri' },
-    { name: 'logoURL', label: 'Logo URL', type: 'uri' },
+    { name: 'imageURL', label: 'Image URL', type: 'uri' },
   ];
 
   return (

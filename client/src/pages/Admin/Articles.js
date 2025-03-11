@@ -14,6 +14,7 @@ const AdminArticles = () => {
     { name: 'title', label: 'Title', type: 'text' },
     { name: 'slug', label: 'Slug', type: 'text' },
     { name: 'content', label: 'Content', type: 'richtext' },
+    { name: 'imageURL', label: 'Image URL', type: 'uri' },
   ];
 
   return (

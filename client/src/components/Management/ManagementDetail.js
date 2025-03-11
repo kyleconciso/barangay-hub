@@ -10,6 +10,7 @@ import {
   Divider,
   Box,
   Paper,
+  Link, // Import Link component
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import parse from 'html-react-parser';
@@ -21,12 +22,12 @@ const formatTimestamp = (value) => {
     // convert to javascript date
     return new Date(value._seconds * 1000).toLocaleString();
   }
-  
+
   // handle date objects
   if (value instanceof Date) {
     return value.toLocaleString();
   }
-  
+
   // return the value as is if it's already a string or other primitive
   return value;
 };
@@ -54,15 +55,22 @@ const ManagementDetail = ({
     switch (field.type) {
       case 'richtext':
         return <Box sx={{ mt: 1 }}>{parse(String(value))}</Box>;
-        
+
       case 'select':
         const option = field.options?.find(opt => opt.value === value);
         return <Typography variant="body1">{option ? option.label : String(value)}</Typography>;
-      
+
       case 'date':
       case 'datetime':
         return <Typography variant="body1">{formatTimestamp(value)}</Typography>;
-        
+
+      case 'uri': // Handle URI type for image URLs and links
+        return (
+          <Link href={value} target="_blank" rel="noopener noreferrer">
+            <Typography variant="body1">{String(value)}</Typography>
+          </Link>
+        );
+
       default:
         return <Typography variant="body1">{String(value)}</Typography>;
     }

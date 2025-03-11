@@ -27,22 +27,22 @@ const safeValue = (value) => {
   if (value === null || value === undefined) {
     return '';
   }
-  
+
   // handle firestore timestamp objects (with _seconds and _nanoseconds)
   if (typeof value === 'object' && '_seconds' in value) {
     return new Date(value._seconds * 1000).toLocaleString();
   }
-  
+
   // handle date objects
   if (value instanceof Date) {
     return value.toLocaleString();
   }
-  
+
   // handle empty objects
   if (typeof value === 'object' && Object.keys(value).length === 0) {
     return '';
   }
-  
+
   // for other objects, convert to json string
   if (typeof value === 'object') {
     try {
@@ -51,7 +51,7 @@ const safeValue = (value) => {
       return '';
     }
   }
-  
+
   // otherwise return as is
   return value;
 };
@@ -74,7 +74,7 @@ const ManagementForm = ({
     if (open) {
       // initialize form data with initial values or empty object
       const newFormData = initialData ? { ...initialData } : {};
-      
+
       // clean up any object values that can't be directly rendered
       fields.forEach(field => {
         if (newFormData[field.name] !== undefined) {
@@ -96,14 +96,14 @@ const ManagementForm = ({
       fields.forEach(field => {
         if (field.type === 'richtext') {
           let editorState;
-          
+
           if (initialData && initialData[field.name]) {
             try {
               // handle the case where content might be an object
-              const htmlContent = typeof initialData[field.name] === 'object' 
-                ? '' 
+              const htmlContent = typeof initialData[field.name] === 'object'
+                ? ''
                 : String(initialData[field.name]);
-                
+
               const contentBlock = htmlToDraft(htmlContent);
               if (contentBlock) {
                 const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
@@ -118,7 +118,7 @@ const ManagementForm = ({
           } else {
             editorState = EditorState.createEmpty();
           }
-          
+
           newRichTextEditors[field.name] = editorState;
         }
       });
@@ -149,16 +149,16 @@ const ManagementForm = ({
       ...richTextEditors,
       [name]: editorState,
     });
-    
+
     // convert editor content to html and store in formdata
     const contentState = editorState.getCurrentContent();
     const html = draftToHtml(convertToRaw(contentState));
-    
+
     setFormData({
       ...formData,
       [name]: html,
     });
-    
+
     // clear error for this field if any
     if (errors[name]) {
       setErrors({
@@ -191,7 +191,7 @@ const ManagementForm = ({
 
     // create a clean copy of form data without any problematic objects
     const cleanedFormData = { ...formData };
-    
+
     // make sure all data is in a format that won't cause rendering issues
     Object.keys(cleanedFormData).forEach(key => {
       if (typeof cleanedFormData[key] === 'object' && !(cleanedFormData[key] instanceof Date)) {
@@ -231,6 +231,7 @@ const ManagementForm = ({
 
     switch (type) {
       case 'text':
+      case 'uri': // treat as text
         return (
           <TextField
             fullWidth
@@ -264,9 +265,9 @@ const ManagementForm = ({
 
       case 'select':
         return (
-          <FormControl 
-            fullWidth 
-            margin="normal" 
+          <FormControl
+            fullWidth
+            margin="normal"
             error={!!error}
             variant="outlined"
           >
@@ -295,9 +296,9 @@ const ManagementForm = ({
         return (
           <Box sx={{ mt: 2, mb: 2 }}>
             <InputLabel sx={{ mb: 1 }}>{label}</InputLabel>
-            <Box 
-              sx={{ 
-                border: error ? '1px solid #d32f2f' : '1px solid rgba(0, 0, 0, 0.23)', 
+            <Box
+              sx={{
+                border: error ? '1px solid #d32f2f' : '1px solid rgba(0, 0, 0, 0.23)',
                 borderRadius: 1,
                 minHeight: 200,
                 overflow: 'hidden'
@@ -337,8 +338,8 @@ const ManagementForm = ({
   };
 
   return (
-    <Dialog 
-      open={open} 
+    <Dialog
+      open={open}
       onClose={onClose}
       maxWidth="md"
       fullWidth
@@ -366,9 +367,9 @@ const ManagementForm = ({
         <Button onClick={onClose} color="inherit" disabled={loading}>
           Cancel
         </Button>
-        <Button 
-          onClick={handleSubmit} 
-          color="primary" 
+        <Button
+          onClick={handleSubmit}
+          color="primary"
           variant="contained"
           disabled={loading}
           startIcon={loading ? <CircularProgress size={20} /> : null}

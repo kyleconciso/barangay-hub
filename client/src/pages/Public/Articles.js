@@ -18,7 +18,7 @@ const ArticlesPage = () => {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
+a
   useEffect(() => {
     const fetchArticlesData = async () => {
       setLoading(true);
