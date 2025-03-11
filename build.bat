@@ -2,7 +2,7 @@
 
 cd client
 
-npm run build --silent
+@REM npm run build --silent
 
  
 

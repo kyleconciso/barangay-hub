@@ -4,13 +4,8 @@
 **/serviceAccountKey.json
 **/repomix-output.txt
 
-**/populate.js
-
-# Build directory
-**/build/*
-
-# Public directory
-**/public/*
+**build/
+**public/
 
 # Logs
 logs
