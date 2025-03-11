@@ -1,51 +1,73 @@
-
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Typography, Container, Link } from '@mui/material';
 import { getForm } from '../../api/forms';
-import LoadingSpinner from '../../components/UI/LoadingSpinner';
-import ErrorMessage from '../../components/UI/ErrorMessage';
+import { Container, Typography, Box, Paper, Link, CircularProgress, Card, CardMedia, CardContent } from '@mui/material';
 
-const FormDetail = () => {
+const FormDetailPublic = () => {
     const { id } = useParams();
     const [form, setForm] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        const fetchFormData = async () => {
+        const fetchForm = async () => {
             try {
-                const fetchedForm = await getForm(id);
-                if (fetchedForm) {
-                    setForm(fetchedForm);
-                } else {
-                    setError(new Error("Form not found"));
-                }
-            } catch (error) {
-                setError(error);
+                const data = await getForm(id);
+                setForm(data);
+            } catch (err) {
+                setError(err);
             } finally {
                 setLoading(false);
             }
         };
-        fetchFormData();
+        fetchForm();
     }, [id]);
 
-    if (loading) return <LoadingSpinner />;
-    if (error) return <ErrorMessage message={error.message} />;
-    if (!form) return <div>Form not found.</div>
+    if (loading) {
+       return (
+            <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px">
+                <CircularProgress />
+            </Box>
+        );
+    }
+
+    if (error) {
+        return <Typography>Error: {error.message}</Typography>;
+    }
+
+    if (!form) {
+        return <Typography>Form not found.</Typography>;
+    }
 
     return (
-        <Container>
-            <Typography variant='h3' gutterBottom>{form.title}</Typography>
-            <Typography variant='body1'>{form.description}</Typography>
-            <Link href={form.link} target="_blank" rel="noopener noreferrer">
-                Go to Form
-            </Link>
-            {form.logoURL && (
-                <img src={form.logoURL} alt={form.title} style={{maxWidth: '100%', marginTop: '1rem'}} />
-            )}
+        <Container maxWidth="md">
+            <Box mt={4} mb={4}>
+                 <Card>
+                    {form.imageURL && (  // Conditionally render the image
+                        <CardMedia
+                            component="img"
+                            height="140"
+                            image={form.imageURL}
+                            alt={form.title}
+                        />
+                    )}
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="div">
+                        {form.title}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {form.description}
+                      </Typography>
+                       <Box mt={2}>
+                        <Link href={form.link} target="_blank" rel="noopener noreferrer">
+                            Go to Form
+                        </Link>
+                      </Box>
+                    </CardContent>
+                </Card>
+            </Box>
         </Container>
-    )
-}
+    );
+};
 
-export default FormDetail;
+export default FormDetailPublic;

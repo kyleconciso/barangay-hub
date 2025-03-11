@@ -1,97 +1,100 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Typography,
-  Grid,
-  Card,
-  CardActionArea,
-  CardContent,
-  CardMedia,
-  Container,
-  Skeleton,
-} from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { getArticles } from '../../api/articles';
-import ErrorMessage from '../../components/UI/ErrorMessage';
-import { formatDate } from '../../utils/dateUtils';
+import {
+    Container,
+    Typography,
+    Box,
+    Grid,
+    Card,
+    CardActionArea,
+    CardContent,
+    CardMedia,
+    CircularProgress,
+} from '@mui/material';
 
-const ArticlesPage = () => {
-  const [articles, setArticles] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-a
-  useEffect(() => {
-    const fetchArticlesData = async () => {
-      setLoading(true);
-      try {
-        const fetchedArticles = await getArticles();
-        setArticles(fetchedArticles);
-      } catch (error) {
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchArticlesData();
-  }, []);
 
-  if (error) {
-    return <ErrorMessage message={error.message} />;
-  }
+const ArticlesPublic = () => {
+    const [articles, setArticles] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-  return (
-    <Container sx={{ py: 4 }}>
-      <Typography variant="h2" component="h1" gutterBottom>
-        News & Updates
-      </Typography>
+    useEffect(() => {
+        const fetchArticles = async () => {
+            try {
+                const data = await getArticles();
+                setArticles(data);
+            } catch (err) {
+                setError(err);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-      <Grid container spacing={4}>
-        {loading ? (
-          // display skeletons while loading
-          Array.from({ length: 6 }).map((_, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index}>
-              <Card>
-                <Skeleton variant="rectangular" height={180} />
-                <CardContent>
-                  <Skeleton variant="text" width="80%" />
-                  <Skeleton variant="text" width="60%" />
-                  <Skeleton variant="text" width="40%" />
-                </CardContent>
-              </Card>
-            </Grid>
-          ))
-        ) : (
-          // display articles when loaded
-          articles.map((article) => (
-            <Grid item xs={12} sm={6} md={4} key={article.id}>
-              <Card elevation={3} sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-                <CardActionArea component={Link} to={`/articles/${article.id}`}>
-                  <CardMedia
-                    component="img"
-                    height="180"
-                    image={article.bannerURL || 'https://via.placeholder.com/600x400?text=No+Image'} // Use bannerURL or placeholder
-                    alt={article.title}
-                    sx={{ objectFit: 'cover' }} // Ensure image covers the area
-                  />
-                  <CardContent sx={{ flexGrow: 1 }}>
-                    <Typography variant="h5" component="h2" gutterBottom>
-                      {article.title}
-                    </Typography>
-                    <Typography variant="subtitle2" color="text.secondary" gutterBottom>
-                        {formatDate(article.createdAt)}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {/* Display a short excerpt (first 150 characters) */}
-                      {article.content.substring(0, 150)}...
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
-            </Grid>
-          ))
-        )}
-      </Grid>
-    </Container>
-  );
+        fetchArticles();
+    }, []);
+
+
+    const formatDate = (timestamp) => {
+      if (!timestamp) return '';
+        // handle firestore timestamp
+        if (typeof timestamp === 'object' && timestamp._seconds) {
+            return new Date(timestamp._seconds * 1000).toLocaleDateString();
+        }
+
+        const date = new Date(timestamp);
+      return date.toLocaleDateString();
+    }
+
+    if (loading) {
+        return (
+            <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px">
+                <CircularProgress />
+            </Box>
+        );
+    }
+
+    if (error) {
+        return <Typography>Error: {error.message}</Typography>;
+    }
+
+
+    return (
+        <Container maxWidth="lg">
+            <Box mt={4} mb={4}>
+                <Typography variant="h4" component="h1" gutterBottom>
+                    News & Updates
+                </Typography>
+                <Grid container spacing={3}>
+                    {articles.map((article) => (
+                        <Grid item xs={12} sm={6} md={4} key={article.id}>
+                            <Card>
+                                <CardActionArea component={RouterLink} to={`/articles/${article.id}`}>
+                                   {article.imageURL && ( // Conditionally render image
+                                        <CardMedia
+                                            component="img"
+                                            height="140"
+                                            image={article.imageURL}
+                                            alt={article.title}
+                                         />
+                                    )}
+                                    <CardContent>
+                                        <Typography gutterBottom variant="h5" component="div">
+                                            {article.title}
+                                        </Typography>
+                                       <Typography variant="body2" color="text.secondary">
+                                          Published on {formatDate(article.createdAt)}
+                                        </Typography>
+
+                                    </CardContent>
+                                </CardActionArea>
+                            </Card>
+                        </Grid>
+                    ))}
+                </Grid>
+            </Box>
+        </Container>
+    );
 };
 
-export default ArticlesPage;
+export default ArticlesPublic;

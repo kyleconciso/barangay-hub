@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import { useAuth } from '../../hooks/useAuth';
-
+ 
 const UserProfile = () => {
   const { user, userType } = useAuth();
 
@@ -35,23 +35,36 @@ const UserProfile = () => {
         <Paper elevation={3} sx={{ p: 3 }}>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={4} md={3} sx={{ textAlign: 'center' }}>
-              <Avatar
-                sx={{
-                  width: 120,
-                  height: 120,
-                  bgcolor: 'primary.main',
-                  fontSize: 48,
-                  mb: 2,
-                  mx: 'auto', // center the avatar horizontally
-                }}
-              >
-                {getInitials(user.displayName || user.email)}
-              </Avatar>
+              {/* Display user's profile picture if available */}
+              {user.photoURL ? (
+                <Avatar
+                  src={user.photoURL}
+                  sx={{
+                    width: 120,
+                    height: 120,
+                    mb: 2,
+                    mx: 'auto',
+                  }}
+                />
+              ) : (
+                <Avatar
+                  sx={{
+                    width: 120,
+                    height: 120,
+                    bgcolor: 'primary.main',
+                    fontSize: 48,
+                    mb: 2,
+                    mx: 'auto',
+                  }}
+                >
+                  {getInitials(user.displayName || user.email)}
+                </Avatar>
+              )}
               <Button
                 variant="outlined"
                 startIcon={<EditIcon />}
                 sx={{ mt: 1 }}
-                // onclick={handleEditClick}  // add onclick handler later
+                // onClick={handleEditClick}  // Add onClick handler later
               >
                 Edit Profile
               </Button>
