@@ -863,19 +863,38 @@ app.delete('/api/v1/users/:id', authenticate, isEmployeeOrAdmin, async (req, res
     }
 });
 
-// Settings Routes
-app.get('/api/v1/settings', authenticate, isAdmin, async (req, res) => {
-    try {
-        const settingsDoc = await db.collection('settings').doc('settings').get();
+// settings routes
+app.get('/api/v1/settings', async (req, res) => { 
+  try {
+    const settingsDoc = await db.collection('settings').doc('settings').get();
 
-        if (!settingsDoc.exists) {
-            return res.status(404).json({ success: false, message: 'Settings not found' });
-        }
-
-        return res.status(200).json(settingsDoc.data());
-    } catch (error) {
-        return handleApiError(res, error, 'Failed to get settings');
+    if (!settingsDoc.exists) {
+        return res.status(200).json({ announcementText: '' });
     }
+    if (req.headers.authorization) {
+          try {
+              const token = req.headers.authorization.split('Bearer ')[1];
+              const decodedToken = await admin.auth().verifyIdToken(token);
+              req.user = decodedToken;
+
+              const userDoc = await db.collection('users').doc(decodedToken.uid).get();
+              if (userDoc.exists) {
+                req.userData = userDoc.data();
+              }
+
+            if (req.userData && req.userData.type === 'ADMIN') {
+                return res.status(200).json(settingsDoc.data());
+            }
+        } catch (authError) {
+            console.error("Token verification error:", authError);
+          }
+    }
+    return res.status(200).json({ announcementText: settingsDoc.data().announcementText || '' });
+
+  } catch (error) {
+    console.error('Get settings error:', error);
+    return res.status(500).json({ success: false, message: 'Internal server error' });
+  }
 });
 
 app.put('/api/v1/settings', authenticate, isAdmin, async (req, res) => {

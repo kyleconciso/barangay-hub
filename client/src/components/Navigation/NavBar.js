@@ -48,7 +48,6 @@ const NavBar = ({ children, contactButton }) => { // accept contactbutton prop
 
   return (
     <>
-      <TopBar />
       <AppBar position="sticky" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}> {/*CRUCIAL: Sticky positioning and z-index*/}
         <Toolbar sx={{ paddingY: '0px' }}>
           {/* Logo and Navigation Links (Left Side) */}

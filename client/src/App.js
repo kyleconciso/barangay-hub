@@ -1,5 +1,5 @@
-
-import React from 'react';
+// client/src/App.js
+import React, { useState, useEffect } from 'react'; // Import useState and useEffect
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import PublicLayout from './components/Layouts/PublicLayout';
 import AdminLayout from './components/Layouts/AdminLayout';
@@ -26,10 +26,27 @@ import TicketMessagesShared from './pages/Shared/TicketMessages';
 import { useAuth } from './hooks/useAuth';
 import ChatbotWidget from './components/Chatbot/ChatbotWidget';
 import UserProfile from './pages/Auth/UserProfile';
+import { getSettings } from './api/settings'; 
+import TopBar from './components/Navigation/TopBar';
+import AnnouncementBar from './components/Navigation/AnnouncementBar';
 
 function App() {
   const { user, userType, loading } = useAuth();
   const location = useLocation();
+  const [announcementMessage, setAnnouncementMessage] = useState(''); 
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const settings = await getSettings();
+        setAnnouncementMessage(settings.announcementText || '');
+      } catch (error) {
+        console.error("Error fetching settings:", error);
+      }
+    };
+
+    fetchSettings();
+  }, []); // runs only once on mount
 
   if (loading) {
     return <div>Loading app...</div>;
@@ -41,6 +58,8 @@ function App() {
 
   return (
     <>
+      <AnnouncementBar announcementMessage={announcementMessage} />
+      <TopBar />
       <Routes>
         {/* public routes wrapped in publiclayout conditionally */}
         <Route path="/" element={isAuthPage ? <HomePublic /> : <PublicLayout bannerURL={homePageBanner} hasPadding={false}><HomePublic /></PublicLayout>} /> {/* pass bannerurl and no padding for homepage */}
