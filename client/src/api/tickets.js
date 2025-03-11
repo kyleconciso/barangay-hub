@@ -1,8 +1,8 @@
-import api from './index';
+import api from "./index";
 
 export const getTickets = async () => {
   try {
-    const response = await api.get('/tickets');
+    const response = await api.get("/tickets");
     return response.data; // backend returns tickets array
   } catch (error) {
     throw error;
@@ -20,7 +20,7 @@ export const getTicket = async (id) => {
 
 export const createTicket = async (data) => {
   try {
-    const response = await api.post('/tickets', data);
+    const response = await api.post("/tickets", data);
     return response.data; // backend returns created ticket object
   } catch (error) {
     throw error;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Dialog,
   DialogTitle,
@@ -11,14 +11,14 @@ import {
   Box,
   Paper,
   Link, // Import Link component
-} from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import parse from 'html-react-parser';
+} from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import parse from "html-react-parser";
 
 // helper function to format date objects or firestore timestamps
 const formatTimestamp = (value) => {
   // handle firestore timestamp objects (with _seconds and _nanoseconds)
-  if (value && typeof value === 'object' && '_seconds' in value) {
+  if (value && typeof value === "object" && "_seconds" in value) {
     // convert to javascript date
     return new Date(value._seconds * 1000).toLocaleString();
   }
@@ -44,27 +44,37 @@ const ManagementDetail = ({
 
   const renderFieldValue = (field, value) => {
     if (value === null || value === undefined) {
-      return <Typography variant="body2" color="text.secondary">Not provided</Typography>;
+      return (
+        <Typography variant="body2" color="text.secondary">
+          Not provided
+        </Typography>
+      );
     }
 
     // handle timestamp objects
-    if (typeof value === 'object' && '_seconds' in value) {
+    if (typeof value === "object" && "_seconds" in value) {
       value = formatTimestamp(value);
     }
 
     switch (field.type) {
-      case 'richtext':
+      case "richtext":
         return <Box sx={{ mt: 1 }}>{parse(String(value))}</Box>;
 
-      case 'select':
-        const option = field.options?.find(opt => opt.value === value);
-        return <Typography variant="body1">{option ? option.label : String(value)}</Typography>;
+      case "select":
+        const option = field.options?.find((opt) => opt.value === value);
+        return (
+          <Typography variant="body1">
+            {option ? option.label : String(value)}
+          </Typography>
+        );
 
-      case 'date':
-      case 'datetime':
-        return <Typography variant="body1">{formatTimestamp(value)}</Typography>;
+      case "date":
+      case "datetime":
+        return (
+          <Typography variant="body1">{formatTimestamp(value)}</Typography>
+        );
 
-      case 'uri': // Handle URI type for image URLs and links
+      case "uri": // Handle URI type for image URLs and links
         return (
           <Link href={value} target="_blank" rel="noopener noreferrer">
             <Typography variant="body1">{String(value)}</Typography>
@@ -86,9 +96,7 @@ const ManagementDetail = ({
     >
       <DialogTitle>
         <Grid container alignItems="center" justifyContent="space-between">
-          <Grid item>
-            {title} Details
-          </Grid>
+          <Grid item>{title} Details</Grid>
           <Grid item>
             <Button
               startIcon={<EditIcon />}
@@ -107,7 +115,11 @@ const ManagementDetail = ({
           {fields.map((field) => (
             <Grid item xs={12} key={field.name}>
               <Paper variant="outlined" sx={{ p: 2 }}>
-                <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+                <Typography
+                  variant="subtitle2"
+                  color="text.secondary"
+                  gutterBottom
+                >
                   {field.label}
                 </Typography>
                 <Divider sx={{ my: 1 }} />

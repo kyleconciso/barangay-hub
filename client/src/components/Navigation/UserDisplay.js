@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   IconButton,
   Menu,
@@ -7,10 +6,10 @@ import {
   Typography,
   Box,
   Avatar,
-} from '@mui/material';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import { useAuth } from '../../hooks/useAuth';
-import { Link as RouterLink, useNavigate } from 'react-router-dom'; // import usenavigate
+} from "@mui/material";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import { useAuth } from "../../hooks/useAuth";
+import { Link as RouterLink, useNavigate } from "react-router-dom"; // import usenavigate
 
 const UserDisplay = () => {
   const { user, userType, logout } = useAuth();
@@ -30,31 +29,31 @@ const UserDisplay = () => {
       await logout();
       handleMenuClose();
     } catch (error) {
-      console.error('Logout failed:', error);
+      console.error("Logout failed:", error);
     }
   };
 
   const handleDashboardClick = () => {
-    if (userType === 'ADMIN' || userType === 'EMPLOYEE') {
-      navigate('/admin');
-    } else if (userType === 'RESIDENT') {
-      navigate('/user');
+    if (userType === "ADMIN" || userType === "EMPLOYEE") {
+      navigate("/admin");
+    } else if (userType === "RESIDENT") {
+      navigate("/user");
     }
     handleMenuClose();
   };
 
-    const getInitials = (name) => {
-        if (!name) return 'U';
-        return name
-            .split(' ')
-            .map((part) => part[0])
-            .join('')
-            .toUpperCase()
-            .substring(0, 2);
-    };
+  const getInitials = (name) => {
+    if (!name) return "U";
+    return name
+      .split(" ")
+      .map((part) => part[0])
+      .join("")
+      .toUpperCase()
+      .substring(0, 2);
+  };
 
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
       {user && (
         <Typography variant="body2">
           {user.displayName || user.email} ({userType})
@@ -69,25 +68,25 @@ const UserDisplay = () => {
         aria-haspopup="true"
         onClick={handleMenuOpen}
       >
-         {user ? (
-            <Avatar sx={{ bgcolor: 'secondary.main' }}>
-              {getInitials(user.displayName || user.email)}
-            </Avatar>
+        {user ? (
+          <Avatar sx={{ bgcolor: "secondary.main" }}>
+            {getInitials(user.displayName || user.email)}
+          </Avatar>
         ) : (
-            <AccountCircle />
+          <AccountCircle />
         )}
       </IconButton>
       <Menu
         id="menu-appbar"
         anchorEl={anchorEl}
         anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right',
+          vertical: "bottom",
+          horizontal: "right",
         }}
         keepMounted
         transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
+          vertical: "top",
+          horizontal: "right",
         }}
         open={Boolean(anchorEl)}
         onClose={handleMenuClose}
@@ -97,8 +96,8 @@ const UserDisplay = () => {
             {/* <MenuItem component={RouterLink} to="/profile" onClick={handleMenuClose}>
               Profile
             </MenuItem> */}
-             <MenuItem onClick={handleDashboardClick}>My Dashboard</MenuItem>
-            {userType === 'ADMIN' && (
+            <MenuItem onClick={handleDashboardClick}>My Dashboard</MenuItem>
+            {userType === "ADMIN" && (
               <MenuItem
                 component={RouterLink}
                 to="/admin/settings"
@@ -110,7 +109,11 @@ const UserDisplay = () => {
             <MenuItem onClick={handleLogout}>Logout</MenuItem>
           </>
         ) : (
-          <MenuItem component={RouterLink} to="/login" onClick={handleMenuClose}>
+          <MenuItem
+            component={RouterLink}
+            to="/login"
+            onClick={handleMenuClose}
+          >
             Login
           </MenuItem>
         )}

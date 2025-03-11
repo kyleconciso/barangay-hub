@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Container,
   Typography,
@@ -8,10 +8,10 @@ import {
   Avatar,
   Button,
   Divider,
-} from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import { useAuth } from '../../hooks/useAuth';
- 
+} from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import { useAuth } from "../../hooks/useAuth";
+
 const UserProfile = () => {
   const { user, userType } = useAuth();
 
@@ -20,11 +20,11 @@ const UserProfile = () => {
   }
 
   const getInitials = (name) => {
-    if (!name) return 'U';
+    if (!name) return "U";
     return name
-      .split(' ')
+      .split(" ")
       .map((part) => part[0])
-      .join('')
+      .join("")
       .toUpperCase()
       .substring(0, 2);
   };
@@ -34,7 +34,7 @@ const UserProfile = () => {
       <Box mt={4}>
         <Paper elevation={3} sx={{ p: 3 }}>
           <Grid container spacing={3}>
-            <Grid item xs={12} sm={4} md={3} sx={{ textAlign: 'center' }}>
+            <Grid item xs={12} sm={4} md={3} sx={{ textAlign: "center" }}>
               {/* Display user's profile picture if available */}
               {user.photoURL ? (
                 <Avatar
@@ -43,7 +43,7 @@ const UserProfile = () => {
                     width: 120,
                     height: 120,
                     mb: 2,
-                    mx: 'auto',
+                    mx: "auto",
                   }}
                 />
               ) : (
@@ -51,10 +51,10 @@ const UserProfile = () => {
                   sx={{
                     width: 120,
                     height: 120,
-                    bgcolor: 'primary.main',
+                    bgcolor: "primary.main",
                     fontSize: 48,
                     mb: 2,
-                    mx: 'auto',
+                    mx: "auto",
                   }}
                 >
                   {getInitials(user.displayName || user.email)}
@@ -71,7 +71,7 @@ const UserProfile = () => {
             </Grid>
             <Grid item xs={12} sm={8} md={9}>
               <Typography variant="h4" gutterBottom>
-                {user.displayName || 'User Profile'}
+                {user.displayName || "User Profile"}
               </Typography>
               <Divider sx={{ mb: 2 }} />
 
@@ -102,7 +102,7 @@ const UserProfile = () => {
                 </Grid>
                 <Grid item xs={12} sm={8}>
                   <Typography variant="body1">
-                    {user.address || 'N/A'}
+                    {user.address || "N/A"}
                   </Typography>
                 </Grid>
 
@@ -112,9 +112,7 @@ const UserProfile = () => {
                   </Typography>
                 </Grid>
                 <Grid item xs={12} sm={8}>
-                  <Typography variant="body1">
-                    {user.phone || 'N/A'}
-                  </Typography>
+                  <Typography variant="body1">{user.phone || "N/A"}</Typography>
                 </Grid>
               </Grid>
             </Grid>

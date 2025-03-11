@@ -1,19 +1,24 @@
-import React from 'react';
-import ManagementPage from '../../components/Management/ManagementPage';
-import { getForms, getForm, createForm, updateForm, deleteForm } from '../../api/forms';
+import React from "react";
+import ManagementPage from "../../components/Management/ManagementPage";
+import {
+  getForms,
+  getForm,
+  createForm,
+  updateForm,
+  deleteForm,
+} from "../../api/forms";
 
 const AdminForms = () => {
-
   const columns = [
-    { field: 'title', headerName: 'Title' },
-    { field: 'link', headerName: 'Link' },
+    { field: "title", headerName: "Title" },
+    { field: "link", headerName: "Link" },
   ];
 
   const fields = [
-    { name: 'title', label: 'Title', type: 'text' },
-    { name: 'description', label: 'Description', type: 'textarea' },
-    { name: 'link', label: 'Link', type: 'uri' },
-    { name: 'imageURL', label: 'Image URL', type: 'uri' },
+    { name: "title", label: "Title", type: "text" },
+    { name: "description", label: "Description", type: "textarea" },
+    { name: "link", label: "Link", type: "uri" },
+    { name: "imageURL", label: "Image URL", type: "uri" },
   ];
 
   return (

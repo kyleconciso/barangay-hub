@@ -1,5 +1,5 @@
-import React from 'react';
-import { Typography, Container } from '@mui/material';
+import React from "react";
+import { Typography, Container } from "@mui/material";
 
 const AdminHome = () => {
   return (

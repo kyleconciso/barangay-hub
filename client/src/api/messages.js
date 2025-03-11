@@ -1,9 +1,8 @@
-
-import api from './index';
+import api from "./index";
 
 export const getMessages = async () => {
   try {
-    const response = await api.get('/messages');
+    const response = await api.get("/messages");
     return response.data; // backend returns messages array
   } catch (error) {
     throw error;
@@ -23,7 +22,7 @@ export const getMessage = async (id) => {
 
 export const createMessage = async (data) => {
   try {
-    const response = await api.post('/messages', data);
+    const response = await api.post("/messages", data);
     return response.data; // backend returns created message object
   } catch (error) {
     throw error;

@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Paper,
   Table,
@@ -13,15 +12,15 @@ import {
   Tooltip,
   CircularProgress,
   Box,
-} from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import VisibilityIcon from '@mui/icons-material/Visibility';
+} from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 // helper function to format date objects or firestore timestamps
 const formatTimestamp = (value) => {
   // handle firestore timestamp objects (with _seconds and _nanoseconds)
-  if (value && typeof value === 'object' && '_seconds' in value) {
+  if (value && typeof value === "object" && "_seconds" in value) {
     // convert to javascript date
     return new Date(value._seconds * 1000).toLocaleString();
   }
@@ -36,11 +35,11 @@ const formatTimestamp = (value) => {
 };
 
 // helper function to safely get a property value
-const safeGetValue = (obj, path, defaultValue = '') => {
+const safeGetValue = (obj, path, defaultValue = "") => {
   if (!obj) return defaultValue;
 
   // handle direct property access
-  if (typeof path === 'string' && path in obj) {
+  if (typeof path === "string" && path in obj) {
     return obj[path];
   }
 
@@ -69,15 +68,20 @@ const ManagementList = ({
 
   if (loading) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', my: 4 }}>
+      <Box sx={{ display: "flex", justifyContent: "center", my: 4 }}>
         <CircularProgress />
       </Box>
     );
   }
 
   // make sure items is always an array and filter out undefined/null rows
-  const safeItems = Array.isArray(items) ? items.filter(item => item !== null && item !== undefined) : [];
-  const visibleRows = safeItems.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+  const safeItems = Array.isArray(items)
+    ? items.filter((item) => item !== null && item !== undefined)
+    : [];
+  const visibleRows = safeItems.slice(
+    page * rowsPerPage,
+    page * rowsPerPage + rowsPerPage,
+  );
 
   // generate a unique key for each row
   const getRowKey = (row, index) => {
@@ -85,13 +89,13 @@ const ManagementList = ({
     return row && row.id ? row.id : `row-${index}`;
   };
 
-    const handleActionClick = (handler, rowId) => {
-        if (!handler) return;
-        handler(rowId);
-    };
+  const handleActionClick = (handler, rowId) => {
+    if (!handler) return;
+    handler(rowId);
+  };
 
   return (
-    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+    <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
@@ -99,7 +103,7 @@ const ManagementList = ({
               {columns.map((column) => (
                 <TableCell
                   key={column.field}
-                  align={column.numeric ? 'right' : 'left'}
+                  align={column.numeric ? "right" : "left"}
                   style={{ minWidth: column.minWidth }}
                 >
                   {column.headerName}
@@ -122,17 +126,20 @@ const ManagementList = ({
 
                   const displayValue = column.renderCell
                     ? column.renderCell({ row })
-                    : (
-                      // format timestamp objects or return the value directly
-                      column.field.toLowerCase().includes('date') ||
-                      column.field.toLowerCase().includes('at') ||
-                      column.field.toLowerCase().includes('time')
-                        ? formatTimestamp(value)
-                        : (value !== null && value !== undefined ? String(value) : '')
-                    );
+                    : // format timestamp objects or return the value directly
+                      column.field.toLowerCase().includes("date") ||
+                        column.field.toLowerCase().includes("at") ||
+                        column.field.toLowerCase().includes("time")
+                      ? formatTimestamp(value)
+                      : value !== null && value !== undefined
+                        ? String(value)
+                        : "";
 
                   return (
-                    <TableCell key={column.field} align={column.numeric ? 'right' : 'left'}>
+                    <TableCell
+                      key={column.field}
+                      align={column.numeric ? "right" : "left"}
+                    >
                       {displayValue}
                     </TableCell>
                   );
@@ -141,7 +148,9 @@ const ManagementList = ({
                   {onDetailClick && (
                     <Tooltip title="View details">
                       <IconButton
-                        onClick={() => handleActionClick(onDetailClick, row?.id)}
+                        onClick={() =>
+                          handleActionClick(onDetailClick, row?.id)
+                        }
                         size="small"
                       >
                         <VisibilityIcon />
@@ -161,7 +170,9 @@ const ManagementList = ({
                   {onDeleteClick && (
                     <Tooltip title="Delete">
                       <IconButton
-                        onClick={() => handleActionClick(onDeleteClick, row?.id)}
+                        onClick={() =>
+                          handleActionClick(onDeleteClick, row?.id)
+                        }
                         size="small"
                         color="error"
                       >

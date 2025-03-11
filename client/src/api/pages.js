@@ -1,8 +1,8 @@
-import api from './index';
+import api from "./index";
 
 export const getPages = async () => {
   try {
-    const response = await api.get('/pages');
+    const response = await api.get("/pages");
     return response.data; // backend returns pages array
   } catch (error) {
     throw error;
@@ -20,7 +20,7 @@ export const getPage = async (id) => {
 
 export const createPage = async (data) => {
   try {
-    const response = await api.post('/pages', data);
+    const response = await api.post("/pages", data);
     return response.data; // backend returns created page object
   } catch (error) {
     throw error;

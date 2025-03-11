@@ -1,6 +1,6 @@
-import axios from 'axios';
-import { auth } from './firebase'; 
-import { baseURL } from './config'
+import axios from "axios";
+import { auth } from "./firebase";
+import { baseURL } from "./config";
 
 const api = axios.create({
   baseURL: baseURL,
@@ -23,7 +23,7 @@ api.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 export default api;

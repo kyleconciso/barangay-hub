@@ -1,6 +1,6 @@
 // src/theme.js
-import { createTheme } from '@mui/material/styles';
-import { blueGrey, grey, indigo, teal, red } from '@mui/material/colors';
+import { createTheme } from "@mui/material/styles";
+import { blueGrey, grey, indigo, teal, red } from "@mui/material/colors";
 
 const navyBlueTheme = createTheme({
   palette: {
@@ -8,20 +8,20 @@ const navyBlueTheme = createTheme({
       main: indigo[700],
       light: indigo[500],
       dark: indigo[900],
-      contrastText: '#fff',
+      contrastText: "#fff",
     },
     secondary: {
       main: teal[400],
       light: teal[300],
       dark: teal[600],
-      contrastText: '#000',
+      contrastText: "#000",
     },
     error: {
       main: red[400],
     },
     background: {
       default: grey[100],
-      paper: '#fff',
+      paper: "#fff",
     },
     text: {
       primary: blueGrey[900],
@@ -29,7 +29,8 @@ const navyBlueTheme = createTheme({
     },
   },
   typography: {
-    fontFamily: '"Plus Jakarta Sans", "Roboto", "Helvetica", "Arial", sans-serif', // <-- CHANGED: Use Plus Jakarta Sans
+    fontFamily:
+      '"Plus Jakarta Sans", "Roboto", "Helvetica", "Arial", sans-serif', // <-- CHANGED: Use Plus Jakarta Sans
     fontWeightRegular: 400,
     fontWeightMedium: 500,
     fontWeightBold: 700, // Back to 700 for bold
@@ -56,56 +57,56 @@ const navyBlueTheme = createTheme({
     },
   },
   components: {
-        // ... (rest of the component overrides - no changes needed here)
+    // ... (rest of the component overrides - no changes needed here)
     MuiAppBar: {
       defaultProps: {
-        color: 'primary',
+        color: "primary",
       },
       styleOverrides: {
         root: {
-          boxShadow: 'none',
+          boxShadow: "none",
         },
       },
     },
     MuiButton: {
       defaultProps: {
-        variant: 'contained',
-        color: 'primary',
+        variant: "contained",
+        color: "primary",
       },
       styleOverrides: {
         root: {
           borderRadius: 6,
-          textTransform: 'none',
+          textTransform: "none",
           fontWeight: 500,
-          boxShadow: 'none',
+          boxShadow: "none",
         },
         contained: {
-            boxShadow: 'none',
+          boxShadow: "none",
         },
         outlinedPrimary: {
-          borderColor: 'primary.main',
-          color: 'primary.main',
-          '&:hover': {
-            backgroundColor: 'rgba(26, 35, 126, 0.04)',
+          borderColor: "primary.main",
+          color: "primary.main",
+          "&:hover": {
+            backgroundColor: "rgba(26, 35, 126, 0.04)",
           },
         },
         outlinedSecondary: {
-          borderColor: 'secondary.main',
-          color: 'secondary.main',
-          '&:hover': {
-            backgroundColor: 'rgba(0, 188, 212, 0.04)',
+          borderColor: "secondary.main",
+          color: "secondary.main",
+          "&:hover": {
+            backgroundColor: "rgba(0, 188, 212, 0.04)",
           },
         },
         textPrimary: {
-          color: 'primary.main',
-          '&:hover': {
-            backgroundColor: 'rgba(26, 35, 126, 0.04)',
+          color: "primary.main",
+          "&:hover": {
+            backgroundColor: "rgba(26, 35, 126, 0.04)",
           },
         },
         textSecondary: {
-          color: 'secondary.main',
-          '&:hover': {
-            backgroundColor: 'rgba(0, 188, 212, 0.04)',
+          color: "secondary.main",
+          "&:hover": {
+            backgroundColor: "rgba(0, 188, 212, 0.04)",
           },
         },
       },
@@ -113,28 +114,28 @@ const navyBlueTheme = createTheme({
     MuiIconButton: {
       styleOverrides: {
         root: {
-          color: 'text.secondary',
-          '&:hover': {
-            backgroundColor: 'rgba(0, 0, 0, 0.04)',
+          color: "text.secondary",
+          "&:hover": {
+            backgroundColor: "rgba(0, 0, 0, 0.04)",
           },
         },
       },
     },
     MuiTextField: {
       defaultProps: {
-        variant: 'outlined',
+        variant: "outlined",
       },
       styleOverrides: {
         root: {
-          '& .MuiOutlinedInput-root': {
-            '& fieldset': {
+          "& .MuiOutlinedInput-root": {
+            "& fieldset": {
               borderColor: grey[400],
             },
-            '&:hover fieldset': {
-              borderColor: 'primary.main',
+            "&:hover fieldset": {
+              borderColor: "primary.main",
             },
-            '&.Mui-focused fieldset': {
-              borderColor: 'primary.main',
+            "&.Mui-focused fieldset": {
+              borderColor: "primary.main",
             },
           },
         },
@@ -143,10 +144,10 @@ const navyBlueTheme = createTheme({
     MuiLink: {
       styleOverrides: {
         root: {
-          color: 'primary.main',
-          textDecoration: 'none',
-          '&:hover': {
-            textDecoration: 'underline',
+          color: "primary.main",
+          textDecoration: "none",
+          "&:hover": {
+            textDecoration: "underline",
           },
         },
       },
@@ -162,7 +163,7 @@ const navyBlueTheme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 8,
-          boxShadow: '0 2px 4px rgba(0,0,0,0.4)',
+          boxShadow: "0 2px 4px rgba(0,0,0,0.4)",
         },
       },
     },
@@ -176,7 +177,7 @@ const navyBlueTheme = createTheme({
     MuiListItem: {
       styleOverrides: {
         root: {
-          '&:hover': {
+          "&:hover": {
             backgroundColor: blueGrey[50],
           },
         },
@@ -185,10 +186,10 @@ const navyBlueTheme = createTheme({
     MuiListItemText: {
       styleOverrides: {
         primary: {
-          color: 'text.primary',
+          color: "text.primary",
         },
         secondary: {
-          color: 'text.secondary',
+          color: "text.secondary",
         },
       },
     },
@@ -202,23 +203,23 @@ const navyBlueTheme = createTheme({
     MuiDialogTitle: {
       styleOverrides: {
         root: {
-          backgroundColor: 'primary.main',
-          color: 'primary.contrastText',
-          padding: '16px 24px',
+          backgroundColor: "primary.main",
+          color: "primary.contrastText",
+          padding: "16px 24px",
         },
       },
     },
     MuiDialogContent: {
       styleOverrides: {
         root: {
-          padding: '24px',
+          padding: "24px",
         },
       },
     },
     MuiDialogActions: {
       styleOverrides: {
         root: {
-          padding: '8px 24px',
+          padding: "8px 24px",
         },
       },
     },
@@ -229,13 +230,13 @@ const navyBlueTheme = createTheme({
         },
         standardInfo: {
           backgroundColor: blueGrey[50],
-          color: 'text.primary',
+          color: "text.primary",
         },
       },
     },
     MuiCircularProgress: {
       defaultProps: {
-        color: 'primary',
+        color: "primary",
       },
     },
     MuiDivider: {
@@ -248,51 +249,51 @@ const navyBlueTheme = createTheme({
     MuiFab: {
       styleOverrides: {
         root: {
-          boxShadow: '0 3px 5px rgba(0, 0, 0, 0.2)',
+          boxShadow: "0 3px 5px rgba(0, 0, 0, 0.2)",
         },
       },
     },
     MuiAvatar: {
       styleOverrides: {
         root: {
-          backgroundColor: 'secondary.main',
-          color: 'secondary.contrastText',
+          backgroundColor: "secondary.main",
+          color: "secondary.contrastText",
         },
       },
     },
     MuiTableCell: {
       styleOverrides: {
         head: {
-          backgroundColor: 'primary.main',
-          color: 'primary.contrastText',
+          backgroundColor: "primary.main",
+          color: "primary.contrastText",
           fontWeight: 600,
         },
         body: {
-          color: 'text.primary',
+          color: "text.primary",
         },
       },
     },
     MuiTablePagination: {
       styleOverrides: {
         root: {
-          color: 'text.secondary',
+          color: "text.secondary",
         },
       },
     },
     MuiTooltip: {
       styleOverrides: {
         tooltip: {
-          backgroundColor: 'primary.main',
-          color: 'primary.contrastText',
+          backgroundColor: "primary.main",
+          color: "primary.contrastText",
         },
       },
     },
     MuiInputLabel: {
       styleOverrides: {
         root: {
-          color: 'text.secondary',
-          '&.Mui-focused': {
-            color: 'primary.main',
+          color: "text.secondary",
+          "&.Mui-focused": {
+            color: "primary.main",
           },
         },
       },
@@ -300,15 +301,15 @@ const navyBlueTheme = createTheme({
     MuiFormHelperText: {
       styleOverrides: {
         root: {
-          color: 'text.secondary',
+          color: "text.secondary",
         },
       },
     },
     MuiSelect: {
       styleOverrides: {
         select: {
-          '&:focus': {
-            backgroundColor: 'transparent',
+          "&:focus": {
+            backgroundColor: "transparent",
           },
         },
       },
@@ -316,14 +317,14 @@ const navyBlueTheme = createTheme({
     MuiMenuItem: {
       styleOverrides: {
         root: {
-          '&:hover': {
+          "&:hover": {
             backgroundColor: blueGrey[50],
           },
-          '&.Mui-selected': {
-            backgroundColor: 'primary.light',
-            color: 'primary.contrastText',
-            '&:hover': {
-              backgroundColor: 'primary.light',
+          "&.Mui-selected": {
+            backgroundColor: "primary.light",
+            color: "primary.contrastText",
+            "&:hover": {
+              backgroundColor: "primary.light",
             },
           },
         },

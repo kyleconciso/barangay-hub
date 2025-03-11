@@ -1,15 +1,22 @@
-import React from 'react';
+import React from "react";
 import {
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogContentText,
-    DialogActions,
-    Button,
-    CircularProgress
-} from '@mui/material';
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
+  CircularProgress,
+} from "@mui/material";
 
-const ConfirmDialog = ({ open, onClose, onConfirm, title, message, loading }) => {
+const ConfirmDialog = ({
+  open,
+  onClose,
+  onConfirm,
+  title,
+  message,
+  loading,
+}) => {
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>{title}</DialogTitle>
@@ -20,8 +27,13 @@ const ConfirmDialog = ({ open, onClose, onConfirm, title, message, loading }) =>
         <Button onClick={onClose} color="primary" disabled={loading}>
           Cancel
         </Button>
-        <Button onClick={onConfirm} color="primary" autoFocus disabled={loading}>
-            {loading ? <CircularProgress size={24} /> : "Confirm"}
+        <Button
+          onClick={onConfirm}
+          color="primary"
+          autoFocus
+          disabled={loading}
+        >
+          {loading ? <CircularProgress size={24} /> : "Confirm"}
         </Button>
       </DialogActions>
     </Dialog>

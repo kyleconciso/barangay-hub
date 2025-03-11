@@ -1,38 +1,44 @@
-
-import React from 'react';
-import NavBar from './NavBar';
-import NavButton from './NavButton';
-import { useAuth } from '../../hooks/useAuth';
-import { Button, Box, Typography } from '@mui/material';
-import CallIcon from '@mui/icons-material/Call';
-import { Link as RouterLink } from 'react-router-dom';
-import ArticleIcon from '@mui/icons-material/Article';       // for news & Updates
-import DynamicFormIcon from '@mui/icons-material/DynamicForm'; // for make a request
-import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount'; // for officials
-import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber'; // for submit a ticket
+import React from "react";
+import NavBar from "./NavBar";
+import NavButton from "./NavButton";
+import { useAuth } from "../../hooks/useAuth";
+import { Button, Box, Typography } from "@mui/material";
+import CallIcon from "@mui/icons-material/Call";
+import { Link as RouterLink } from "react-router-dom";
+import ArticleIcon from "@mui/icons-material/Article"; // for news & Updates
+import DynamicFormIcon from "@mui/icons-material/DynamicForm"; // for make a request
+import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount"; // for officials
+import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber"; // for submit a ticket
 
 const PublicNav = () => {
   const { user, userType } = useAuth();
 
   const submitTicketLink = user
-    ? (userType === 'RESIDENT' ? '/user/tickets' : '/admin/tickets')
-    : '/login';
+    ? userType === "RESIDENT"
+      ? "/user/tickets"
+      : "/admin/tickets"
+    : "/login";
 
   return (
-    <NavBar
-      contactButton={
-        <NavBarContactButton />
-      }
-    >
-      <NavButton to="/articles" icon={<ArticleIcon />}>NEWS & UPDATES</NavButton>
-      <NavButton to="/forms" icon={<DynamicFormIcon />}>MAKE A REQUEST</NavButton>
-      <NavButton to="/officials" icon={<SupervisorAccountIcon />}>OFFICIALS</NavButton>
-      <NavButton to={submitTicketLink} icon={<ConfirmationNumberIcon />}>SUBMIT A TICKET</NavButton>
+    <NavBar contactButton={<NavBarContactButton />}>
+      <NavButton to="/articles" icon={<ArticleIcon />}>
+        NEWS & UPDATES
+      </NavButton>
+      <NavButton to="/forms" icon={<DynamicFormIcon />}>
+        MAKE A REQUEST
+      </NavButton>
+      <NavButton to="/officials" icon={<SupervisorAccountIcon />}>
+        OFFICIALS
+      </NavButton>
+      <NavButton to={submitTicketLink} icon={<ConfirmationNumberIcon />}>
+        SUBMIT A TICKET
+      </NavButton>
     </NavBar>
   );
 };
 
-const NavBarContactButton = () => {  //No change needed
+const NavBarContactButton = () => {
+  //No change needed
   return (
     <Box ml="auto">
       <Button
@@ -41,14 +47,14 @@ const NavBarContactButton = () => {  //No change needed
         component={RouterLink}
         to="/contact"
         sx={{
-          borderRadius: '24px',
-          backgroundColor: 'white',
-          color: 'primary.main',
-          '&:hover': {
-            backgroundColor: 'grey.200',
+          borderRadius: "24px",
+          backgroundColor: "white",
+          color: "primary.main",
+          "&:hover": {
+            backgroundColor: "grey.200",
           },
-          textTransform: 'none',
-          padding: '6px 16px',
+          textTransform: "none",
+          padding: "6px 16px",
         }}
       >
         <CallIcon sx={{ mr: 1 }} />

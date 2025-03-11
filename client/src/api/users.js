@@ -1,8 +1,8 @@
-import api from './index';
+import api from "./index";
 
 export const getUsers = async () => {
   try {
-    const response = await api.get('/users');
+    const response = await api.get("/users");
     return response.data; // backend returns users array
   } catch (error) {
     throw error;
@@ -39,7 +39,7 @@ export const deleteUser = async (id) => {
 // helper function to get users by type (for the ticket assignment dropdown)
 export const getUsersByType = async (type) => {
   try {
-    const response = await api.get(`/users?type=${type}`); 
+    const response = await api.get(`/users?type=${type}`);
     return response.data; // backend returns users array filtered by type
   } catch (error) {
     throw error;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -14,22 +14,22 @@ import {
   Grid,
   Box,
   CircularProgress,
-} from '@mui/material';
-import { EditorState, ContentState, convertToRaw } from 'draft-js';
-import { Editor } from 'react-draft-wysiwyg';
-import draftToHtml from 'draftjs-to-html';
-import htmlToDraft from 'html-to-draftjs';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+} from "@mui/material";
+import { EditorState, ContentState, convertToRaw } from "draft-js";
+import { Editor } from "react-draft-wysiwyg";
+import draftToHtml from "draftjs-to-html";
+import htmlToDraft from "html-to-draftjs";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 // safe conversion helper to handle various object types
 const safeValue = (value) => {
   // return empty string for null/undefined
   if (value === null || value === undefined) {
-    return '';
+    return "";
   }
 
   // handle firestore timestamp objects (with _seconds and _nanoseconds)
-  if (typeof value === 'object' && '_seconds' in value) {
+  if (typeof value === "object" && "_seconds" in value) {
     return new Date(value._seconds * 1000).toLocaleString();
   }
 
@@ -39,16 +39,16 @@ const safeValue = (value) => {
   }
 
   // handle empty objects
-  if (typeof value === 'object' && Object.keys(value).length === 0) {
-    return '';
+  if (typeof value === "object" && Object.keys(value).length === 0) {
+    return "";
   }
 
   // for other objects, convert to json string
-  if (typeof value === 'object') {
+  if (typeof value === "object") {
     try {
       return JSON.stringify(value);
     } catch (e) {
-      return '';
+      return "";
     }
   }
 
@@ -76,43 +76,46 @@ const ManagementForm = ({
       const newFormData = initialData ? { ...initialData } : {};
 
       // clean up any object values that can't be directly rendered
-      fields.forEach(field => {
+      fields.forEach((field) => {
         if (newFormData[field.name] !== undefined) {
           // convert any object values to appropriate string representations
-          if (typeof newFormData[field.name] === 'object') {
+          if (typeof newFormData[field.name] === "object") {
             // don't stringify richtext fields, they'll be handled separately
-            if (field.type !== 'richtext') {
+            if (field.type !== "richtext") {
               newFormData[field.name] = safeValue(newFormData[field.name]);
             }
           }
         } else {
           // set default values for missing fields
-          newFormData[field.name] = '';
+          newFormData[field.name] = "";
         }
       });
 
       // initialize rich text editors if needed
       const newRichTextEditors = {};
-      fields.forEach(field => {
-        if (field.type === 'richtext') {
+      fields.forEach((field) => {
+        if (field.type === "richtext") {
           let editorState;
 
           if (initialData && initialData[field.name]) {
             try {
               // handle the case where content might be an object
-              const htmlContent = typeof initialData[field.name] === 'object'
-                ? ''
-                : String(initialData[field.name]);
+              const htmlContent =
+                typeof initialData[field.name] === "object"
+                  ? ""
+                  : String(initialData[field.name]);
 
               const contentBlock = htmlToDraft(htmlContent);
               if (contentBlock) {
-                const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
+                const contentState = ContentState.createFromBlockArray(
+                  contentBlock.contentBlocks,
+                );
                 editorState = EditorState.createWithContent(contentState);
               } else {
                 editorState = EditorState.createEmpty();
               }
             } catch (e) {
-              console.error('Error initializing rich text editor:', e);
+              console.error("Error initializing rich text editor:", e);
               editorState = EditorState.createEmpty();
             }
           } else {
@@ -172,9 +175,12 @@ const ManagementForm = ({
     const newErrors = {};
     let isValid = true;
 
-    fields.forEach(field => {
+    fields.forEach((field) => {
       // simple required validation - can be extended for other validation types
-      if (field.required && (!formData[field.name] || formData[field.name] === '')) {
+      if (
+        field.required &&
+        (!formData[field.name] || formData[field.name] === "")
+      ) {
         newErrors[field.name] = `${field.label} is required`;
         isValid = false;
       }
@@ -193,11 +199,14 @@ const ManagementForm = ({
     const cleanedFormData = { ...formData };
 
     // make sure all data is in a format that won't cause rendering issues
-    Object.keys(cleanedFormData).forEach(key => {
-      if (typeof cleanedFormData[key] === 'object' && !(cleanedFormData[key] instanceof Date)) {
+    Object.keys(cleanedFormData).forEach((key) => {
+      if (
+        typeof cleanedFormData[key] === "object" &&
+        !(cleanedFormData[key] instanceof Date)
+      ) {
         // for rich text fields, we want to keep the html string
-        const field = fields.find(f => f.name === key);
-        if (field && field.type === 'richtext') {
+        const field = fields.find((f) => f.name === key);
+        if (field && field.type === "richtext") {
           // no change needed, already html string
         } else {
           // convert other objects to string representation
@@ -216,7 +225,7 @@ const ManagementForm = ({
       console.error("Error submitting form:", err);
       setErrors({
         ...errors,
-        _general: "Failed to submit form. Please try again."
+        _general: "Failed to submit form. Please try again.",
       });
     } finally {
       setLoading(false);
@@ -226,12 +235,15 @@ const ManagementForm = ({
   const renderField = (field) => {
     const { name, label, type, options = [] } = field;
     // ensure value is never an object that could cause rendering issues
-    const value = typeof formData[name] === 'object' ? safeValue(formData[name]) : (formData[name] || '');
+    const value =
+      typeof formData[name] === "object"
+        ? safeValue(formData[name])
+        : formData[name] || "";
     const error = errors[name] || null;
 
     switch (type) {
-      case 'text':
-      case 'uri': // treat as text
+      case "text":
+      case "uri": // treat as text
         return (
           <TextField
             fullWidth
@@ -246,7 +258,7 @@ const ManagementForm = ({
           />
         );
 
-      case 'textarea':
+      case "textarea":
         return (
           <TextField
             fullWidth
@@ -263,7 +275,7 @@ const ManagementForm = ({
           />
         );
 
-      case 'select':
+      case "select":
         return (
           <FormControl
             fullWidth
@@ -275,7 +287,7 @@ const ManagementForm = ({
             <Select
               labelId={`${name}-label`}
               name={name}
-              value={value || ''}
+              value={value || ""}
               onChange={handleInputChange}
               label={label}
             >
@@ -292,31 +304,41 @@ const ManagementForm = ({
           </FormControl>
         );
 
-      case 'richtext':
+      case "richtext":
         return (
           <Box sx={{ mt: 2, mb: 2 }}>
             <InputLabel sx={{ mb: 1 }}>{label}</InputLabel>
             <Box
               sx={{
-                border: error ? '1px solid #d32f2f' : '1px solid rgba(0, 0, 0, 0.23)',
+                border: error
+                  ? "1px solid #d32f2f"
+                  : "1px solid rgba(0, 0, 0, 0.23)",
                 borderRadius: 1,
                 minHeight: 200,
-                overflow: 'hidden'
+                overflow: "hidden",
               }}
             >
               <Editor
                 editorState={richTextEditors[name]}
-                onEditorStateChange={(editorState) => handleRichTextChange(name, editorState)}
+                onEditorStateChange={(editorState) =>
+                  handleRichTextChange(name, editorState)
+                }
                 wrapperClassName="rich-text-wrapper"
                 editorClassName="rich-text-editor"
                 toolbar={{
-                  options: ['inline', 'blockType', 'fontSize', 'list', 'textAlign', 'link', 'history'],
+                  options: [
+                    "inline",
+                    "blockType",
+                    "fontSize",
+                    "list",
+                    "textAlign",
+                    "link",
+                    "history",
+                  ],
                 }}
               />
             </Box>
-            {error && (
-              <FormHelperText error>{error}</FormHelperText>
-            )}
+            {error && <FormHelperText error>{error}</FormHelperText>}
           </Box>
         );
 
@@ -338,14 +360,9 @@ const ManagementForm = ({
   };
 
   return (
-    <Dialog
-      open={open}
-      onClose={onClose}
-      maxWidth="md"
-      fullWidth
-    >
+    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
       <DialogTitle>
-        {mode === 'create' ? `Create ${title}` : `Edit ${title}`}
+        {mode === "create" ? `Create ${title}` : `Edit ${title}`}
       </DialogTitle>
       <DialogContent dividers>
         <Grid container spacing={2}>
@@ -356,9 +373,7 @@ const ManagementForm = ({
           ))}
           {errors._general && (
             <Grid item xs={12}>
-              <Box sx={{ color: 'error.main', mt: 2 }}>
-                {errors._general}
-              </Box>
+              <Box sx={{ color: "error.main", mt: 2 }}>{errors._general}</Box>
             </Grid>
           )}
         </Grid>
@@ -374,7 +389,7 @@ const ManagementForm = ({
           disabled={loading}
           startIcon={loading ? <CircularProgress size={20} /> : null}
         >
-          {loading ? 'Saving...' : (mode === 'create' ? 'Create' : 'Update')}
+          {loading ? "Saving..." : mode === "create" ? "Create" : "Update"}
         </Button>
       </DialogActions>
     </Dialog>

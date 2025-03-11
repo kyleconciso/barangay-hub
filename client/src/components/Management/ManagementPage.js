@@ -1,45 +1,45 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Typography, Box, Button, Paper } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import ManagementList from './ManagementList';
-import ManagementForm from './ManagementForm';
-import ManagementDetail from './ManagementDetail';
+import React, { useState, useEffect } from "react";
+import { Container, Typography, Box, Button, Paper } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import ManagementList from "./ManagementList";
+import ManagementForm from "./ManagementForm";
+import ManagementDetail from "./ManagementDetail";
 
 // helper function to safely process api data
 const sanitizeData = (data) => {
   if (!data) return data;
-  
+
   // if it's an array, process each item
   if (Array.isArray(data)) {
-    return data.map(item => sanitizeData(item));
+    return data.map((item) => sanitizeData(item));
   }
-  
+
   // if it's an object, process each property
-  if (typeof data === 'object') {
+  if (typeof data === "object") {
     const result = { ...data };
-    
+
     // process each property
-    Object.keys(result).forEach(key => {
+    Object.keys(result).forEach((key) => {
       const value = result[key];
-      
+
       // handle firestore timestamps
-      if (value && typeof value === 'object') {
-        if ('_seconds' in value && '_nanoseconds' in value) {
+      if (value && typeof value === "object") {
+        if ("_seconds" in value && "_nanoseconds" in value) {
           // convert to date
           result[key] = new Date(value._seconds * 1000);
         } else if (Object.keys(value).length === 0) {
           // handle empty objects
-          result[key] = '';
+          result[key] = "";
         } else {
           // recursively sanitize nested objects
           result[key] = sanitizeData(value);
         }
       }
     });
-    
+
     return result;
   }
-  
+
   // return primitives as is
   return data;
 };
@@ -60,7 +60,7 @@ const ManagementPage = ({
   const [selectedItem, setSelectedItem] = useState(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
-  const [formMode, setFormMode] = useState('create'); // 'create' or 'edit'
+  const [formMode, setFormMode] = useState("create"); // 'create' or 'edit'
 
   // fetch all items when component mounts
   useEffect(() => {
@@ -84,7 +84,7 @@ const ManagementPage = ({
 
   const handleCreateClick = () => {
     setSelectedItem(null);
-    setFormMode('create');
+    setFormMode("create");
     setIsFormOpen(true);
   };
 
@@ -94,7 +94,7 @@ const ManagementPage = ({
       // sanitize the item data
       const sanitizedItem = sanitizeData(item);
       setSelectedItem(sanitizedItem);
-      setFormMode('edit');
+      setFormMode("edit");
       setIsFormOpen(true);
     } catch (err) {
       setError(`Failed to get ${title.toLowerCase()} details: ${err.message}`);
@@ -114,10 +114,14 @@ const ManagementPage = ({
   };
 
   const handleDeleteClick = async (id) => {
-    if (window.confirm(`Are you sure you want to delete this ${title.toLowerCase()}?`)) {
+    if (
+      window.confirm(
+        `Are you sure you want to delete this ${title.toLowerCase()}?`,
+      )
+    ) {
       try {
         await deleteItem(id);
-        setItems(items.filter(item => item.id !== id));
+        setItems(items.filter((item) => item.id !== id));
       } catch (err) {
         setError(`Failed to delete ${title.toLowerCase()}: ${err.message}`);
       }
@@ -127,8 +131,8 @@ const ManagementPage = ({
   const handleFormSubmit = async (formData) => {
     try {
       let result;
-      
-      if (formMode === 'create') {
+
+      if (formMode === "create") {
         result = await createItem(formData);
         // sanitize the returned data
         const sanitizedResult = sanitizeData(result);
@@ -137,7 +141,11 @@ const ManagementPage = ({
         result = await updateItem(selectedItem.id, formData);
         // sanitize the returned data
         const sanitizedResult = sanitizeData(result);
-        setItems(items.map(item => item.id === sanitizedResult.id ? sanitizedResult : item));
+        setItems(
+          items.map((item) =>
+            item.id === sanitizedResult.id ? sanitizedResult : item,
+          ),
+        );
       }
       setIsFormOpen(false);
       return true;
@@ -158,7 +166,14 @@ const ManagementPage = ({
   return (
     <Container maxWidth="xl">
       <Box sx={{ my: 4 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            mb: 3,
+          }}
+        >
           <Typography variant="h4" component="h1">
             {title} Management
           </Typography>
@@ -175,7 +190,14 @@ const ManagementPage = ({
         </Box>
 
         {error && (
-          <Paper sx={{ p: 2, mb: 2, bgcolor: 'error.light', color: 'error.contrastText' }}>
+          <Paper
+            sx={{
+              p: 2,
+              mb: 2,
+              bgcolor: "error.light",
+              color: "error.contrastText",
+            }}
+          >
             <Typography>{error}</Typography>
           </Paper>
         )}
@@ -207,7 +229,7 @@ const ManagementPage = ({
           onClose={handleDetailClose}
           onEditClick={() => {
             setIsDetailOpen(false);
-            setFormMode('edit');
+            setFormMode("edit");
             setIsFormOpen(true);
           }}
         />

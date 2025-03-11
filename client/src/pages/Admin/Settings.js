@@ -1,6 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { TextField, Button, Container, Typography, Box, Alert } from '@mui/material'
-import { getSettings, updateSettings } from '../../api/settings';
+import React, { useState, useEffect } from "react";
+import {
+  TextField,
+  Button,
+  Container,
+  Typography,
+  Box,
+  Alert,
+} from "@mui/material";
+import { getSettings, updateSettings } from "../../api/settings";
 
 const AdminSettings = () => {
   const [settings, setSettings] = useState({});
@@ -28,18 +35,18 @@ const AdminSettings = () => {
   const handleChange = (event) => {
     const { name, value } = event.target;
     setSettings((prevSettings) => ({ ...prevSettings, [name]: value }));
-      setSuccess(false); 
-      setError(null)
+    setSuccess(false);
+    setError(null);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
     setError(null);
-      setSuccess(false);
+    setSuccess(false);
     try {
       await updateSettings(settings);
-        setSuccess(true); //set success to true
+      setSuccess(true); //set success to true
     } catch (err) {
       setError(err);
     } finally {
@@ -47,21 +54,18 @@ const AdminSettings = () => {
     }
   };
 
-
-    if (loading) {
+  if (loading) {
     return (
-        <Container maxWidth="sm">
-            <Box mt={4}>
-                <Typography variant="h4" gutterBottom>
-                  Settings
-                </Typography>
-                <Typography>Loading settings...</Typography>
-            </Box>
-        </Container>
-        );
-    }
-
-
+      <Container maxWidth="sm">
+        <Box mt={4}>
+          <Typography variant="h4" gutterBottom>
+            Settings
+          </Typography>
+          <Typography>Loading settings...</Typography>
+        </Box>
+      </Container>
+    );
+  }
 
   return (
     <Container maxWidth="sm">
@@ -74,7 +78,7 @@ const AdminSettings = () => {
           margin="normal"
           label="Google Gemini Key"
           name="googleGeminiKey"
-          value={settings.googleGeminiKey || ''}
+          value={settings.googleGeminiKey || ""}
           onChange={handleChange}
         />
         <TextField
@@ -82,7 +86,7 @@ const AdminSettings = () => {
           margin="normal"
           label="Facebook Page ID"
           name="facebookPageId"
-          value={settings.facebookPageId || ''}
+          value={settings.facebookPageId || ""}
           onChange={handleChange}
         />
         <TextField
@@ -90,7 +94,7 @@ const AdminSettings = () => {
           margin="normal"
           label="Facebook Access Token"
           name="facebookAccessToken"
-          value={settings.facebookAccessToken || ''}
+          value={settings.facebookAccessToken || ""}
           onChange={handleChange}
         />
         <TextField
@@ -98,22 +102,27 @@ const AdminSettings = () => {
           margin="normal"
           label="Announcement Text"
           name="announcementText"
-          value={settings.announcementText || ''}
+          value={settings.announcementText || ""}
           onChange={handleChange}
-          multiline 
-          rows={4} 
+          multiline
+          rows={4}
         />
-          {error && (
-              <Alert severity="error" sx={{ mt: 2 }}>
-                {error.message}
-              </Alert>
-            )}
-            {success && ( 
-              <Alert severity="success" sx={{ mt: 2 }}>
-                Settings updated successfully!
-              </Alert>
-            )}
-        <Button type="submit" variant="contained" color="primary" disabled={loading}>
+        {error && (
+          <Alert severity="error" sx={{ mt: 2 }}>
+            {error.message}
+          </Alert>
+        )}
+        {success && (
+          <Alert severity="success" sx={{ mt: 2 }}>
+            Settings updated successfully!
+          </Alert>
+        )}
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          disabled={loading}
+        >
           Save Settings
         </Button>
       </Box>

@@ -1,9 +1,9 @@
-import api from './index';
+import api from "./index";
 
 export const getArticles = async () => {
   try {
-    const response = await api.get('/articles');
-    return response.data; 
+    const response = await api.get("/articles");
+    return response.data;
   } catch (error) {
     throw error;
   }
@@ -12,7 +12,7 @@ export const getArticles = async () => {
 export const getArticle = async (id) => {
   try {
     const response = await api.get(`/articles/${id}`);
-    return response.data; 
+    return response.data;
   } catch (error) {
     throw error;
   }
@@ -20,8 +20,8 @@ export const getArticle = async (id) => {
 
 export const createArticle = async (data) => {
   try {
-    const response = await api.post('/articles', data);
-    return response.data; 
+    const response = await api.post("/articles", data);
+    return response.data;
   } catch (error) {
     throw error;
   }
@@ -30,7 +30,7 @@ export const createArticle = async (data) => {
 export const updateArticle = async (id, data) => {
   try {
     const response = await api.put(`/articles/${id}`, data);
-    return response.data; 
+    return response.data;
   } catch (error) {
     throw error;
   }

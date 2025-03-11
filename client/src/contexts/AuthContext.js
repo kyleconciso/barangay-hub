@@ -1,9 +1,8 @@
-
-import React, { createContext, useState, useEffect } from 'react';
-import { auth } from '../api/firebase';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { me as fetchMe, register } from '../api/auth';
-import { useNavigate } from 'react-router-dom';
+import React, { createContext, useState, useEffect } from "react";
+import { auth } from "../api/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { me as fetchMe, register } from "../api/auth";
+import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
 
@@ -47,9 +46,9 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     try {
       await auth.signOut();
-      navigate('/login'); // redirect to login after logout
+      navigate("/login"); // redirect to login after logout
     } catch (error) {
-      console.error('Logout error:', error);
+      console.error("Logout error:", error);
       throw error;
     }
   };
@@ -60,7 +59,7 @@ export const AuthProvider = ({ children }) => {
     signup,
     login,
     logout,
-    loading
+    loading,
   };
 
   return (
@@ -73,7 +72,7 @@ export const AuthProvider = ({ children }) => {
 export const useAuth = () => {
   const context = React.useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };
