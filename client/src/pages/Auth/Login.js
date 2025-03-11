@@ -10,6 +10,7 @@ import {
   Grid,
   useTheme,
   useMediaQuery,
+  CircularProgress,
 } from "@mui/material";
 import { useAuth } from "../../hooks/useAuth";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
@@ -18,6 +19,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
   const { login, userType } = useAuth();
   const navigate = useNavigate();
   const theme = useTheme();
@@ -34,10 +36,13 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+    setLoading(true);
     try {
       await login(email, password);
     } catch (error) {
       setError(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -52,7 +57,6 @@ const Login = () => {
       }}
     >
       <Grid container>
-        {/* Logo and Branding Section - exactly 50% of screen */}
         <Grid
           item
           xs={12}
@@ -104,7 +108,7 @@ const Login = () => {
           </Box>
         </Grid>
 
-        {/* Login Form Section - exactly 50% of screen */}
+        {/* login form section - exactly 50% of screen */}
         <Grid
           item
           xs={12}
@@ -181,8 +185,14 @@ const Login = () => {
                   borderRadius: 1.5,
                   py: 1.5,
                 }}
+                disabled={loading} //disable
               >
-                Sign In
+                {loading ? (
+                  <CircularProgress size={24} color="inherit" />
+                ) : (
+                  "Sign In"
+                )}{" "}
+                {/* show spinner if loading */}
               </Button>
             </form>
 

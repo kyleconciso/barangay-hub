@@ -64,7 +64,6 @@ const UserProfile = () => {
                 variant="outlined"
                 startIcon={<EditIcon />}
                 sx={{ mt: 1 }}
-                // onClick={handleEditClick}  // Add onClick handler later
               >
                 Edit Profile
               </Button>
@@ -94,7 +93,6 @@ const UserProfile = () => {
                   <Typography variant="body1">{userType}</Typography>
                 </Grid>
 
-                {/* Add more profile details here, e.g., address, phone */}
                 <Grid item xs={12} sm={4}>
                   <Typography variant="subtitle1" color="textSecondary">
                     Address:

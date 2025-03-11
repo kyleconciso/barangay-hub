@@ -39,7 +39,7 @@ const NavBar = ({ children, contactButton }) => {
         ))}
         <ListItem key="contact-us-mobile" disablePadding>
           {" "}
-          {/* Add Contact Us to mobile menu */}
+          {/* add contact us to mobile menu */}
           <ListItemButton component={RouterLink} to="/contact">
             <ListItemText primary="Contact Us" />
           </ListItemButton>
@@ -50,6 +50,7 @@ const NavBar = ({ children, contactButton }) => {
 
   return (
     <>
+      <TopBar />
       <AppBar
         position="sticky"
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -57,7 +58,7 @@ const NavBar = ({ children, contactButton }) => {
         {" "}
         {/*CRUCIAL: Sticky positioning and z-index*/}
         <Toolbar sx={{ paddingY: "0px" }}>
-          {/* Logo and Navigation Links (Left Side) */}
+          {/* logo and navigation links (left side) */}
           <Box
             sx={{ display: "flex", alignItems: "center", gap: 1, flexGrow: 1 }}
           >
@@ -77,7 +78,7 @@ const NavBar = ({ children, contactButton }) => {
               />
             </RouterLink>
 
-            {/* Conditionally render nav links or hamburger */}
+            {/* conditionally render nav links or hamburger */}
             {isMobile ? null : (
               <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                 {children}
@@ -85,9 +86,9 @@ const NavBar = ({ children, contactButton }) => {
             )}
           </Box>
 
-          {/* User Display, Contact Us Button, and Hamburger (Right Side) */}
+          {/* user display, contact us button, and hamburger (right side) */}
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-            {contactButton} {/* Render Contact Us button here */}
+            {contactButton} {/* render contact us button here */}
             <UserDisplay />
             {isMobile && (
               <IconButton
@@ -104,7 +105,7 @@ const NavBar = ({ children, contactButton }) => {
         </Toolbar>
       </AppBar>
 
-      {/* Mobile Drawer */}
+      {/* mobile drawer */}
       <nav>
         <Drawer
           variant="temporary"

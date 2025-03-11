@@ -25,7 +25,7 @@ const PublicNav = () => {
         NEWS & UPDATES
       </NavButton>
       <NavButton to="/forms" icon={<DynamicFormIcon />}>
-        MAKE A REQUEST
+        FORMS
       </NavButton>
       <NavButton to="/officials" icon={<SupervisorAccountIcon />}>
         OFFICIALS

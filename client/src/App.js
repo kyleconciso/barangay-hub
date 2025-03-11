@@ -1,5 +1,5 @@
 // client/src/App.js
-import React, { useState, useEffect } from "react"; // Import useState and useEffect
+import React, { useState, useEffect } from "react"; // import usestate and useeffect
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import PublicLayout from "./components/Layouts/PublicLayout";
 import AdminLayout from "./components/Layouts/AdminLayout";
@@ -61,7 +61,6 @@ function App() {
   return (
     <>
       <AnnouncementBar announcementMessage={announcementMessage} />
-      <TopBar />
       <Routes>
         {/* public routes wrapped in publiclayout conditionally */}
         <Route

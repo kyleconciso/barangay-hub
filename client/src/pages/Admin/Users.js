@@ -8,6 +8,7 @@ const AdminUsers = () => {
     { field: "lastName", headerName: "Last Name" },
     { field: "email", headerName: "Email" },
     { field: "type", headerName: "Type" },
+    { field: "role", headerName: "Role" },
   ];
 
   const fields = [
@@ -26,6 +27,21 @@ const AdminUsers = () => {
         { value: "ADMIN", label: "Admin" },
       ],
     },
+    {
+      name: "role",
+      label: "Role",
+      type: "select",
+      options: [
+        { value: "", label: "None" },
+        { value: "CAPTAIN", label: "Captain" },
+        { value: "SECRETARY", label: "Secretary" },
+        { value: "TREASURER", label: "Treasurer" },
+        { value: "COUNCILOR", label: "Councilor" },
+        { value: "SK_CHAIRPERSON", label: "SK Chairperson" },
+        { value: "SK_MEMBER", label: "SK Member" },
+      ],
+    },
+    { name: "bio", label: "Bio", type: "textarea" },
   ];
 
   return (

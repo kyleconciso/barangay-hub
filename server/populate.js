@@ -49,7 +49,6 @@ async function populatePages() {
       createdBy: "initial_setup",
       updatedBy: "initial_setup",
       imageURL: (() => {
-        // Changed bannerURL to imageURL
         const { width, height } = getRandomWidthHeight(800, 400, 10);
         return `https://picsum.photos/${width}/${height}`;
       })(),
@@ -62,7 +61,6 @@ async function populatePages() {
       createdBy: "initial_setup",
       updatedBy: "initial_setup",
       imageURL: (() => {
-        // Changed bannerURL to imageURL
         const { width, height } = getRandomWidthHeight(800, 400, 10);
         return `https://picsum.photos/${width}/${height}`;
       })(),
@@ -74,7 +72,7 @@ async function populatePages() {
       ...pageData,
       createdAt: Firestore.FieldValue.serverTimestamp(),
       updatedAt: Firestore.FieldValue.serverTimestamp(),
-      imageURL: pageData.imageURL, // Ensure imageURL is also set during creation
+      imageURL: pageData.imageURL,
     });
     console.log(`Page created: ${pageData.id}`);
   }
@@ -87,7 +85,7 @@ async function populateForms() {
       title: "Clearance Application",
       description: "Apply for a barangay clearance.",
       link: "https://example.com/clearance",
-      imageURL: "https://picsum.photos/150/150", // Renamed logoURL to imageURL
+      imageURL: "https://picsum.photos/150/150",
       createdBy: "initial_setup",
       updatedBy: "initial_setup",
     },
@@ -95,7 +93,7 @@ async function populateForms() {
       title: "Permit Application",
       description: "Apply for a business permit.",
       link: "https://example.com/permit",
-      imageURL: "https://picsum.photos/150/150", // Renamed logoURL to imageURL
+      imageURL: "https://picsum.photos/150/150",
       createdBy: "initial_setup",
       updatedBy: "initial_setup",
     },
@@ -103,7 +101,7 @@ async function populateForms() {
       title: "Event Registration",
       description: "Register for community events.",
       link: "https://example.com/event",
-      imageURL: "https://picsum.photos/150/150", // Renamed logoURL to imageURL
+      imageURL: "https://picsum.photos/150/150",
       createdBy: "initial_setup",
       updatedBy: "initial_setup",
     },
@@ -111,7 +109,7 @@ async function populateForms() {
       title: "Feedback Form",
       description: "Provide feedback to the barangay.",
       link: "https://example.com/feedback",
-      imageURL: "https://picsum.photos/150/150", // Renamed logoURL to imageURL
+      imageURL: "https://picsum.photos/150/150",
       createdBy: "initial_setup",
       updatedBy: "initial_setup",
     },
@@ -119,7 +117,7 @@ async function populateForms() {
       title: "Residency Verification",
       description: "Verify your residency status.",
       link: "https://example.com/residency",
-      imageURL: "https://picsum.photos/150/150", // Renamed logoURL to imageURL
+      imageURL: "https://picsum.photos/150/150",
       createdBy: "initial_setup",
       updatedBy: "initial_setup",
     },
@@ -132,7 +130,7 @@ async function populateForms() {
       ...formData,
       createdAt: Firestore.FieldValue.serverTimestamp(),
       updatedAt: Firestore.FieldValue.serverTimestamp(),
-      imageURL: formData.imageURL, // Ensure imageURL is also set during creation
+      imageURL: formData.imageURL,
     });
     console.log(`Form created: ${docRef.id}`);
   }
@@ -232,7 +230,7 @@ async function populateMessages() {
         content: "Issue resolved confirmation.",
         createdBy: "defaultEmployeeId",
         createdAt: Firestore.FieldValue.serverTimestamp(),
-      },
+      }
     );
   });
 
@@ -271,7 +269,6 @@ async function populateArticles() {
       createdBy: "initial_setup",
       lastUpdatedBy: "initial_setup",
       imageURL: (() => {
-        // Changed bannerURL to imageURL
         const { width, height } = getRandomWidthHeight(800, 400, 10);
         return `https://picsum.photos/${width}/${height}`;
       })(),
@@ -286,7 +283,6 @@ async function populateArticles() {
       createdBy: "initial_setup",
       lastUpdatedBy: "initial_setup",
       imageURL: (() => {
-        // Changed bannerURL to imageURL
         const { width, height } = getRandomWidthHeight(800, 400, 10);
         return `https://picsum.photos/${width}/${height}`;
       })(),
@@ -301,7 +297,6 @@ async function populateArticles() {
       createdBy: "initial_setup",
       lastUpdatedBy: "initial_setup",
       imageURL: (() => {
-        // Changed bannerURL to imageURL
         const { width, height } = getRandomWidthHeight(800, 400, 10);
         return `https://picsum.photos/${width}/${height}`;
       })(),
@@ -316,7 +311,6 @@ async function populateArticles() {
       createdBy: "initial_setup",
       lastUpdatedBy: "initial_setup",
       imageURL: (() => {
-        // Changed bannerURL to imageURL
         const { width, height } = getRandomWidthHeight(800, 400, 10);
         return `https://picsum.photos/${width}/${height}`;
       })(),
@@ -331,7 +325,6 @@ async function populateArticles() {
       createdBy: "initial_setup",
       lastUpdatedBy: "initial_setup",
       imageURL: (() => {
-        // Changed bannerURL to imageURL
         const { width, height } = getRandomWidthHeight(800, 400, 10);
         return `https://picsum.photos/${width}/${height}`;
       })(),
@@ -345,7 +338,6 @@ async function populateArticles() {
       ...articleData,
       createdAt: Firestore.FieldValue.serverTimestamp(),
       lastUpdated: Firestore.FieldValue.serverTimestamp(),
-      imageURL: articleData.imageURL, // Ensure imageURL is also set during creation
     });
     console.log(`Article created: ${docRef.id}`);
   }

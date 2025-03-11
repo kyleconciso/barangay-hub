@@ -80,7 +80,7 @@ const ManagementForm = ({
         if (newFormData[field.name] !== undefined) {
           // convert any object values to appropriate string representations
           if (typeof newFormData[field.name] === "object") {
-            // don't stringify richtext fields, they'll be handled separately
+            // special richtext field
             if (field.type !== "richtext") {
               newFormData[field.name] = safeValue(newFormData[field.name]);
             }
@@ -108,7 +108,7 @@ const ManagementForm = ({
               const contentBlock = htmlToDraft(htmlContent);
               if (contentBlock) {
                 const contentState = ContentState.createFromBlockArray(
-                  contentBlock.contentBlocks,
+                  contentBlock.contentBlocks
                 );
                 editorState = EditorState.createWithContent(contentState);
               } else {
@@ -176,7 +176,7 @@ const ManagementForm = ({
     let isValid = true;
 
     fields.forEach((field) => {
-      // simple required validation - can be extended for other validation types
+      // simple required validation
       if (
         field.required &&
         (!formData[field.name] || formData[field.name] === "")
@@ -204,10 +204,10 @@ const ManagementForm = ({
         typeof cleanedFormData[key] === "object" &&
         !(cleanedFormData[key] instanceof Date)
       ) {
-        // for rich text fields, we want to keep the html string
+        //for rich text fields we want to keep the html string
         const field = fields.find((f) => f.name === key);
         if (field && field.type === "richtext") {
-          // no change needed, already html string
+          //already html string
         } else {
           // convert other objects to string representation
           cleanedFormData[key] = safeValue(cleanedFormData[key]);
@@ -234,7 +234,7 @@ const ManagementForm = ({
 
   const renderField = (field) => {
     const { name, label, type, options = [] } = field;
-    // ensure value is never an object that could cause rendering issues
+    //  value is never an object that could cause rendering issues
     const value =
       typeof formData[name] === "object"
         ? safeValue(formData[name])

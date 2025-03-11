@@ -10,6 +10,7 @@ import {
   Grid,
   useTheme,
   useMediaQuery,
+  CircularProgress,
 } from "@mui/material";
 import { useAuth } from "../../hooks/useAuth";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
@@ -22,6 +23,7 @@ const Signup = () => {
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
   const { signup } = useAuth();
   const navigate = useNavigate();
   const theme = useTheme();
@@ -30,6 +32,7 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+    setLoading(true);
     try {
       await signup({
         firstName,
@@ -42,6 +45,8 @@ const Signup = () => {
       navigate("/login");
     } catch (error) {
       setError(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -56,7 +61,7 @@ const Signup = () => {
       }}
     >
       <Grid container>
-        {/* Logo and Branding Section - exactly 50% of screen */}
+        {/* logo and branding section - exactly 50% of screen */}
         <Grid
           item
           xs={12}
@@ -108,7 +113,7 @@ const Signup = () => {
           </Box>
         </Grid>
 
-        {/* Signup Form Section - exactly 50% of screen */}
+        {/* signup form section - exactly 50% of screen */}
         <Grid
           item
           xs={12}
@@ -240,8 +245,14 @@ const Signup = () => {
                   borderRadius: 1.5,
                   py: 1.5,
                 }}
+                disabled={loading} // disable button while loading
               >
-                Sign Up
+                {loading ? (
+                  <CircularProgress size={24} color="inherit" />
+                ) : (
+                  "Sign Up"
+                )}{" "}
+                {/* show spinner if loading */}
               </Button>
             </form>
 

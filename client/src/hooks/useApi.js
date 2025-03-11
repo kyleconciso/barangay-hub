@@ -24,7 +24,7 @@ export const useApi = (apiFunc, ...initialArgs) => {
         setLoading(false);
       }
     },
-    [apiFunc, initialArgs],
+    [apiFunc, initialArgs]
   );
 
   return { data, loading, error, execute };

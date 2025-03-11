@@ -36,6 +36,15 @@ export const deleteUser = async (id) => {
   }
 };
 
+export const getOfficials = async () => {
+  try {
+    const response = await api.get("/users/officials"); //remove auth
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 // helper function to get users by type (for the ticket assignment dropdown)
 export const getUsersByType = async (type) => {
   try {

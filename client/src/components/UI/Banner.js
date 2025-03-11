@@ -6,15 +6,18 @@ const Banner = ({ imageUrl, title }) => {
     <Box
       sx={{
         backgroundImage: `url(${imageUrl})`,
-        backgroundSize: "cover", // ensure the image covers the entire area
-        backgroundPosition: "center", // center the image horizontally and vertically
+        backgroundSize: "cover",
+        backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-        width: "100vw", // full viewport width
+        width: "100vw",
         height: "300px",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         position: "relative",
+        overflow: "hidden",
+        marginLeft: "calc(-50vw + 50%)",
+        marginBottom: "2vw",
         "&::before": {
           content: '""',
           position: "absolute",
@@ -22,10 +25,11 @@ const Banner = ({ imageUrl, title }) => {
           left: 0,
           width: "100%",
           height: "100%",
-          backgroundColor: "rgba(0, 0, 0, 0.3)", // adjust opacity
+          backgroundColor: "rgba(0, 0, 0, 0.6)",
+          backdropFilter: "blur(3px)",
+          background:
+            "linear-gradient(to bottom, rgba(0, 0, 0, 0.8), transparent)",
         },
-        overflow: "hidden",
-        marginLeft: "calc(-50vw + 50%)",
       }}
     >
       {title && (
@@ -34,7 +38,8 @@ const Banner = ({ imageUrl, title }) => {
           sx={{
             color: "white",
             zIndex: 1,
-            textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
+            textShadow: "2px 2px 6px rgba(0, 0, 0, 0.8)",
+            fontWeight: 600,
           }}
         >
           {title}

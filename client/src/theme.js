@@ -1,8 +1,9 @@
-// src/theme.js
+//File: src/theme.js
+
 import { createTheme } from "@mui/material/styles";
 import { blueGrey, grey, indigo, teal, red } from "@mui/material/colors";
 
-const navyBlueTheme = createTheme({
+const mainTheme = createTheme({
   palette: {
     primary: {
       main: indigo[700],
@@ -20,8 +21,8 @@ const navyBlueTheme = createTheme({
       main: red[400],
     },
     background: {
-      default: grey[100],
-      paper: "#fff",
+      default: grey[100], // Make sure this is set to a light color like grey[100]
+      paper: "#fff", // Ensure paper background is white
     },
     text: {
       primary: blueGrey[900],
@@ -30,34 +31,33 @@ const navyBlueTheme = createTheme({
   },
   typography: {
     fontFamily:
-      '"Plus Jakarta Sans", "Roboto", "Helvetica", "Arial", sans-serif', // <-- CHANGED: Use Plus Jakarta Sans
+      '"Plus Jakarta Sans", "Roboto", "Helvetica", "Arial", sans-serif',
     fontWeightRegular: 400,
     fontWeightMedium: 500,
-    fontWeightBold: 700, // Back to 700 for bold
+    fontWeightBold: 700, // back to 700 for bold
     h1: {
-      fontWeight: 700, // Bold for h1
+      fontWeight: 700, // bold for h1
     },
     h2: {
-      fontWeight: 700, // Bold for h2
+      fontWeight: 700, // bold for h2
     },
     h3: {
-      fontWeight: 600, // Medium-bold for h3
+      fontWeight: 600, // medium-bold for h3
     },
     h4: {
-      fontWeight: 600, // Medium-bold for h4
+      fontWeight: 600, // medium-bold for h4
     },
     h5: {
-      fontWeight: 500, // Medium for h5
+      fontWeight: 500, // medium for h5
     },
     h6: {
-      fontWeight: 500, // Medium for h6
+      fontWeight: 500, // medium for h6
     },
     subtitle1: {
       fontWeight: 500,
     },
   },
   components: {
-    // ... (rest of the component overrides - no changes needed here)
     MuiAppBar: {
       defaultProps: {
         color: "primary",
@@ -333,4 +333,4 @@ const navyBlueTheme = createTheme({
   },
 });
 
-export default navyBlueTheme;
+export default mainTheme;

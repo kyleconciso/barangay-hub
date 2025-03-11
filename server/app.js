@@ -65,9 +65,9 @@ const isEmployeeOrAdmin = (req, res, next) => {
 const handleApiError = (
   res,
   error,
-  defaultMessage = "Internal server error",
+  defaultMessage = "Internal server error"
 ) => {
-  console.error(error); // Log the error for debugging
+  console.error(error); // log the error for debugging
   const statusCode = error.status || 500;
   const message = error.message || defaultMessage;
 
@@ -92,13 +92,11 @@ app.post(
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          message: "Invalid registration data",
-          errors: errors.array(),
-        });
+      return res.status(400).json({
+        success: false,
+        message: "Invalid registration data",
+        errors: errors.array(),
+      });
     }
 
     try {
@@ -117,7 +115,7 @@ app.post(
         phone: req.body.phone || null,
         address: req.body.address || null,
         type: req.body.type || "RESIDENT",
-        imageURL: req.body.imageURL || null, // Add imageURL
+        imageURL: req.body.imageURL || null, // add imageurl
         createdAt: admin.firestore.FieldValue.serverTimestamp(),
         updatedAt: admin.firestore.FieldValue.serverTimestamp(),
       };
@@ -128,10 +126,9 @@ app.post(
         .status(201)
         .json({ success: true, message: "User registered successfully" });
     } catch (error) {
-      // Use the centralized error handler
       return handleApiError(res, error, "Registration failed");
     }
-  },
+  }
 );
 
 app.get("/api/v1/auth/me", authenticate, async (req, res) => {
@@ -172,7 +169,7 @@ app.post("/api/v1/pages", authenticate, isEmployeeOrAdmin, async (req, res) => {
       slug: req.body.slug,
       title: req.body.title,
       content: req.body.content || "",
-      imageURL: req.body.imageURL || null, // Add imageURL
+      imageURL: req.body.imageURL || null, // add imageurl
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
       createdBy: req.user.uid,
       updatedAt: admin.firestore.FieldValue.serverTimestamp(),
@@ -223,25 +220,23 @@ app.put(
         slug: req.body.slug,
         title: req.body.title,
         content: req.body.content || "",
-        imageURL: req.body.imageURL || null, // Add imageURL
+        imageURL: req.body.imageURL || null, // add imageurl
         updatedAt: admin.firestore.FieldValue.serverTimestamp(),
         updatedBy: req.user.uid,
       };
 
       await pageRef.update(pageData);
 
-      return res
-        .status(200)
-        .json({
-          id: pageRef.id,
-          ...pageData,
-          createdAt: pageDoc.data().createdAt,
-          createdBy: pageDoc.data().createdBy,
-        });
+      return res.status(200).json({
+        id: pageRef.id,
+        ...pageData,
+        createdAt: pageDoc.data().createdAt,
+        createdBy: pageDoc.data().createdBy,
+      });
     } catch (error) {
       return handleApiError(res, error, "Failed to update page");
     }
-  },
+  }
 );
 
 app.delete(
@@ -265,7 +260,7 @@ app.delete(
     } catch (error) {
       return handleApiError(res, error, "Failed to delete page");
     }
-  },
+  }
 );
 
 // Articles Routes
@@ -294,7 +289,7 @@ app.post(
         title: req.body.title,
         slug: req.body.slug,
         content: req.body.content || "",
-        imageURL: req.body.imageURL || null, // Add imageURL
+        imageURL: req.body.imageURL || null, // add imageurl
         createdAt: admin.firestore.FieldValue.serverTimestamp(),
         createdBy: req.user.uid,
         lastUpdated: admin.firestore.FieldValue.serverTimestamp(),
@@ -308,7 +303,7 @@ app.post(
     } catch (error) {
       return handleApiError(res, error, "Failed to create article");
     }
-  },
+  }
 );
 
 app.get("/api/v1/articles/:id", async (req, res) => {
@@ -346,7 +341,7 @@ app.put(
         title: req.body.title,
         slug: req.body.slug,
         content: req.body.content || "",
-        imageURL: req.body.imageURL || null, // Add imageURL
+        imageURL: req.body.imageURL || null, // add imageurl
         lastUpdated: admin.firestore.FieldValue.serverTimestamp(),
         lastUpdatedBy: req.user.uid,
       };
@@ -362,7 +357,7 @@ app.put(
     } catch (error) {
       return handleApiError(res, error, "Failed to update article");
     }
-  },
+  }
 );
 
 app.delete(
@@ -386,7 +381,7 @@ app.delete(
     } catch (error) {
       return handleApiError(res, error, "Failed to delete article");
     }
-  },
+  }
 );
 
 // Forms Routes
@@ -411,7 +406,7 @@ app.post("/api/v1/forms", authenticate, isEmployeeOrAdmin, async (req, res) => {
       title: req.body.title,
       description: req.body.description || "",
       link: req.body.link,
-      imageURL: req.body.imageURL || null, // Updated field name
+      imageURL: req.body.imageURL || null, // updated field name
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
       createdBy: req.user.uid,
       updatedAt: admin.firestore.FieldValue.serverTimestamp(),
@@ -462,7 +457,7 @@ app.put(
         title: req.body.title,
         description: req.body.description || "",
         link: req.body.link,
-        imageURL: req.body.imageURL || null, // Updated field name
+        imageURL: req.body.imageURL || null, // updated field name
         updatedAt: admin.firestore.FieldValue.serverTimestamp(),
         updatedBy: req.user.uid,
       };
@@ -478,7 +473,7 @@ app.put(
     } catch (error) {
       return handleApiError(res, error, "Failed to update form");
     }
-  },
+  }
 );
 
 app.delete(
@@ -502,7 +497,7 @@ app.delete(
     } catch (error) {
       return handleApiError(res, error, "Failed to delete form");
     }
-  },
+  }
 );
 
 // Tickets Routes
@@ -657,7 +652,7 @@ app.get("/api/v1/messages", authenticate, async (req, res) => {
     let messagesQuery = db.collection("messages");
 
     if (req.userData.type === "RESIDENT") {
-      // for regular users, we need to find messages for tickets they own
+      // for regular users we need to find messages for tickets they own
       const userTicketsSnapshot = await db
         .collection("tickets")
         .where("createdBy", "==", req.user.uid)
@@ -851,8 +846,8 @@ app.get("/api/v1/users", authenticate, isEmployeeOrAdmin, async (req, res) => {
         phone: userData.phone,
         address: userData.address,
         type: userData.type,
-        role: userData.role, // Include role
-        bio: userData.bio, // Include bio
+        role: userData.role, // include role
+        bio: userData.bio, // include bio
       });
     });
 
@@ -892,8 +887,8 @@ app.get("/api/v1/users/officials", async (req, res) => {
         phone: userData.phone,
         address: userData.address,
         type: userData.type, //still useful
-        role: userData.role, // Include role
-        bio: userData.bio, // Include bio
+        role: userData.role, // include role
+        bio: userData.bio, // include bio
       });
     });
 
@@ -934,8 +929,8 @@ app.post("/api/v1/users", authenticate, isEmployeeOrAdmin, async (req, res) => {
       phone: req.body.phone || null,
       address: req.body.address || null,
       type: req.body.type || "RESIDENT",
-      bio: req.body.bio || null, // Add bio
-      role: req.body.role || null, // Add role,
+      bio: req.body.bio || null, // add bio
+      role: req.body.role || null, // add role,
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
       createdBy: req.user.uid,
       updatedAt: admin.firestore.FieldValue.serverTimestamp(),
@@ -993,7 +988,7 @@ app.get(
         .status(500)
         .json({ success: false, message: "Internal server error" });
     }
-  },
+  }
 );
 
 app.put(
@@ -1073,7 +1068,7 @@ app.put(
         .status(500)
         .json({ success: false, message: "Internal server error" });
     }
-  },
+  }
 );
 
 app.delete(
@@ -1113,7 +1108,7 @@ app.delete(
         .status(500)
         .json({ success: false, message: "Internal server error" });
     }
-  },
+  }
 );
 
 // settings routes
@@ -1165,7 +1160,7 @@ app.put("/api/v1/settings", authenticate, isAdmin, async (req, res) => {
       googleGeminiKey: req.body.googleGeminiKey,
       facebookPageId: req.body.facebookPageId,
       facebookAccessToken: req.body.facebookAccessToken,
-      announcementText: req.body.announcementText, // Add announcementText
+      announcementText: req.body.announcementText, // add announcementtext
     };
 
     if (!settingsDoc.exists) {

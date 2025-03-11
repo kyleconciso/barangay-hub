@@ -27,7 +27,7 @@ const UserTickets = () => {
       name: "assignedTo",
       label: "Assigned To",
       type: "select",
-      options: [], // we'll populate this dynamically in managementpage
+      options: [],
     },
     { name: "createdAt", label: "Created At", type: "text", readOnly: true },
   ];
@@ -39,7 +39,7 @@ const UserTickets = () => {
       field: "messagesLink",
       headerName: "Messages",
       renderCell: (params) => (
-        <Link to={`/tickets/${params.row.id}/messages`}>View Messages</Link> // corrected path
+        <Link to={`/tickets/${params.row.id}/messages`}>View Messages</Link>
       ),
     },
   ];
@@ -47,16 +47,15 @@ const UserTickets = () => {
   // custom fetch function to get only the user's tickets
   const fetchUserTickets = () =>
     ticketsApi.getTickets().then((tickets) => {
-      // filter tickets on the *client* side (ideally, this would be done on the server)
       return tickets.filter((ticket) => ticket.createdBy === user.uid);
     });
 
   return (
     <ManagementPage
       title="My Tickets"
-      columns={columns} // use columns, not fields
+      columns={columns}
       fields={ticketFields}
-      fetchItems={fetchUserTickets} // use the custom fetch function
+      fetchItems={fetchUserTickets}
       getItem={ticketsApi.getTicket}
       createItem={ticketsApi.createTicket}
       updateItem={ticketsApi.updateTicket}
