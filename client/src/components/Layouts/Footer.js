@@ -31,12 +31,12 @@ const Footer = () => {
       sx={{
         backgroundColor: "primary.main",
         color: "primary.contrastText",
-        py: 4, // Vertical padding
+        py: 4,
       }}
     >
       <Container>
         <Grid container spacing={2} justifyContent="center">
-          {/* contact information */}
+          {/* Contact Information */}
           <Grid item xs={12} sm={6} md={4}>
             <Typography variant="h6" gutterBottom>
               Contact Us
@@ -48,13 +48,17 @@ const Footer = () => {
             <Typography variant="body2">Phone: +1 800 123 456 789</Typography>
             <Typography variant="body2">
               Email:{" "}
-              <Link href="mailto:info@brgysanantonio.gov" color="inherit">
+              <Link
+                href="mailto:info@brgysanantonio.gov"
+                color="inherit"
+                sx={{ textDecoration: "none" }}
+              >
                 info@brgysanantonio.gov
               </Link>
             </Typography>
           </Grid>
 
-          {/* navigation links (optional) */}
+          {/* Quick Links */}
           <Grid item xs={12} sm={6} md={4}>
             <Typography variant="h6" gutterBottom>
               Quick Links
@@ -62,48 +66,56 @@ const Footer = () => {
             <Box
               sx={{
                 display: "flex",
-                flexDirection: isMobile ? "row" : "column", // stack on mobile, row on larger screen
-                flexWrap: "wrap",
-                gap: isMobile ? 2 : 0, // add gap on mobile
+                flexDirection: isMobile ? "row" : "column",
+                flexWrap: isMobile ? "wrap" : "nowrap",
+                gap: isMobile ? 2 : 0,
                 justifyContent: isMobile ? "space-around" : "flex-start",
               }}
             >
-              <Link
-                href="/"
-                color="inherit"
-                underline="hover"
-                sx={{ mb: 1, display: "block" }}
-              >
-                Home
-              </Link>
-              <Link
-                href="/articles"
-                color="inherit"
-                underline="hover"
-                sx={{ mb: 1, display: "block" }}
-              >
-                News & Updates
-              </Link>
-              <Link
-                href="/forms"
-                color="inherit"
-                underline="hover"
-                sx={{ mb: 1, display: "block" }}
-              >
-                Forms
-              </Link>
-              <Link
-                href="/contact"
-                color="inherit"
-                underline="hover"
-                sx={{ mb: 1, display: "block" }}
-              >
-                Contact Us
-              </Link>
+              <Typography variant="body2" sx={{ mb: 1 }}>
+                <Link
+                  href="/"
+                  color="inherit"
+                  underline="hover"
+                  sx={{ textDecoration: "none" }}
+                >
+                  Home
+                </Link>
+              </Typography>
+              <Typography variant="body2" sx={{ mb: 1 }}>
+                <Link
+                  href="/articles"
+                  color="inherit"
+                  underline="hover"
+                  sx={{ textDecoration: "none" }}
+                >
+                  News & Updates
+                </Link>
+              </Typography>
+              <Typography variant="body2" sx={{ mb: 1 }}>
+                <Link
+                  href="/forms"
+                  color="inherit"
+                  underline="hover"
+                  sx={{ textDecoration: "none" }}
+                >
+                  Forms
+                </Link>
+              </Typography>
+              <Typography variant="body2" sx={{ mb: 1 }}>
+                <Link
+                  href="/contact"
+                  color="inherit"
+                  underline="hover"
+                  sx={{ textDecoration: "none" }}
+                >
+                  Contact Us
+                </Link>
+              </Typography>
             </Box>
           </Grid>
 
-          {/* social media links (optional) */}
+          {/* Social Media Links */}
           <Grid item xs={12} sm={12} md={4}>
             <Typography variant="h6" gutterBottom>
               Follow Us
@@ -142,27 +154,10 @@ const Footer = () => {
 
         <Divider sx={{ my: 3, borderColor: "rgba(255,255,255,0.2)" }} />
 
-        {/* copyright information */}
         <Typography variant="body2" align="center">
           © {currentYear} Barangay San Antonio. All rights reserved.
         </Typography>
       </Container>
-      <IconButton
-        onClick={scrollToTop}
-        sx={{
-          position: "fixed",
-          bottom: theme.spacing(2),
-          right: theme.spacing(2),
-          backgroundColor: "secondary.main",
-          color: "secondary.contrastText",
-          "&:hover": {
-            backgroundColor: "secondary.dark",
-          },
-        }}
-        aria-label="Back to Top"
-      >
-        <KeyboardArrowUpIcon />
-      </IconButton>
     </Box>
   );
 };

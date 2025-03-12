@@ -1,5 +1,6 @@
 # Node.js dependencies
 node_modules/
+package-lock.json
 
 # Logs
 logs/
@@ -10,8 +11,8 @@ yarn-error.log*
 repomix-output.txt
 
 # Build directories
-client/build/
-server/public/
+client/build/*
+server/public/*
 
 # Environment variables
 .env
