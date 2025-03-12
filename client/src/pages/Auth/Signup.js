@@ -53,15 +53,16 @@ const Signup = () => {
   return (
     <Box
       sx={{
-        height: "100vh",
+        minHeight: "100vh",
         width: "100vw",
-        overflow: "hidden",
+        overflowX: "hidden",
         display: "flex",
         background: "linear-gradient(135deg, #3f51b5 0%, #9c27b0 100%)",
       }}
     >
-      <Grid container>
-        {/* logo and branding section - exactly 50% of screen */}
+      <Grid container sx={{ flexGrow: 1 }}>
+        {" "}
+        {/* Add flexGrow */}
         <Grid
           item
           xs={12}
@@ -73,7 +74,6 @@ const Signup = () => {
             alignItems: "center",
             p: 4,
             color: "white",
-            height: "100vh",
           }}
         >
           <Box
@@ -81,6 +81,8 @@ const Signup = () => {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
+              width: "100%", // Add this
+              maxWidth: "600px", // Add this
             }}
           >
             <img
@@ -112,8 +114,6 @@ const Signup = () => {
             </Typography>
           </Box>
         </Grid>
-
-        {/* signup form section - exactly 50% of screen */}
         <Grid
           item
           xs={12}
@@ -123,17 +123,17 @@ const Signup = () => {
             justifyContent: "center",
             alignItems: "center",
             p: 3,
-            height: "100vh",
+            backgroundColor: isMobile ? "white" : "transparent",
           }}
         >
           <Paper
-            elevation={10}
+            elevation={isMobile ? 0 : 10}
             sx={{
               p: 4,
               width: "100%",
               maxWidth: "500px",
               borderRadius: 2,
-              backgroundColor: "white", // solid white background, no transparency
+              backgroundColor: "white",
             }}
           >
             <Typography
@@ -245,14 +245,13 @@ const Signup = () => {
                   borderRadius: 1.5,
                   py: 1.5,
                 }}
-                disabled={loading} // disable button while loading
+                disabled={loading}
               >
                 {loading ? (
                   <CircularProgress size={24} color="inherit" />
                 ) : (
                   "Sign Up"
-                )}{" "}
-                {/* show spinner if loading */}
+                )}
               </Button>
             </form>
 

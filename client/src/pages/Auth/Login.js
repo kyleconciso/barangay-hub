@@ -49,14 +49,14 @@ const Login = () => {
   return (
     <Box
       sx={{
-        height: "100vh",
+        minHeight: "100vh", // Use minHeight instead of height
         width: "100vw",
-        overflow: "hidden",
+        overflow: "hidden", // Keep overflow hidden
         display: "flex",
         background: "linear-gradient(135deg, #3f51b5 0%, #9c27b0 100%)",
       }}
     >
-      <Grid container>
+      <Grid container sx={{ flexGrow: 1 }}>
         <Grid
           item
           xs={12}
@@ -68,7 +68,6 @@ const Login = () => {
             alignItems: "center",
             p: 4,
             color: "white",
-            height: "100vh",
           }}
         >
           <Box
@@ -76,6 +75,8 @@ const Login = () => {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
+              width: "100%",
+              maxWidth: "600px",
             }}
           >
             <img
@@ -107,8 +108,7 @@ const Login = () => {
             </Typography>
           </Box>
         </Grid>
-
-        {/* login form section - exactly 50% of screen */}
+        {/* Login Form Section */}
         <Grid
           item
           xs={12}
@@ -118,17 +118,17 @@ const Login = () => {
             justifyContent: "center",
             alignItems: "center",
             p: 3,
-            height: "100vh",
+            backgroundColor: isMobile ? "white" : "transparent",
           }}
         >
           <Paper
-            elevation={10}
+            elevation={isMobile ? 0 : 10}
             sx={{
               p: 4,
               width: "100%",
               maxWidth: "450px",
               borderRadius: 2,
-              backgroundColor: "white", // solid white background, no transparency
+              backgroundColor: "white",
             }}
           >
             <Typography
@@ -185,14 +185,13 @@ const Login = () => {
                   borderRadius: 1.5,
                   py: 1.5,
                 }}
-                disabled={loading} //disable
+                disabled={loading}
               >
                 {loading ? (
                   <CircularProgress size={24} color="inherit" />
                 ) : (
                   "Sign In"
-                )}{" "}
-                {/* show spinner if loading */}
+                )}
               </Button>
             </form>
 
