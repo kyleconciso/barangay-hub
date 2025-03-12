@@ -32,6 +32,7 @@ const Footer = () => {
         backgroundColor: "primary.main",
         color: "primary.contrastText",
         py: 4,
+        mt: "10vw",
       }}
     >
       <Container>

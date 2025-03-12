@@ -12,13 +12,13 @@ import {
   ListItemText,
   useMediaQuery,
   useTheme,
+  Divider,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import UserDisplay from "./UserDisplay";
 import TopBar from "./TopBar";
 
 const NavBar = ({ children, contactButton }) => {
-  // accept contactbutton prop
   const [mobileOpen, setMobileOpen] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
@@ -30,6 +30,16 @@ const NavBar = ({ children, contactButton }) => {
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
       <List>
+        <ListItem disablePadding>
+          <ListItemButton component={RouterLink} to="/">
+            <img
+              src="https://i.ibb.co/Ps6D83RM/logo.png"
+              alt="Brgy. San Antonio Logo"
+              style={{ height: "60px", marginRight: "10px" }}
+            />
+          </ListItemButton>
+        </ListItem>
+        <Divider />
         {React.Children.map(children, (child) => {
           if (React.isValidElement(child)) {
             return (
@@ -40,11 +50,9 @@ const NavBar = ({ children, contactButton }) => {
               </ListItem>
             );
           }
-          return null; // Or some other fallback if you want
+          return null;
         })}
         <ListItem key="contact-us-mobile" disablePadding>
-          {" "}
-          {/* add contact us to mobile menu */}
           <ListItemButton component={RouterLink} to="/contact">
             <ListItemText primary="Contact Us" />
           </ListItemButton>
@@ -56,11 +64,7 @@ const NavBar = ({ children, contactButton }) => {
   return (
     <>
       <TopBar />
-      <AppBar
-        position="sticky"
-        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
-      >
-        {" "}
+      <AppBar position="sticky" sx={{ zIndex: (theme) => theme.zIndex.appBar }}>
         <Toolbar sx={{ paddingY: "0px" }}>
           <Box
             sx={{ display: "flex", alignItems: "center", gap: 1, flexGrow: 1 }}
@@ -73,7 +77,7 @@ const NavBar = ({ children, contactButton }) => {
                   height: "80px",
                   marginRight: "10px",
                   position: "relative",
-                  zIndex: 1, // make sure logo is also above the banner
+                  zIndex: 1,
                   filter: "drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.2))",
                   marginTop: "5px",
                   marginBottom: "-20px",
@@ -81,7 +85,6 @@ const NavBar = ({ children, contactButton }) => {
               />
             </RouterLink>
 
-            {/* conditionally render nav links or hamburger */}
             {isMobile ? null : (
               <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                 {children}
@@ -89,9 +92,8 @@ const NavBar = ({ children, contactButton }) => {
             )}
           </Box>
 
-          {/* user display, contact us button, and hamburger (right side) */}
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-            {contactButton} {/* render contact us button here */}
+            {contactButton}
             <UserDisplay />
             {isMobile && (
               <IconButton
@@ -108,23 +110,30 @@ const NavBar = ({ children, contactButton }) => {
         </Toolbar>
       </AppBar>
 
-      {/* mobile drawer */}
-      <nav>
-        <Drawer
-          variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true,
-          }}
-          sx={{
-            display: { xs: "block", md: "none" },
-            "& .MuiDrawer-paper": { boxSizing: "border-box", width: 240 },
-          }}
-        >
-          {drawer}
-        </Drawer>
-      </nav>
+      {/* Mobile Drawer */}
+      <Drawer
+        variant="temporary"
+        open={mobileOpen}
+        onClose={handleDrawerToggle}
+        ModalProps={{
+          keepMounted: true,
+        }}
+        sx={{
+          display: { xs: "block", md: "none" },
+          "& .MuiDrawer-paper": {
+            boxSizing: "border-box",
+            width: 240,
+            zIndex: (theme) => theme.zIndex.drawer + 1200,
+          },
+        }}
+        BackdropProps={{
+          sx: {
+            zIndex: (theme) => theme.zIndex.drawer + 1100,
+          },
+        }}
+      >
+        {drawer}
+      </Drawer>
     </>
   );
 };

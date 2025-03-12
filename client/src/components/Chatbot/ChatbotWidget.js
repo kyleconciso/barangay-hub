@@ -213,7 +213,7 @@ const ChatbotWidget = () => {
           setMessages([
             {
               sender: "bot",
-              text: "Hi! I'm the Barangay San Antonio chatbot. I can answer questions about the *barangay*, local news, **events**, and services. Ask me anything!",
+              text: "Hello po! 😊 I am the Barangay San Antonio chatbot. I’m here to answer your questions about our barangay, local news, events, and services. Don’t hesitate to ask po!",
               timestamp: new Date(),
             },
           ]);
@@ -617,7 +617,7 @@ const ChatbotWidget = () => {
             }}
           >
             <Typography variant="caption" color="text.secondary">
-              © 2025 Barangay San Antonio • Powered by AI
+              For A Better San Antonio • Powered by AI
             </Typography>
           </Box>
         </Paper>

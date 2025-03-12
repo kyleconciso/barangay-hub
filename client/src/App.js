@@ -29,6 +29,7 @@ import { getSettings } from "./api/settings";
 import AnnouncementBar from "./components/Navigation/AnnouncementBar";
 import TicketSubmitUser from "./pages/User/TicketSubmit";
 import AccessibilityWidget from "./components/Accessibility/AccessibilityWidget";
+import About from "./pages/Public/About";
 
 function App() {
   const { user, userType, loading } = useAuth();
@@ -70,6 +71,18 @@ function App() {
             ) : (
               <PublicLayout bannerURL={homePageBanner} hasPadding={false}>
                 <HomePublic />
+              </PublicLayout>
+            )
+          }
+        />
+        <Route
+          path="/about"
+          element={
+            isAuthPage ? (
+              <About />
+            ) : (
+              <PublicLayout>
+                <About />
               </PublicLayout>
             )
           }
