@@ -1,0 +1,255 @@
+{
+  "pages": [
+    {
+      "id": "contact",
+      "slug": "contact",
+      "title": "Contact Information",
+      "content": "<p><strong>Barangay Hall Address:</strong>  Dario Street, San Antonio, Candon City, Ilocos Sur, Philippines, 2710 </p><p>Our Barangay Hall is centrally located and easily accessible. We are open to the public during regular business hours and welcome all residents to visit us for any concerns or inquiries. The Barangay Hall is a hub for community activities and a place where residents can connect with their local government.</p><p><strong>Phone Number:</strong> +1 800 123 456 789</p><p>You can reach us by phone during office hours. Our friendly staff will be happy to assist you with your inquiries or direct you to the appropriate department. For urgent matters outside of office hours, please use the 24/7 hotline.</p><p><strong>Email Address:</strong> info@brgysanantonio.gov</p><p>Send us an email for any non-urgent inquiries or requests. We strive to respond to all emails within 24-48 hours. Please provide as much detail as possible in your email to help us assist you effectively.</p><p><strong>Office Hours:</strong> Monday - Friday, 8:00 AM - 6:00 PM (Closed on Public Holidays)</p><p>Please note our regular office hours. We are closed on weekends and public holidays. Appointments are encouraged for specific concerns or meetings with officials.</p><p>You can also reach us through our official social media channels:</p><ul><li>Facebook: <a href=\"https://www.facebook.com/profile.php?id=61554870431629\">Barangay San Antonio, Candon City</a></p><p>Follow us on social media for the latest updates, announcements, and community events. We also use these platforms to engage with residents and answer questions.</p><p>For specific concerns, please contact the relevant department or official directly. Contact information for individual officials can be found on the \"Officials\" page.</p><p>We are committed to serving our community and providing accessible and responsive services to all residents. Your feedback is important to us, so please do not hesitate to reach out with any questions, suggestions, or concerns.</p>",
+      "createdBy": "initial_setup",
+      "updatedBy": "initial_setup",
+      "imageURL": "https://picsum.photos/800/400"
+    }
+  ],
+  "forms": [
+    {
+      "title": "Barangay Clearance",
+      "description": "Apply for a barangay clearance.",
+      "link": "https://example.com/clearance",
+      "imageURL": "https://picsum.photos/150/150",
+      "createdBy": "initial_setup",
+      "updatedBy": "initial_setup"
+    },
+    {
+      "title": "Business Permit",
+      "description": "Apply for a business permit within the barangay.",
+      "link": "https://example.com/business_permit",
+      "imageURL": "https://picsum.photos/150/150",
+      "createdBy": "initial_setup",
+      "updatedBy": "initial_setup"
+    },
+    {
+      "title": "Building Permit",
+      "description": "Apply for a permit to construct or renovate a building.",
+      "link": "https://example.com/building_permit",
+      "imageURL": "https://picsum.photos/150/150",
+      "createdBy": "initial_setup",
+      "updatedBy": "initial_setup"
+    },
+    {
+      "title": "Certificate of Indigency",
+      "description": "Request a certificate of indigency for various purposes.",
+      "link": "https://example.com/indigency_certificate",
+      "imageURL": "https://picsum.photos/150/150",
+      "createdBy": "initial_setup",
+      "updatedBy": "initial_setup"
+    },
+    {
+      "title": "Certificate of Residency",
+      "description": "Obtain a certificate proving residency in the barangay.",
+      "link": "https://example.com/residency_certificate",
+      "imageURL": "https://picsum.photos/150/150",
+      "createdBy": "initial_setup",
+      "updatedBy": "initial_setup"
+    }
+  ],
+  "tickets": [
+    {
+      "title": "Pothole Repair Request - Mabini Street",
+      "status": "OPEN",
+      "assignedTo": "defaultEmployeeId",
+      "createdBy": "defaultUserId",
+      "updatedBy": "defaultUserId"
+    },
+    {
+      "title": "Streetlight Outage - Corner of Rizal and Quezon Streets",
+      "status": "IN_PROGRESS",
+      "assignedTo": "defaultEmployeeId",
+      "createdBy": "defaultUserId",
+      "updatedBy": "defaultEmployeeId"
+    },
+    {
+      "title": "Noise Complaint - Loud Music After 10 PM",
+      "status": "CLOSED",
+      "assignedTo": "defaultEmployeeId",
+      "createdBy": "defaultUserId",
+      "updatedBy": "defaultEmployeeId"
+    },
+    {
+      "title": "Clogged Drainage - Near San Antonio Elementary School",
+      "status": "OPEN",
+      "assignedTo": "defaultEmployeeId",
+      "createdBy": "defaultUserId",
+      "updatedBy": "defaultUserId"
+    },
+    {
+      "title": "Inquiry about Garbage Collection Schedule",
+      "status": "IN_PROGRESS",
+      "assignedTo": "defaultEmployeeId",
+      "createdBy": "defaultUserId",
+      "updatedBy": "defaultEmployeeId"
+    }
+  ],
+  "messages": [],
+  "settings": {
+    "facebookPageId": "61554870431629",
+    "googleGeminiKey": "YOUR_GEMINI_API_KEY",
+    "facebookAccessToken": "YOUR_FACEBOOK_ACCESS_TOKEN",
+    "announcementText": "This is a sample announcement. Edit in admin settings."
+  },
+  "articles": [
+    {
+      "title": "Barangay San Antonio Celebrates Christmas 2024",
+      "slug": "barangay-san-antonio-christmas-2024",
+      "content": "<p><strong>Barangay San Antonio, Candon City –</strong> December 24, 2024.  Residents of Barangay San Antonio gathered for a joyful Christmas celebration. The Barangay Council wishes everyone a Merry and Blessed Christmas!</p><img src=\"https://scontent.fmnl8-3.fna.fbcdn.net/v/t39.30808-6/476804133_122195735288173185_2270607751671589499_n.jpg?stp=dst-jpg_p600x600_tt6&_nc_cat=105&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeElBdPi4rYXmhj-XSxg8eDsdwauKy_CugV3Bq4rL8K6BYSYDVwiD17OND-4pEoCm43SCMAs2SsICPYsyqa8TDNs&_nc_ohc=rpwYZrUHuV4Q7kNvgEVfDFn&_nc_oc=Adhc3QpW904myQYzdhVQADiFBFZwKyGT-lhGXOKz6fIJHvHorJek9p0IVWo-uYTxuEk&_nc_zt=23&_nc_ht=scontent.fmnl8-3.fna&_nc_gid=AOi7AghUlejpfEPIsGtF4kd&oh=00_AYHDof4m_IkMP4NNRavNGJk2v3msqOd8BtMpiiTEjSqIew&oe=67D6E7F9\" alt=\"Christmas 2024\" />",
+      "createdBy": "initial_setup",
+      "lastUpdatedBy": "initial_setup",
+      "imageURL": "https://scontent.fmnl8-3.fna.fbcdn.net/v/t39.30808-6/476804133_122195735288173185_2270607751671589499_n.jpg?stp=dst-jpg_p600x600_tt6&_nc_cat=105&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeElBdPi4rYXmhj-XSxg8eDsdwauKy_CugV3Bq4rL8K6BYSYDVwiD17OND-4pEoCm43SCMAs2SsICPYsyqa8TDNs&_nc_ohc=rpwYZrUHuV4Q7kNvgEVfDFn&_nc_oc=Adhc3QpW904myQYzdhVQADiFBFZwKyGT-lhGXOKz6fIJHvHorJek9p0IVWo-uYTxuEk&_nc_zt=23&_nc_ht=scontent.fmnl8-3.fna&_nc_gid=AOi7AghUlejpfEPIsGtF4kd&oh=00_AYHDof4m_IkMP4NNRavNGJk2v3msqOd8BtMpiiTEjSqIew&oe=67D6E7F9"
+    },
+    {
+      "title": "Candidates for Ms. San Antonio 2024",
+      "slug": "ms-san-antonio-2024-candidates",
+      "content": "<p><strong>Barangay San Antonio, Candon City –</strong> June 9, 2024. The Sangguniang Kabataan of Barangay San Antonio presents the candidates for Ms. San Antonio 2024.  The candidates are ready to conquer the stage and showcase their beauty!</p><img src=\"https://scontent.fmnl8-4.fna.fbcdn.net/v/t39.30808-6/476089737_918607120446543_6437322827742299364_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=102&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeGaeKdlIE0J8zqG3Fnrd4JiGbX6kcMD8nMZtfqRwwPyc84eE2nAXQ19IvBHTWi7Wnh-b8PJ8d624sdDcJf0K4mx&_nc_ohc=q1poOaPK6OAQ7kNvgGOb-mN&_nc_oc=AdjU-Uc7gBeR6QIxVRueXR-zZAphx11jHc4NdMq_ORUnZkLBfewK6sZk0Yy7MmpWnvc&_nc_zt=23&_nc_ht=scontent.fmnl8-4.fna&_nc_gid=AyK7x4jPAH3MnBMCKzP5SGq&oh=00_AYGoPpbzmG1DwYkWTTWiGo_E1p_quWodyZ_yY3N2fvrc3w&oe=67D6B42A\" alt=\"Ms. San Antonio Candidates\" />",
+      "createdBy": "initial_setup",
+      "lastUpdatedBy": "initial_setup",
+      "imageURL": "https://scontent.fmnl8-4.fna.fbcdn.net/v/t39.30808-6/476089737_918607120446543_6437322827742299364_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=102&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeGaeKdlIE0J8zqG3Fnrd4JiGbX6kcMD8nMZtfqRwwPyc84eE2nAXQ19IvBHTWi7Wnh-b8PJ8d624sdDcJf0K4mx&_nc_ohc=q1poOaPK6OAQ7kNvgGOb-mN&_nc_oc=AdjU-Uc7gBeR6QIxVRueXR-zZAphx11jHc4NdMq_ORUnZkLBfewK6sZk0Yy7MmpWnvc&_nc_zt=23&_nc_ht=scontent.fmnl8-4.fna&_nc_gid=AyK7x4jPAH3MnBMCKzP5SGq&oh=00_AYGoPpbzmG1DwYkWTTWiGo_E1p_quWodyZ_yY3N2fvrc3w&oe=67D6B42A"
+    },
+    {
+      "title": "Free Haircut, Manicure, and Pedicure in Barangay San Antonio",
+      "slug": "free-haircut-manicure-pedicure",
+      "content": "<p><strong>Barangay San Antonio, Candon City –</strong> June 4, 2024. The Sangguniang Kabataan of Barangay San Antonio announces a free haircut, manicure, and pedicure event on June 10, 2024, at the barangay plaza.  All residents are welcome!</p><img src=\"https://scontent.fmnl8-1.fna.fbcdn.net/v/t39.30808-6/476637531_918603747113547_5365373789420910701_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=108&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeEQW8Im05YF6HsAtdrObKNCocMgDpZIh-WhwyAOlkiH5TXl6iDUJGnhAm5Tvn-9czR1PQ4LmOyCWHIjXIrcpyya&_nc_ohc=IhMFQDeIoq4Q7kNvgF5dBPp&_nc_oc=AdjuyDNNS_ApwOZKCOFdAYprv31gNIdfxvCzfp6ESV_h4-pkRBa6E1EMn2H2rQGaBnI&_nc_zt=23&_nc_ht=scontent.fmnl8-1.fna&_nc_gid=AyK7x4jPAH3MnBMCKzP5SGq&oh=00_AYEcBvXKDbfomoR5kr_1Uy5J81PC0i4LWaxoEWPixtCBLQ&oe=67D6E1F2\" alt=\"Free Services\" />",
+      "createdBy": "initial_setup",
+      "lastUpdatedBy": "initial_setup",
+      "imageURL": "https://scontent.fmnl8-1.fna.fbcdn.net/v/t39.30808-6/476637531_918603747113547_5365373789420910701_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=108&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeEQW8Im05YF6HsAtdrObKNCocMgDpZIh-WhwyAOlkiH5TXl6iDUJGnhAm5Tvn-9czR1PQ4LmOyCWHIjXIrcpyya&_nc_ohc=IhMFQDeIoq4Q7kNvgF5dBPp&_nc_oc=AdjuyDNNS_ApwOZKCOFdAYprv31gNIdfxvCzfp6ESV_h4-pkRBa6E1EMn2H2rQGaBnI&_nc_zt=23&_nc_ht=scontent.fmnl8-1.fna&_nc_gid=AyK7x4jPAH3MnBMCKzP5SGq&oh=00_AYEcBvXKDbfomoR5kr_1Uy5J81PC0i4LWaxoEWPixtCBLQ&oe=67D6E1F2"
+    },
+    {
+      "title": "Early Registration for Computer Seminar",
+      "slug": "early-registration-computer-seminar",
+      "content": "<p><strong>Barangay San Antonio, Candon City –</strong> June 9, 2024. The Sangguniang Kabataan of Barangay San Antonio announces the early registration for a seminar on the basic use of computers and Microsoft applications.  The seminar is open to all.</p><img src=\"https://scontent.fmnl8-1.fna.fbcdn.net/v/t39.30808-6/475970118_918607890446466_3025623178947702079_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=108&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeFMboaSyUpT80fzikSOn09LGkGubUR9OF4aQa5tRH04XsCbE0pfEriu1-3MScq6xLuJ_uhfaJxNDf7yFyLiO6hK&_nc_ohc=hFUtA4A5_GoQ7kNvgFC5VI7&_nc_oc=AdgG9lBYogwzOjti0z_HzNbe07urcDzxMSnpeZ9NJFlmcvi_xc8672tajRtFqbJnU0A&_nc_zt=23&_nc_ht=scontent.fmnl8-1.fna.fbcdn.net&_nc_gid=AyK7x4jPAH3MnBMCKzP5SGq&oh=00_AYGnsjhUllduwcA22LatPF9lim7FkYFLxdtTKzSsyg6g8Q&oe=67D6E158\" alt=\"Computer Seminar\" />",
+      "createdBy": "initial_setup",
+      "lastUpdatedBy": "initial_setup",
+      "imageURL": "https://scontent.fmnl8-1.fna.fbcdn.net/v/t39.30808-6/475970118_918607890446466_3025623178947702079_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=108&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeFMboaSyUpT80fzikSOn09LGkGubUR9OF4aQa5tRH04XsCbE0pfEriu1-3MScq6xLuJ_uhfaJxNDf7yFyLiO6hK&_nc_ohc=hFUtA4A5_GoQ7kNvgFC5VI7&_nc_oc=AdgG9lBYogwzOjti0z_HzNbe07urcDzxMSnpeZ9NJFlmcvi_xc8672tajRtFqbJnU0A&_nc_zt=23&_nc_ht=scontent.fmnl8-1.fna&_nc_gid=AyK7x4jPAH3MnBMCKzP5SGq&oh=00_AYGnsjhUllduwcA22LatPF9lim7FkYFLxdtTKzSsyg6g8Q&oe=67D6E158"
+    },
+    {
+      "title": "Barangay San Antonio is ZOD Certified",
+      "slug": "zod-certified",
+      "content": "<p><strong>Barangay San Antonio, Candon City –</strong> April 26, 2024. Barangay San Antonio is proud to announce that it is now Zero Open Defecation (ZOD) Certified!</p><img src=\"https://scontent.fmnl8-3.fna.fbcdn.net/v/t39.30808-6/475172880_122193205580173185_8945588955944178897_n.jpg?stp=dst-jpg_s851x315_tt6&_nc_cat=101&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeGtfLupIBzoREwyQUvJcj3aXA_Acq8ZTtBcD8ByrxlO0E4E8Y0mRz0rLwQXVhijixHFDeWFXeXnjgsqtxJA3C-C&_nc_ohc=W7wNWTSWRYoQ7kNvgF_n7Hf&_nc_oc=AdjRPtpnHJme8Qd07zbCWR3IeDu_7BE_L-u5jlNRUE89eHzsYpBttXSebnOpyXkvEfc&_nc_zt=23&_nc_ht=scontent.fmnl8-3.fna&_nc_gid=Arm4-ejykGQKHDHtsNnaVoV&oh=00_AYEOHlZxCerBgVydJqh0tKITwnm3sw0zTVkKswqRCtR31g&oe=67D6B507\" alt=\"ZOD Certified\" />",
+      "createdBy": "initial_setup",
+      "lastUpdatedBy": "initial_setup",
+      "imageURL": "https://scontent.fmnl8-3.fna.fbcdn.net/v/t39.30808-6/475172880_122193205580173185_8945588955944178897_n.jpg?stp=dst-jpg_s851x315_tt6&_nc_cat=101&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeGtfLupIBzoREwyQUvJcj3aXA_Acq8ZTtBcD8ByrxlO0E4E8Y0mRz0rLwQXVhijixHFDeWFXeXnjgsqtxJA3C-C&_nc_ohc=W7wNWTSWRYoQ7kNvgF_n7Hf&_nc_oc=AdjRPtpnHJme8Qd07zbCWR3IeDu_7BE_L-u5jlNRUE89eHzsYpBttXSebnOpyXkvEfc&_nc_zt=23&_nc_ht=scontent.fmnl8-3.fna&_nc_gid=Arm4-ejykGQKHDHtsNnaVoV&oh=00_AYEOHlZxCerBgVydJqh0tKITwnm3sw0zTVkKswqRCtR31g&oe=67D6B507"
+    },
+    {
+      "title": "Free Medical & Dental Mission",
+      "slug": "free-medical-dental-mission",
+      "content": "<p><strong>Barangay San Antonio, Candon City –</strong> April 16, 2024. Barangay San Antonio announces a Free Medical & Dental Mission.</p><img src=\"https://scontent.fmnl8-2.fna.fbcdn.net/v/t39.30808-6/475105121_122193191924173185_895329770371979069_n.jpg?stp=dst-jpg_p600x600_tt6&_nc_cat=111&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeFGBTHHWJ3_M82LzNsbUembGVFQlqxfp8EZUVCWrF-nwawxrhvaiE5UkcZA9NPKFzzWjhr7cxfpzrTZfhnvg1ln&_nc_ohc=xfDFS87vY_IQ7kNvgEixVY1&_nc_oc=AdjnV3YvtHTUOB_EZbTHVPysEwagJUdbPPu-cPKEzLHTcSnzmrOIGkk2nSllzX0l9cU&_nc_zt=23&_nc_ht=scontent.fmnl8-2.fna&_nc_gid=Arm4-ejykGQKHDHtsNnaVoV&oh=00_AYEQ8_gOi7auKAcPlkK2VM_KQ39sNcb7tFQxL_22SgtEAg&oe=67D6C167\" alt=\"Free Medical & Dental Mission\" />",
+      "createdBy": "initial_setup",
+      "lastUpdatedBy": "initial_setup",
+      "imageURL": "https://scontent.fmnl8-2.fna.fbcdn.net/v/t39.30808-6/475105121_122193191924173185_895329770371979069_n.jpg?stp=dst-jpg_p600x600_tt6&_nc_cat=111&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeFGBTHHWJ3_M82LzNsbUembGVFQlqxfp8EZUVCWrF-nwawxrhvaiE5UkcZA9NPKFzzWjhr7cxfpzrTZfhnvg1ln&_nc_ohc=xfDFS87vY_IQ7kNvgEixVY1&_nc_oc=AdjnV3YvtHTUOB_EZbTHVPysEwagJUdbPPu-cPKEzLHTcSnzmrOIGkk2nSllzX0l9cU&_nc_zt=23&_nc_ht=scontent.fmnl8-2.fna&_nc_gid=Arm4-ejykGQKHDHtsNnaVoV&oh=00_AYEQ8_gOi7auKAcPlkK2VM_KQ39sNcb7tFQxL_22SgtEAg&oe=67D6C167"
+    },
+    {
+      "title": "1st Semester General Assembly Meeting",
+      "slug": "1st-semester-general-assembly-meeting",
+      "content": "<p><strong>Barangay San Antonio, Candon City –</strong> March 25, 2024. Announcement for the 1st Semester General Assembly Meeting.</p><img src=\"https://scontent.fmnl8-4.fna.fbcdn.net/v/t39.30808-6/475281070_122192940566173185_7860330429572683438_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=102&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeHCiLhGiGdCDvSBvB7N16JpsI3EvnO_DiCwjcS-c78OIMIaSsfB4kDEg74BvGx97hY0dG0O6LY29GufG4PqFMyH&_nc_ohc=1HCxKgydqJMQ7kNvgFjaEDj&_nc_oc=AdgM_WmA0GX_zPAiokM8QAtQ51ZtWMQGW-PB2nwr7_0QSu8lcltasB8wsJ4J6pjUT6k&_nc_zt=23&_nc_ht=scontent.fmnl8-4.fna&_nc_gid=A0riDxzFdnGPKTMkpxaVX90&oh=00_AYG_6EJJ-rU6RGpB-ik6KZm5YxMF3_aqQNOqNCm5P1G75g&oe=67D6E20E\" alt=\"General Assembly Meeting\" />",
+      "createdBy": "initial_setup",
+      "lastUpdatedBy": "initial_setup",
+      "imageURL": "https://scontent.fmnl8-4.fna.fbcdn.net/v/t39.30808-6/475281070_122192940566173185_7860330429572683438_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=102&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeHCiLhGiGdCDvSBvB7N16JpsI3EvnO_DiCwjcS-c78OIMIaSsfB4kDEg74BvGx97hY0dG0O6LY29GufG4PqFMyH&_nc_ohc=1HCxKgydqJMQ7kNvgFjaEDj&_nc_oc=AdgM_WmA0GX_zPAiokM8QAtQ51ZtWMQGW-PB2nwr7_0QSu8lcltasB8wsJ4J6pjUT6k&_nc_zt=23&_nc_ht=scontent.fmnl8-4.fna&_nc_gid=A0riDxzFdnGPKTMkpxaVX90&oh=00_AYG_6EJJ-rU6RGpB-ik6KZm5YxMF3_aqQNOqNCm5P1G75g&oe=67D6E20E"
+    },
+    {
+      "title": "Saturday Clean Up Drive",
+      "slug": "saturday-clean-up-drive",
+      "content": "<p><strong>Barangay San Antonio, Candon City –</strong> March 16, 2024. Barangay Officials, Barangay Health Workers (BHW), and Barangay Police conducted a Saturday clean-up drive. Thank you for your support and participation in this activity.</p><img src=\"https://scontent.fmnl8-2.fna.fbcdn.net/v/t39.30808-6/474632589_122192146694173185_6081919930803542819_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=103&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeGccYC_96Mt0mCdPFOixfjyPJUu_Vgw2f48lS79WDDZ_uz7z-gYVcWScU8kKLBTkxGzpTsBkA1mOX4g_ftLlxoG&_nc_ohc=uryGQC8gzBMQ7kNvgHyUSgP&_nc_oc=Adj89lA6HQ2Rc8bkhQ7QzjOMtNEMNDqSv_wqFJBGSLCkk4-WhNwm_SAfSOdgYXOMO_g&_nc_zt=23&_nc_ht=scontent.fmnl8-2.fna&_nc_gid=AOsZq6x8H6RqknNtV7FOWL1&oh=00_AYFz7ZL5Nrjse1Oue0ZV6qdkciANPQDQBUR80PGYGV-Iag&oe=67D6BD29\" alt=\"Clean Up Drive\" />",
+      "createdBy": "initial_setup",
+      "lastUpdatedBy": "initial_setup",
+      "imageURL": "https://scontent.fmnl8-2.fna.fbcdn.net/v/t39.30808-6/474632589_122192146694173185_6081919930803542819_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=103&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeGccYC_96Mt0mCdPFOixfjyPJUu_Vgw2f48lS79WDDZ_uz7z-gYVcWScU8kKLBTkxGzpTsBkA1mOX4g_ftLlxoG&_nc_ohc=uryGQC8gzBMQ7kNvgHyUSgP&_nc_oc=Adj89lA6HQ2Rc8bkhQ7QzjOMtNEMNDqSv_wqFJBGSLCkk4-WhNwm_SAfSOdgYXOMO_g&_nc_zt=23&_nc_ht=scontent.fmnl8-2.fna&_nc_gid=AOsZq6x8H6RqknNtV7FOWL1&oh=00_AYFz7ZL5Nrjse1Oue0ZV6qdkciANPQDQBUR80PGYGV-Iag&oe=67D6BD29"
+    },
+    {
+      "title": "PAO Outreach Program",
+      "slug": "pao-outreach-program",
+      "content": "<p><strong>Barangay San Antonio, Candon City –</strong> March 7, 2024.  Announcement to all residents: There will be an outreach program by the Public Attorney's Office (PAO) tomorrow at the barangay plaza at 9:00 AM. You are all invited to attend and listen, and if you have any legal concerns, you may inquire.</p><img src=\"https://scontent.fmnl8-4.fna.fbcdn.net/v/t39.30808-6/474544641_122192007968173185_6133396659738265964_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=102&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeF6_U-Hm5FM5Apnag6MBInOBixVod6Wj-cGLFWh3paP52aVM62V5nUtcWJmbFIncUPxXc8VPIuGWV-lHJOp2xJ2&_nc_ohc=O5g-vNtM9QgQ7kNvgGUM6Jx&_nc_oc=Adjri0hzJkzhF3qMFL2eGqzxb4FvH4bQOExyXIZmcRZrLfQeR1SUaGG-CW6MVEF7Q_A&_nc_zt=23&_nc_ht=scontent.fmnl8-4.fna&_nc_gid=ABgl2bJNK6uU5P0Pu3mK_3w&oh=00_AYFL_CBxYlgoRI5Yjc7RlVAfTIo6cHsBr-1SgVkDpGkwXg&oe=67D6B80E\" alt=\"PAO Outreach\" />",
+      "createdBy": "initial_setup",
+      "lastUpdatedBy": "initial_setup",
+      "imageURL": "https://scontent.fmnl8-4.fna.fbcdn.net/v/t39.30808-6/474544641_122192007968173185_6133396659738265964_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=102&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeF6_U-Hm5FM5Apnag6MBInOBixVod6Wj-cGLFWh3paP52aVM62V5nUtcWJmbFIncUPxXc8VPIuGWV-lHJOp2xJ2&_nc_ohc=O5g-vNtM9QgQ7kNvgGUM6Jx&_nc_oc=Adjri0hzJkzhF3qMFL2eGqzxb4FvH4bQOExyXIZmcRZrLfQeR1SUaGG-CW6MVEF7Q_A&_nc_zt=23&_nc_ht=scontent.fmnl8-4.fna&_nc_gid=ABgl2bJNK6uU5P0Pu3mK_3w&oh=00_AYFL_CBxYlgoRI5Yjc7RlVAfTIo6cHsBr-1SgVkDpGkwXg&oe=67D6B80E"
+    }
+  ],
+  "users": [
+    {
+      "firstName": "Juan",
+      "lastName": "Dela Cruz",
+      "email": "captain@example.com",
+      "type": "EMPLOYEE",
+      "role": "CAPTAIN",
+      "bio": "Barangay Captain"
+    },
+    {
+      "firstName": "Maria",
+      "lastName": "Santos",
+      "email": "secretary@example.com",
+      "type": "EMPLOYEE",
+      "role": "SECRETARY",
+      "bio": "Barangay Secretary"
+    },
+    {
+      "firstName": "Jose",
+      "lastName": "Rizal",
+      "email": "treasurer@example.com",
+      "type": "EMPLOYEE",
+      "role": "TREASURER",
+      "bio": "Barangay Treasurer"
+    },
+    {
+      "firstName": "Councilor",
+      "lastName": "One",
+      "email": "councilor1@example.com",
+      "type": "EMPLOYEE",
+      "role": "COUNCILOR",
+      "bio": "Barangay Councilor"
+    },
+    {
+      "firstName": "Councilor",
+      "lastName": "Two",
+      "email": "councilor2@example.com",
+      "type": "EMPLOYEE",
+      "role": "COUNCILOR",
+      "bio": "Barangay Councilor"
+    },
+    {
+      "firstName": "Councilor",
+      "lastName": "Three",
+      "email": "councilor3@example.com",
+      "type": "EMPLOYEE",
+      "role": "COUNCILOR",
+      "bio": "Barangay Councilor"
+    },
+    {
+      "firstName": "SK",
+      "lastName": "Chairperson",
+      "email": "skchair@example.com",
+      "type": "EMPLOYEE",
+      "role": "SK_CHAIRPERSON",
+      "bio": "SK Chairperson"
+    },
+    {
+      "firstName": "SK",
+      "lastName": "Member One",
+      "email": "skmember1@example.com",
+      "type": "EMPLOYEE",
+      "role": "SK_MEMBER",
+      "bio": "SK Member"
+    },
+    {
+      "firstName": "SK",
+      "lastName": "Member Two",
+      "email": "skmember2@example.com",
+      "type": "EMPLOYEE",
+      "role": "SK_MEMBER",
+      "bio": "SK Member"
+    },
+    {
+      "firstName": "SK",
+      "lastName": "Member Three",
+      "email": "skmember3@example.com",
+      "type": "EMPLOYEE",
+      "role": "SK_MEMBER",
+      "bio": "SK Member"
+    }
+  ]
+}
