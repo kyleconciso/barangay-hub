@@ -2,18 +2,22 @@ import React from "react";
 import NavBar from "./NavBar";
 import NavButton from "./NavButton";
 import { useAuth } from "../../hooks/useAuth";
-import DescriptionIcon from "@mui/icons-material/Description"; // for pages
-import ArticleIcon from "@mui/icons-material/Article"; // for articles
-import DynamicFormIcon from "@mui/icons-material/DynamicForm"; // for forms
-import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber"; // for tickets
-import PeopleIcon from "@mui/icons-material/People"; // for users
-import SettingsIcon from "@mui/icons-material/Settings"; // for settings
+import DescriptionIcon from "@mui/icons-material/Description";
+import ArticleIcon from "@mui/icons-material/Article";
+import DynamicFormIcon from "@mui/icons-material/DynamicForm";
+import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
+import PeopleIcon from "@mui/icons-material/People";
+import SettingsIcon from "@mui/icons-material/Settings";
+import DashboardIcon from "@mui/icons-material/Dashboard";
 
 const AdminNav = () => {
   const { userType } = useAuth();
 
   return (
     <NavBar>
+      <NavButton to="/admin" icon={<DashboardIcon />}>
+        DASHBOARD
+      </NavButton>
       <NavButton to="/admin/pages" icon={<DescriptionIcon />}>
         PAGES
       </NavButton>
