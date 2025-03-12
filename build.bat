@@ -2,9 +2,7 @@
 
 cd client
 
-@REM npm run build --silent
-
- 
+npm run build --silent
 
 xcopy build\* ..\server\public\ /e /h /c /i /y
 

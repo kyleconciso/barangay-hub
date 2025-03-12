@@ -1,5 +1,4 @@
-// client/src/App.js
-import React, { useState, useEffect } from "react"; // import usestate and useeffect
+import React, { useState, useEffect } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import PublicLayout from "./components/Layouts/PublicLayout";
 import AdminLayout from "./components/Layouts/AdminLayout";
@@ -27,8 +26,9 @@ import { useAuth } from "./hooks/useAuth";
 import ChatbotWidget from "./components/Chatbot/ChatbotWidget";
 import UserProfile from "./pages/Auth/UserProfile";
 import { getSettings } from "./api/settings";
-import TopBar from "./components/Navigation/TopBar";
 import AnnouncementBar from "./components/Navigation/AnnouncementBar";
+import TicketSubmitUser from "./pages/User/TicketSubmit";
+import AccessibilityWidget from "./components/Accessibility/AccessibilityWidget";
 
 function App() {
   const { user, userType, loading } = useAuth();
@@ -52,11 +52,10 @@ function App() {
     return <div>Loading app...</div>;
   }
 
-  // check if the current path is login or signup
   const isAuthPage =
     location.pathname === "/login" || location.pathname === "/signup";
   const homePageBanner =
-    "https://i.ibb.co/BVxPjCrZ/475172880-122193205580173185-8945588955944178897-n.jpg"; // homepage banner url
+    "https://i.ibb.co/BVxPjCrZ/475172880-122193205580173185-8945588955944178897-n.jpg";
 
   return (
     <>
@@ -74,8 +73,7 @@ function App() {
               </PublicLayout>
             )
           }
-        />{" "}
-        {/* pass bannerurl and no padding for homepage */}
+        />
         <Route
           path="/articles"
           element={
@@ -148,10 +146,8 @@ function App() {
             )
           }
         />
-        {/* auth routes not wrapped in any layout */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        {/* shared routes accessible to both user and admin/employee if authenticated */}
         <Route
           path="/tickets/:id/messages"
           element={
@@ -282,13 +278,24 @@ function App() {
             )
           }
         />
+        <Route
+          path="/user/tickets/create"
+          element={
+            user ? (
+              <UserLayout>
+                <TicketSubmitUser />
+              </UserLayout>
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
         {/* user profile route */}
         <Route path="/profile" element={<UserProfile />} />
-        {/* no match route */}
         <Route path="*" element={<div>Page not found</div>} />
       </Routes>
-      {!isAuthPage && <ChatbotWidget />}{" "}
-      {/* conditionally render chatbotwidget */}
+      {!isAuthPage && <ChatbotWidget />}
+      <AccessibilityWidget />
     </>
   );
 }

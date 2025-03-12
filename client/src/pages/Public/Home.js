@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { getArticles } from "../../api/articles";
-import parse from "html-react-parser";
 import {
   Container,
   Typography,
@@ -13,12 +12,10 @@ import {
   CardActionArea,
   CardContent,
   CardMedia,
-  CircularProgress,
   Divider,
   Chip,
   Fade,
   Zoom,
-  IconButton,
   useTheme,
   useMediaQuery,
   Skeleton,
@@ -31,8 +28,6 @@ import AnnouncementIcon from "@mui/icons-material/Announcement";
 import SupportIcon from "@mui/icons-material/Support";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 const HomePublic = () => {
   const theme = useTheme();

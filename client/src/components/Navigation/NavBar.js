@@ -30,13 +30,18 @@ const NavBar = ({ children, contactButton }) => {
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
       <List>
-        {React.Children.map(children, (child) => (
-          <ListItem key={child.props.to} disablePadding>
-            <ListItemButton component={RouterLink} to={child.props.to}>
-              <ListItemText primary={child.props.children} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        {React.Children.map(children, (child) => {
+          if (React.isValidElement(child)) {
+            return (
+              <ListItem key={child.props.to} disablePadding>
+                <ListItemButton component={RouterLink} to={child.props.to}>
+                  <ListItemText primary={child.props.children} />
+                </ListItemButton>
+              </ListItem>
+            );
+          }
+          return null; // Or some other fallback if you want
+        })}
         <ListItem key="contact-us-mobile" disablePadding>
           {" "}
           {/* add contact us to mobile menu */}
@@ -56,9 +61,7 @@ const NavBar = ({ children, contactButton }) => {
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
       >
         {" "}
-        {/*CRUCIAL: Sticky positioning and z-index*/}
         <Toolbar sx={{ paddingY: "0px" }}>
-          {/* logo and navigation links (left side) */}
           <Box
             sx={{ display: "flex", alignItems: "center", gap: 1, flexGrow: 1 }}
           >

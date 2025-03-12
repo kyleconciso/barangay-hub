@@ -15,7 +15,7 @@ const PublicNav = () => {
 
   const submitTicketLink = user
     ? userType === "RESIDENT"
-      ? "/user/tickets"
+      ? "/user/tickets/create"
       : "/admin/tickets"
     : "/login";
 
@@ -38,7 +38,6 @@ const PublicNav = () => {
 };
 
 const NavBarContactButton = () => {
-  //No change needed
   return (
     <Box ml="auto">
       <Button
