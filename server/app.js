@@ -860,7 +860,6 @@ app.get("/api/v1/users", authenticate, isEmployeeOrAdmin, async (req, res) => {
   }
 });
 
-// New endpoint for officials (no authentication required)
 app.get("/api/v1/users/officials", async (req, res) => {
   try {
     const officialsQuery = db
@@ -871,7 +870,7 @@ app.get("/api/v1/users/officials", async (req, res) => {
         "TREASURER",
         "COUNCILOR",
         "SK_CHAIRPERSON",
-        "SK",
+        "SK_MEMBER",
       ]);
 
     const officialsSnapshot = await officialsQuery.get();
@@ -886,9 +885,9 @@ app.get("/api/v1/users/officials", async (req, res) => {
         email: userData.email,
         phone: userData.phone,
         address: userData.address,
-        type: userData.type, //still useful
-        role: userData.role, // include role
-        bio: userData.bio, // include bio
+        type: userData.type,
+        role: userData.role,
+        bio: userData.bio,
       });
     });
 
@@ -1174,6 +1173,113 @@ app.put("/api/v1/settings", authenticate, isAdmin, async (req, res) => {
     return handleApiError(res, error, "Failed to update settings");
   }
 });
+
+// CHAT ENDPOINT
+
+const { genkit } = require("genkit");
+const { googleAI, gemini20Flash } = require("@genkit-ai/googleai");
+const ai = genkit({ plugins: [googleAI()] });
+
+const conversations = new Map(); // storage for conversations
+
+app.post(
+  "/api/v1/chat",
+  [
+    body("message")
+      .trim()
+      .isLength({ max: 100 })
+      .withMessage("Message must be less than 100 words"),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ success: false, errors: errors.array() });
+    }
+
+    try {
+      const userId = req.headers.authorization ? req.user.uid : "anonymous";
+      const { message, id } = req.body;
+      let conversationId = id;
+
+      if (!conversationId || !conversations.has(conversationId)) {
+        conversationId = Date.now().toString();
+
+        // article context
+        const articlesSnapshot = await db
+          .collection("articles")
+          .orderBy("createdAt", "desc")
+          .limit(10)
+          .get();
+
+        let context = "Context:\n";
+        articlesSnapshot.forEach((doc) => {
+          const article = doc.data();
+          context += `Title: ${article.title}\nContent: ${article.content
+            .replace(/<[^>]*>/g, "")
+            .substring(0, 200)}...\n\n`;
+        });
+
+        const initialInstructions = `
+        You are a friendly and helpful chatbot for Barangay San Antonio in Candon City, Ilocos Sur.  
+        You are like a welcoming barangay official who speaks Philippine English, Taglish, Tagalog, Ilocano, and more if user does not speak these languages. You may use filipinism to make it sound more familliar.
+        Keep your responses short, concise, and easy to understand, but still provide accurate and detailed information.
+        Respond to user's language. Output natural messages (you may customize with markdown). No need to tell what the language is.
+        You can use emojis for personalization.
+        Do not include "Bot: " in your responses. Do not provide multiple translations (for example English, and Tagalog in parantheses) of a message at once. (output like a human sent it).`;
+        const currentDate = new Date();
+        const formattedDate = currentDate.toLocaleString("en-US", {
+          timeZone: "Asia/Manila",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "numeric",
+          minute: "numeric",
+          second: "numeric",
+        });
+        const dateInstruction = ` ${formattedDate}\n\n`;
+        conversations.set(conversationId, [
+          initialInstructions,
+          dateInstruction,
+          context,
+          "User: " + message,
+        ]);
+      } else {
+        const conversation = conversations.get(conversationId);
+        conversation.push("User: " + message);
+        if (conversation.length > 50) {
+          conversation.shift();
+        }
+        conversations.set(conversationId, conversation);
+      }
+
+      const currentConversation = conversations.get(conversationId);
+
+      const { text } = await ai.generate({
+        model: gemini20Flash,
+        prompt: currentConversation.join("\n"),
+      });
+
+      if (!text) {
+        throw new Error("Invalid response from Genkit.");
+      }
+
+      let botResponse = "Bot: " + text;
+      currentConversation.push(botResponse);
+      if (currentConversation.length > 50) {
+        currentConversation.shift(); // reemove oldest
+      }
+      conversations.set(conversationId, currentConversation);
+
+      return res.status(200).json({
+        response: text,
+        conversationId: conversationId,
+      });
+    } catch (error) {
+      console.error("Chat error:", error);
+      return handleApiError(res, error, "Chat processing failed");
+    }
+  }
+);
 
 // Host static files
 app.use(express.static(path.join(__dirname, "public")));
