@@ -41,6 +41,7 @@ const AccessibilityWidget = () => {
     if (!styleElementRef.current) return;
     const cssRules = [];
 
+    // Font size adjustments
     cssRules.push(`html, body { font-size: ${fontSize}px !important; }`);
 
     if (dyslexiaFont) {
@@ -49,10 +50,13 @@ const AccessibilityWidget = () => {
           font-family: 'OpenDyslexic';
           src: url('https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/woff/OpenDyslexic-Regular.woff') format('woff');
         }
-        body { font-family: 'OpenDyslexic', sans-serif !important; }
+        * {
+          font-family: 'OpenDyslexic', sans-serif !important;
+        }
       `);
     }
 
+    // Focus highlighting
     if (focusHighlight) {
       cssRules.push(`
         *:focus { outline: 3px solid #4285f4 !important; }
