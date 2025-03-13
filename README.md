@@ -1,6 +1,6 @@
 # Barangay San Antonio Information Hub
 
-This fullstack project is a website for Barangay San Antonio. It's an online barangay website where people can find info, news, and forms. It has a public section, a section for admins (barangay officials), and a section for residents.
+This fullstack project is a website for Barangay San Antonio. It's an online barangay website where people can find info, news, and forms. It has a public section, a section for admins (barangay officials), and a section for residents. We also used AI for chatbots.
 
 ## Project Structure
 
